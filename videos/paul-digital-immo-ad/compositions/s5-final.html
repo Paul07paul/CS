@@ -36,7 +36,7 @@
         #s5-tag .sep { display: inline-block; width: 60px; height: 3px; background: #1A69FA; vertical-align: 9px; margin: 0 18px; }
       </style>
 
-      <div id="root" data-composition-id="s5-final" data-start="0" data-duration="6" data-width="1080" data-height="1920">
+      <div id="root" data-composition-id="s5-final" data-start="0" data-duration="8.5" data-width="1080" data-height="1920">
         <div id="s5-halo"></div>
         <div id="s5-stage"></div>
         <div id="s5-a">
@@ -80,7 +80,7 @@
             depth.appendChild(sp);
           }
 
-          const tl = gsap.timeline({ paused: true });
+          const tl = PDIso.stretch(gsap.timeline({ paused: true }), PD_HOLDS.s5);
           // villa: slow continuous orbit
           tl.fromTo(api, { rz: 20 }, { rz: 80, duration: 6, ease: "none" }, 0);
           tl.fromTo(api, { zoom: 1.4 }, { zoom: 0.62, duration: 0.9, ease: "expo.out" }, 0);
@@ -115,7 +115,7 @@
           tl.fromTo("#s5-shine i", { x: -160 }, { x: 420, duration: 0.8, ease: "power2.inOut" }, 3.9);
           tl.fromTo("#s5-logo", { y: 0 }, { y: -10, duration: 2.0, ease: "sine.inOut" }, 4.0);
           tl.fromTo("#s5-halo", { opacity: 1 }, { opacity: 0.6, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 4.0);
-          window.__timelines["s5-final"] = tl;
+          window.__timelines["s5-final"] = tl.raw;
         })();
       </script>
     </template>

@@ -43,7 +43,7 @@
         .s4-ui svg { position: absolute; left: 15px; top: 15px; }
       </style>
 
-      <div id="root" data-composition-id="s4-preuve" data-start="0" data-duration="9" data-width="1080" data-height="1920">
+      <div id="root" data-composition-id="s4-preuve" data-start="0" data-duration="12" data-width="1080" data-height="1920">
         <div id="s4-a">
           <div class="s4-kick" id="s4-kick">ZÉRO CONTRAINTE POUR L'AGENCE</div>
           <div class="s4-row" id="s4-r1" style="top: 330px"><div class="s4-num"><span id="s4-n1">5</span></div><div class="s4-lab">tournage nécessaire</div><div class="s4-rule"></div></div>
@@ -93,7 +93,7 @@
             list.appendChild(d);
           });
 
-          const tl = gsap.timeline({ paused: true });
+          const tl = PDIso.stretch(gsap.timeline({ paused: true }), PD_HOLDS.s4);
           // ---- Frame 8: commitments (0 – 2.5s)
           tl.fromTo("#s4-a", { scale: 0.75, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" }, 0);
           tl.fromTo("#s4-kick", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
@@ -139,7 +139,7 @@
             tl.fromTo(p, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 6.45 + i * 0.18);
           });
           tl.to("#s4-c", { scale: 1.5, opacity: 0, filter: "blur(12px)", duration: 0.4, ease: "power3.in" }, 8.6);
-          window.__timelines["s4-preuve"] = tl;
+          window.__timelines["s4-preuve"] = tl.raw;
         })();
       </script>
     </template>

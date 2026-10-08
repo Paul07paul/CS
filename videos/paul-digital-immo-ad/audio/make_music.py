@@ -1,8 +1,9 @@
 """Synthesize the music bed for the Paul Digital ad (deterministic, royalty-free).
 
 120 BPM, A minor / C major (Am - F - C - G). Bars start at -0.5 s so that the
-drop lands on 5.5 s (villa) and the second section on 21.5 s; the logo lands
-on the bar at 33.5 s.
+drop lands on 7.5 s (villa), a breakdown sits under the turnkey message
+(25.5-31.5 s), the second section starts on 33.5 s and the logo lands on the
+bar at 49.5 s.
     python3 audio/make_music.py  ->  assets/audio/music.wav
 """
 import wave
@@ -10,7 +11,7 @@ import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-DUR = 36.5
+DUR = 54.0
 N = int(DUR * SR)
 BPM = 120
 BEAT = 60 / BPM
@@ -78,7 +79,8 @@ def bar_time(k):
 
 
 NBARS = int(np.ceil((DUR - OFF) / BAR)) + 1
-DROP, SEC_B, LOGO = 5.5, 21.5, 33.5
+DROP, SEC_B, LOGO = 7.5, 33.5, 49.5
+BD0, BD1 = 25.5, 31.5  # breakdown under the turnkey message (no drums, no bass)
 
 pad = np.zeros((N, 2))
 arp = np.zeros((N, 2))
@@ -109,7 +111,7 @@ for k in range(NBARS):
     voice = lp(voice, pad_cut)
     place(pad, t0, voice)
     # --- bass (from the drop)
-    if DROP - 0.01 <= t0 < LOGO - 0.01:
+    if DROP - 0.01 <= t0 < LOGO - 0.01 and not (BD0 - 0.01 <= t0 < BD1 - 0.01):
         for e in range(8):
             nn = int(BEAT / 2 * SR * 0.9)
             f = hz(root + (12 if e in (3, 7) else 0))
@@ -140,7 +142,7 @@ for k in range(NBARS):
             pan = 0.35 * np.sin(s16 * 1.3)
             place(arp, tpos, np.stack([s * (1 - pan), s * (1 + pan)], 1))
     # --- drums
-    if DROP - 0.01 <= t0 < LOGO - 0.01:
+    if DROP - 0.01 <= t0 < LOGO - 0.01 and not (BD0 - 0.01 <= t0 < BD1 - 0.01):
         for b in range(4):
             tb = t0 + b * BEAT
             nn = int(0.45 * SR)
@@ -181,7 +183,7 @@ MEL = [(76, 0, 1.5), (72, 1.5, 0.5), (74, 2, 1), (76, 3, 1),  # Am
        (77, 4, 1.5), (76, 5.5, 0.5), (72, 6, 2),               # F
        (79, 8, 1.5), (76, 9.5, 0.5), (72, 10, 2),              # C
        (74, 12, 1), (71, 13, 1), (74, 14, 1), (79, 15, 1)]     # G
-for rep in range(3):
+for rep in range(4):
     base = SEC_B + rep * 4 * BAR
     for m, st, ln in MEL:
         tpos = base + st * BEAT
@@ -210,7 +212,8 @@ def riser(t_end, d, gain):
 
 
 riser(DROP, 1.6, 0.16)
-riser(SEC_B, 1.0, 0.10)
+riser(BD1, 2.0, 0.12)
+riser(SEC_B, 1.0, 0.08)
 riser(LOGO, 1.5, 0.13)
 nn = int(3.0 * SR)
 tt = np.arange(nn) / SR
@@ -223,7 +226,7 @@ duck = np.ones(N)
 for k in range(NBARS):
     for b in range(4):
         tb = bar_time(k) + b * BEAT
-        if DROP - 0.01 <= tb < LOGO - 0.01:
+        if DROP - 0.01 <= tb < LOGO - 0.01 and not (BD0 - 0.01 <= tb < BD1 - 0.01):
             i = int(tb * SR)
             nn = int(0.28 * SR)
             j = min(N, i + nn)

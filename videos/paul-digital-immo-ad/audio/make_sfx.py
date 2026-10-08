@@ -5,12 +5,13 @@ airy whooshes on camera moves, soft "bubble" pops on labels, gentle bell
 chimes on reveals, muffled thuds for the villa assembly.
     python3 audio/make_sfx.py  ->  assets/audio/sfx.wav
 """
+import json
 import wave
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-DUR = 36.5
+DUR = 54.0
 N = int(DUR * SR)
 rng = np.random.default_rng(7)
 
@@ -107,9 +108,27 @@ def riser(d=0.8, gain=0.08):
 
 track = np.zeros((N + 2 * SR, 2))
 
+# Event times below are authored on the original 36.5 s cut; remap() shifts
+# them through the reading holds in assets/timing.json.
+TIMING = json.load(open("assets/timing.json"))
+_scenes = []
+_start = 0.0
+for k, (old_start, old_dur) in TIMING["old"].items():
+    holds = TIMING["holds"][k]
+    _scenes.append((old_start, old_start + old_dur, _start, holds))
+    _start += old_dur + sum(e for _, e in holds)
+
+
+def remap(t):
+    for o0, o1, n0, holds in _scenes:
+        if o0 - 1e-6 <= t < o1 - 1e-6:
+            loc = t - o0
+            return n0 + loc + sum(e for h, e in holds if loc > h + 1e-6)
+    return t
+
 
 def at(time, clip):
-    i = int(time * SR)
+    i = int(remap(time) * SR)
     track[i : i + len(clip)] += clip
 
 

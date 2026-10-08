@@ -1,0 +1,11 @@
+{
+  "_doc": "Reading holds per scene: [local time, extra seconds]. Animations keep their speed; everything after a hold point shifts later. Shared by the compositions (via timing.js) and the audio scripts.",
+  "old": { "s1": [0, 5.5], "s2": [5.5, 12.5], "s3": [18, 3.5], "s4": [21.5, 9], "s5": [30.5, 6] },
+  "holds": {
+    "s1": [[2.2, 1.0], [4.6, 1.0]],
+    "s2": [[1.9, 1.0], [4.95, 1.5], [6.85, 0.5], [7.85, 0.5], [8.85, 0.5], [9.75, 0.5], [11.95, 1.5]],
+    "s3": [[1.0, 0.5], [1.6, 1.0], [2.75, 2.5]],
+    "s4": [[1.95, 1.0], [4.6, 1.0], [7.6, 1.0]],
+    "s5": [[1.6, 1.0], [4.6, 1.5]]
+  }
+}

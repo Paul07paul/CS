@@ -43,7 +43,7 @@
         .s1-badge { position: absolute; height: 56px; padding: 0 24px; border-radius: 28px; background: #1A69FA; color: #FFFFFF; font-weight: 800; font-size: 24px; line-height: 56px; letter-spacing: 0.04em; box-shadow: 0 14px 30px rgba(26,105,250,0.35); }
       </style>
 
-      <div id="root" data-composition-id="s1-annonce" data-start="0" data-duration="5.5" data-width="1080" data-height="1920">
+      <div id="root" data-composition-id="s1-annonce" data-start="0" data-duration="7.5" data-width="1080" data-height="1920">
         <div id="s1-feedwrap"><div id="s1-feed"></div></div>
         <div id="s1-scrim"></div>
         <div id="s1-vid">
@@ -92,7 +92,7 @@
           }
           document.getElementById("s1-vimg").innerHTML = PDIso.photo("vid");
 
-          const tl = gsap.timeline({ paused: true });
+          const tl = PDIso.stretch(gsap.timeline({ paused: true }), PD_HOLDS.s1);
           const FEED_END = 700 - TARGET * STEP; // target card lands at y=700
 
           // ---- Frame 1: the flat listing (0 – 2.5s)
@@ -129,7 +129,7 @@
           tl.to(["#s1-vid", "#s1-b1", "#s1-b2"], { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: 0.5, ease: "power3.in" }, 5.0);
           tl.to(["#s1-h3", "#s1-h4"], { y: -80, opacity: 0, duration: 0.4, ease: "power2.in" }, 5.05);
 
-          window.__timelines["s1-annonce"] = tl;
+          window.__timelines["s1-annonce"] = tl.raw;
         })();
       </script>
     </template>

@@ -37,7 +37,7 @@
         .s2-sep { position: absolute; top: 140px; width: 2px; height: 66px; background: #E1E8F3; }
       </style>
 
-      <div id="root" data-composition-id="s2-villa" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+      <div id="root" data-composition-id="s2-villa" data-start="0" data-duration="18.5" data-width="1080" data-height="1920">
         <div id="s2-halo"></div>
         <div id="s2-stage"></div>
         <div id="s2-head">
@@ -142,7 +142,7 @@
             center: label(-920, -700, -70, "Centre-ville · <b>10 min</b>"),
           };
 
-          const tl = gsap.timeline({ paused: true });
+          const tl = PDIso.stretch(gsap.timeline({ paused: true }), PD_HOLDS.s2);
           const api = r.api;
           gsap.set(api, { rx: 60, rz: 15, zoom: 1.7, tx: 0, ty: 0, tz: 0, ox: 0, oy: 40 });
 
@@ -239,7 +239,7 @@
           // whip out to the left
           tl.to(["#s2-stage", "#s2-head", "#s2-halo"], { x: -1080, filter: "blur(16px)", duration: 0.3, ease: "power3.in" }, 12.2);
 
-          window.__timelines["s2-villa"] = tl;
+          window.__timelines["s2-villa"] = tl.raw;
         })();
       </script>
     </template>

@@ -302,3 +302,26 @@ window.PDIso.photo = function (variant) {
     <rect x="80" y="300" width="12" height="130" fill="#7A5A3E"/><circle cx="86" cy="300" r="48" fill="#94BC80"/>
   </svg>`;
 };
+
+/* Reading holds: wrap a timeline so positions authored in "old" time are shifted by the holds,
+   and long ambient tweens that span a hold are stretched to keep moving through it. */
+window.PDIso.remap = function (holds) {
+  return (t) => t + holds.reduce((acc, [h, e]) => (t > h + 1e-6 ? acc + e : acc), 0);
+};
+window.PDIso.stretch = function (tl, holds) {
+  const T = window.PDIso.remap(holds || []);
+  const fix = (vars, pos) => {
+    if (typeof pos !== "number") return [vars, pos];
+    const np = T(pos);
+    if (vars && typeof vars.duration === "number" && vars.duration >= 1.5 && !vars.repeat) {
+      vars = Object.assign({}, vars, { duration: T(pos + vars.duration) - np });
+    }
+    return [vars, np];
+  };
+  return {
+    raw: tl,
+    to(target, vars, pos) { const [v, p] = fix(vars, pos); return tl.to(target, v, p); },
+    fromTo(target, from, vars, pos) { const [v, p] = fix(vars, pos); return tl.fromTo(target, from, v, p); },
+    set(target, vars, pos) { return tl.set(target, vars, typeof pos === "number" ? T(pos) : pos); },
+  };
+};
