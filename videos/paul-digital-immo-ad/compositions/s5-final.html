@@ -4,49 +4,62 @@
   <body>
     <template>
       <style>
-        @font-face { font-family: "DM Serif Display"; font-style: normal; font-weight: 400; src: url("assets/fonts/dmserif.woff2") format("woff2"); }
-        @font-face { font-family: "DM Serif Display"; font-style: italic; font-weight: 400; src: url("assets/fonts/dmserif-italic.woff2") format("woff2"); }
         @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
-        #root { position: absolute; inset: 0; overflow: hidden; color: #F3EDE2; font-family: "Montserrat", sans-serif; }
-        #s5-halo { position: absolute; left: 140px; top: 860px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle, rgba(214,165,90,0.34) 0%, rgba(214,165,90,0.10) 45%, rgba(214,165,90,0) 70%); }
+        #root { position: absolute; inset: 0; overflow: hidden; color: #0C1929; font-family: "Montserrat", sans-serif; }
+        #s5-halo { position: absolute; left: 140px; top: 860px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle, rgba(26,105,250,0.26) 0%, rgba(26,105,250,0.08) 45%, rgba(26,105,250,0) 70%); }
         #s5-stage { position: absolute; inset: 0; }
         .iso-face { backface-visibility: visible; }
-        .glass .iso-face { border: 1px solid rgba(255,255,255,0.35); }
+        .glass .iso-face { border: 1px solid rgba(255,255,255,0.55); }
         .caustics { position: absolute; inset: 0; background: repeating-linear-gradient(115deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 26px, rgba(220,255,250,0.45) 30px, rgba(255,255,255,0) 36px); background-size: 200px 200px; }
-        #s5-a { position: absolute; left: 60px; right: 60px; top: 250px; height: 420px; text-align: center; }
-        #s5-a1 { position: absolute; left: 0; right: 0; top: 0; font-weight: 700; font-size: 62px; }
-        #s5-a2 { position: absolute; left: 0; right: 0; top: 84px; font-family: "DM Serif Display", serif; font-size: 104px; line-height: 1.05; }
-        #s5-a3 { position: absolute; left: 0; right: 0; top: 222px; font-weight: 600; font-size: 50px; color: #E8DCC6; }
+        #s5-a { position: absolute; left: 50px; right: 50px; top: 250px; height: 420px; text-align: center; }
+        .s5-l { position: absolute; left: 0; right: 0; white-space: nowrap; }
+        #s5-a1 { top: 0; font-weight: 700; font-size: 60px; }
+        #s5-a2 { top: 82px; font-weight: 800; font-size: 88px; letter-spacing: -0.03em; line-height: 1.05; }
+        #s5-a3 { top: 210px; font-weight: 600; font-size: 50px; color: #1A69FA; }
         .depth { position: relative; display: inline-block; }
         .depth span { position: absolute; left: 0; top: 0; white-space: nowrap; }
-        .depth .front { position: relative; color: #D6A55A; }
-        #s5-b { position: absolute; left: 60px; right: 60px; top: 260px; height: 260px; text-align: center; }
-        #s5-b1 { position: absolute; left: 0; right: 0; top: 0; font-weight: 700; font-size: 62px; }
-        #s5-b2 { position: absolute; left: 0; right: 0; top: 86px; font-family: "DM Serif Display", serif; font-style: italic; font-size: 94px; line-height: 1.05; color: #D6A55A; }
-        #s5-logo { position: absolute; left: 150px; top: 820px; width: 780px; height: 320px; }
-        #s5-cube { position: absolute; left: 330px; top: 0; width: 120px; height: 120px; }
-        #s5-word { position: absolute; left: 0; right: 0; top: 140px; text-align: center; font-weight: 800; font-size: 92px; letter-spacing: 0.12em; line-height: 1; white-space: nowrap; }
-        #s5-word span { display: inline-block; }
-        #s5-word .g { color: #D6A55A; }
-        #s5-tag { position: absolute; left: 0; right: 0; top: 256px; text-align: center; font-weight: 600; font-size: 30px; letter-spacing: 0.24em; color: #C3CBD6; }
+        .depth .front { position: relative; color: #1A69FA; }
+        #s5-b { position: absolute; left: 50px; right: 50px; top: 250px; height: 200px; text-align: center; }
+        #s5-b1 { top: 0; font-weight: 800; font-size: 60px; letter-spacing: -0.01em; }
+        #s5-b2 { top: 80px; font-weight: 500; font-size: 60px; color: #1A69FA; }
+        /* logo lockup */
+        #s5-logo { position: absolute; left: 140px; top: 640px; width: 800px; height: 680px; }
+        #s5-ring { position: absolute; left: 250px; top: 20px; width: 300px; height: 300px; border-radius: 50%; border: 6px solid #1A69FA; opacity: 0; }
+        #s5-mark { position: absolute; left: 245px; top: 20px; width: 310px; height: 298px; }
+        #s5-mark img { position: absolute; left: 0; top: 0; width: 310px; height: 298px; }
+        #s5-shine { position: absolute; left: 0; top: 0; width: 310px; height: 298px; -webkit-mask-image: url("assets/logo/mark.png"); mask-image: url("assets/logo/mark.png"); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; overflow: hidden; }
+        #s5-shine i { position: absolute; left: 0; top: -40px; width: 90px; height: 380px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.85), rgba(255,255,255,0)); transform: rotate(20deg); }
+        #s5-word { position: absolute; left: 20px; top: 370px; width: 760px; height: 156px; overflow: hidden; }
+        #s5-word img { position: absolute; left: 0; top: 0; width: 760px; height: 156px; }
+        #s5-tag { position: absolute; left: 0; right: 0; top: 560px; text-align: center; font-weight: 600; font-size: 30px; letter-spacing: 0.3em; color: #0C1929; white-space: nowrap; }
+        #s5-tag span { display: inline-block; }
+        #s5-tag .sep { display: inline-block; width: 60px; height: 3px; background: #1A69FA; vertical-align: 9px; margin: 0 18px; }
       </style>
 
       <div id="root" data-composition-id="s5-final" data-start="0" data-duration="6" data-width="1080" data-height="1920">
         <div id="s5-halo"></div>
         <div id="s5-stage"></div>
         <div id="s5-a">
-          <div id="s5-a1">Donnez une</div>
-          <div id="s5-a2"><div class="depth" id="s5-depth" data-layout-allow-overlap></div></div>
-          <div id="s5-a3">à vos annonces immobilières.</div>
+          <div id="s5-a1" class="s5-l">Donnez une</div>
+          <div id="s5-a2" class="s5-l"><div class="depth" id="s5-depth"></div></div>
+          <div id="s5-a3" class="s5-l">à vos annonces immobilières.</div>
         </div>
         <div id="s5-b">
-          <div id="s5-b1">Envoyez-nous votre annonce.</div>
-          <div id="s5-b2">Nous nous occupons du reste.</div>
+          <div id="s5-b1" class="s5-l">Envoyez-nous votre annonce.</div>
+          <div id="s5-b2" class="s5-l">Nous nous occupons du reste.</div>
         </div>
         <div id="s5-logo">
-          <svg id="s5-cube" viewBox="0 0 120 120"><polygon points="60,6 106,32 60,58 14,32" fill="#F0C98A"/><polygon points="14,32 60,58 60,114 14,88" fill="#D6A55A"/><polygon points="106,32 60,58 60,114 106,88" fill="#A87732"/><polygon points="72,70 94,60 72,98" fill="#0E1624"/></svg>
-          <div id="s5-word"></div>
-          <div id="s5-tag">VIDÉOS IMMOBILIÈRES PREMIUM</div>
+          <div id="s5-ring"></div>
+          <div id="s5-mark">
+            <img id="s5-md" src="assets/logo/mark-d.png" alt="" />
+            <img id="s5-ma" src="assets/logo/mark-arrow.png" alt="" />
+            <div id="s5-shine"><i></i></div>
+          </div>
+          <div id="s5-word">
+            <img id="s5-wp" src="assets/logo/word-paul.png" alt="Paul" />
+            <img id="s5-wd" src="assets/logo/word-digital.png" alt="Digital" />
+          </div>
+          <div id="s5-tag"><span class="sep"></span>VIDÉOS IMMOBILIÈRES<span class="sep"></span></div>
         </div>
       </div>
 
@@ -63,19 +76,12 @@
             sp.setAttribute("data-layout-allow-overlap", "");
             sp.textContent = "nouvelle dimension";
             if (i === 0) sp.className = "front";
-            else { sp.style.color = `rgba(120, 82, 34, ${0.95 - i * 0.13})`; sp.dataset.layer = i; }
+            else { sp.style.color = `rgba(12, 25, 41, ${0.9 - i * 0.13})`; sp.dataset.layer = i; }
             depth.appendChild(sp);
           }
-          const word = document.getElementById("s5-word");
-          "PAUL DIGITAL".split("").forEach((ch, i) => {
-            const s = document.createElement("span");
-            s.textContent = ch === " " ? " " : ch;
-            if (i > 4) s.className = "g";
-            word.appendChild(s);
-          });
 
           const tl = gsap.timeline({ paused: true });
-          // villa: slow continuous orbit through both frames
+          // villa: slow continuous orbit
           tl.fromTo(api, { rz: 20 }, { rz: 80, duration: 6, ease: "none" }, 0);
           tl.fromTo(api, { zoom: 1.4 }, { zoom: 0.62, duration: 0.9, ease: "expo.out" }, 0);
           tl.fromTo("#s5-halo", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, 0);
@@ -86,21 +92,29 @@
           tl.fromTo("#s5-a2", { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 0.3);
           depth.querySelectorAll("span[data-layer]").forEach((sp) => {
             const i = +sp.dataset.layer;
-            tl.fromTo(sp, { x: 0, y: 0 }, { x: i * 3, y: i * 4, duration: 0.8, ease: "power3.out" }, 0.45);
+            tl.fromTo(sp, { x: 0, y: 0 }, { x: i * 2.5, y: i * 3.5, duration: 0.8, ease: "power3.out" }, 0.45);
           });
           tl.fromTo("#s5-a3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.6);
-          tl.to("#s5-a", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 2.4);
+          tl.to("#s5-a", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 2.35);
 
-          // ---- Frame 11 (2.5 – 6s): CTA + lockup
-          tl.to(api, { zoom: 0.46, oy: 170, duration: 0.7, ease: "power3.inOut" }, 2.45);
-          tl.to("#s5-halo", { y: 140, scale: 0.8, duration: 0.7, ease: "power3.inOut" }, 2.45);
-          tl.fromTo("#s5-b1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.6);
-          tl.fromTo("#s5-b2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.8);
-          tl.fromTo("#s5-cube", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.8)" }, 3.2);
-          tl.fromTo("#s5-word span", { opacity: 0, y: 50, rotationX: -80 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.5, ease: "power3.out", stagger: 0.035 }, 3.35);
-          tl.fromTo("#s5-tag", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 3.8);
-          tl.fromTo("#s5-logo", { scale: 1 }, { scale: 1.04, duration: 1.8, ease: "sine.inOut" }, 4.2);
-          tl.fromTo("#s5-halo", { opacity: 1 }, { opacity: 0.6, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 4.2);
+          // ---- Frame 11 (2.5 – 6s): CTA + logo (lands on the 3.0s bar)
+          tl.to(api, { zoom: 0.4, oy: 260, duration: 0.7, ease: "power3.inOut" }, 2.4);
+          tl.to("#s5-halo", { y: -120, scale: 1.1, duration: 0.7, ease: "power3.inOut" }, 2.4);
+          tl.fromTo("#s5-b1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.5);
+          tl.fromTo("#s5-b2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.65);
+          // mark: the D sweeps open, the blue arrow lands inside it
+          tl.fromTo("#s5-md", { clipPath: "inset(0% 100% 0% 0%)", scale: 0.85 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, duration: 0.55, ease: "expo.out" }, 2.75);
+          tl.fromTo("#s5-ma", { x: -140, y: 140, opacity: 0, rotation: -25 }, { x: 0, y: 0, opacity: 1, rotation: 0, duration: 0.55, ease: "back.out(1.9)" }, 2.9);
+          tl.fromTo("#s5-ring", { scale: 0.6, opacity: 0.9 }, { scale: 1.9, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, 3.0);
+          tl.fromTo("#s5-mark", { scale: 1 }, { scale: 1.08, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 3.0);
+          // wordmark: Paul then Digital rise through a mask
+          tl.fromTo("#s5-wp", { y: 160, clipPath: "inset(0% 58% 0% 0%)" }, { y: 0, clipPath: "inset(0% 58% 0% 0%)", duration: 0.55, ease: "power4.out" }, 3.15);
+          tl.fromTo("#s5-wd", { y: 160, clipPath: "inset(0% 0% 0% 42%)" }, { y: 0, clipPath: "inset(0% 0% 0% 42%)", duration: 0.55, ease: "power4.out" }, 3.3);
+          tl.fromTo("#s5-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 3.6);
+          tl.fromTo("#s5-tag .sep", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 3.7);
+          tl.fromTo("#s5-shine i", { x: -160 }, { x: 420, duration: 0.8, ease: "power2.inOut" }, 3.9);
+          tl.fromTo("#s5-logo", { y: 0 }, { y: -10, duration: 2.0, ease: "sine.inOut" }, 4.0);
+          tl.fromTo("#s5-halo", { opacity: 1 }, { opacity: 0.6, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 4.0);
           window.__timelines["s5-final"] = tl;
         })();
       </script>

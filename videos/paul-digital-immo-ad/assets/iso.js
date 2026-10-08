@@ -122,15 +122,15 @@
 
   /* ---------- The villa ---------- */
   const C = {
-    plinthTop: "#E4DCCD",
-    plinthSide: "#22324A",
+    plinthTop: "#FFFFFF",
+    plinthSide: "#0C1929",
     lawn: "#9CBC86",
     hedge: "#6F9663",
     wall: "#F5F0E8",
     slab: "#E9E1D3",
     floor: "#E7D9C3",
-    roof: "#2C3848",
-    fascia: "#D6A55A",
+    roof: "#0C1929",
+    fascia: "#1A69FA",
     glass: "rgba(150,205,220,0.42)",
     wood: "#B9875A",
     coping: "#F1EBE0",
@@ -138,8 +138,8 @@
     sofa: "#7F90A6",
     oak: "#A9784D",
     linen: "#EFE9DF",
-    gold: "#D6A55A",
-    ink: "#0E1624",
+    gold: "#1A69FA",
+    ink: "#0C1929",
   };
 
   function villa(plane) {
@@ -160,7 +160,7 @@
     add(g.floor, box(plane, 140, 120, 4, 400, 260, 10, { color: C.slab }));
     add(g.floor, box(plane, 140, 380, 4, 240, 230, 10, { color: C.slab }));
     // interior floor tint + room glows
-    ["kitchen:150,130,180,240", "salon:340,130,190,240", "bedroom:150,390,220,210"].forEach((spec) => {
+    ["kitchen:150,130,180,240", "salon:340,130,190,240", "bedroom:150,390,220,135", "bathroom:150,533,220,67"].forEach((spec) => {
       const [name, r] = spec.split(":");
       const [x, y, w, d] = r.split(",").map(Number);
       add(g.floor, box(plane, x, y, 14, w, d, 0.1, { color: C.floor }));
@@ -181,6 +181,7 @@
     wall(140, 130, 10, 470); // west
     wall(330, 130, 10, 140); // kitchen/salon partition
     wall(150, 370, 150, 10); // main / bedroom
+    wall(150, 525, 120, 8); // bedroom / bathroom
     wall(340, 370, 40, 10);
     // main wing east: glass with posts
     wall(530, 130, 10, 14);
@@ -198,8 +199,8 @@
     wall(320, 600, 60, 10);
 
     // Roof slabs with gold fascia
-    add(g.roof, box(plane, 122, 102, WZ + WH, 436, 296, 16, { color: C.roof, sides: C.fascia, s: C.fascia, e: "#B98A45", n: "#9C7439", w: "#C29350" }));
-    add(g.roof, box(plane, 122, 398, WZ + WH, 276, 230, 16, { color: C.roof, sides: C.fascia, s: C.fascia, e: "#B98A45", n: "#9C7439", w: "#C29350" }));
+    add(g.roof, box(plane, 122, 102, WZ + WH, 436, 296, 16, { color: C.roof, sides: C.fascia, s: C.fascia, e: "#1556CF", n: "#1146AD", w: "#1760E6" }));
+    add(g.roof, box(plane, 122, 398, WZ + WH, 276, 230, 16, { color: C.roof, sides: C.fascia, s: C.fascia, e: "#1556CF", n: "#1146AD", w: "#1760E6" }));
     // roof-top planter / solar strip detail
     add(g.roof, box(plane, 160, 140, WZ + WH + 16, 120, 60, 10, { color: C.hedge }));
 
@@ -217,14 +218,19 @@
     fur("salon", box(plane, 500, 300, 14, 20, 20, 30, { color: "#E3D6C2" }));
     fur("salon", box(plane, 495, 295, 44, 30, 30, 26, { color: C.hedge, radius: 15 }));
     // bedroom
-    fur("bedroom", box(plane, 180, 395, 14, 120, 12, 48, { color: "#8B6A4A" }));
-    fur("bedroom", box(plane, 180, 407, 14, 120, 140, 24, { color: C.linen }));
-    fur("bedroom", box(plane, 190, 412, 38, 46, 24, 8, { color: "#FFFFFF" }));
-    fur("bedroom", box(plane, 244, 412, 38, 46, 24, 8, { color: "#FFFFFF" }));
-    fur("bedroom", box(plane, 182, 470, 38, 116, 76, 3, { color: C.gold }));
-    fur("bedroom", box(plane, 152, 400, 14, 24, 24, 22, { color: C.oak }));
-    fur("bedroom", box(plane, 304, 400, 14, 24, 24, 22, { color: C.oak }));
-    fur("bedroom", box(plane, 152, 560, 14, 120, 30, 70, { color: "#E8DFD0", sides: "#CDBFA8" }));
+    fur("bedroom", box(plane, 180, 393, 14, 120, 12, 48, { color: "#8B6A4A" }));
+    fur("bedroom", box(plane, 180, 405, 14, 120, 108, 24, { color: C.linen }));
+    fur("bedroom", box(plane, 190, 410, 38, 46, 22, 8, { color: "#FFFFFF" }));
+    fur("bedroom", box(plane, 244, 410, 38, 46, 22, 8, { color: "#FFFFFF" }));
+    fur("bedroom", box(plane, 182, 452, 38, 116, 60, 3, { color: C.gold }));
+    fur("bedroom", box(plane, 152, 398, 14, 24, 24, 22, { color: C.oak }));
+    fur("bedroom", box(plane, 304, 398, 14, 24, 24, 22, { color: C.oak }));
+    // bathroom
+    fur("bathroom", box(plane, 156, 540, 14, 104, 54, 22, { color: "#FFFFFF", sides: "#E6ECF2" }));
+    fur("bathroom", box(plane, 164, 548, 36, 88, 38, 1, { color: "#9CCFE0" }));
+    fur("bathroom", box(plane, 286, 568, 70, 28, 22, 34, { color: "#F4F1EC", sides: C.oak }));
+    fur("bathroom", box(plane, 296, 573, 56, 46, 12, 2, { color: "#CFE3EC" }));
+    fur("bathroom", box(plane, 290, 592, 48, 54, 5, 46, { color: "rgba(200,225,240,0.75)" }));
 
     // Terrace deck + pool
     add(g.deck, box(plane, 392, 386, 4, 368, 330, 10, { color: C.wood }));
@@ -282,11 +288,11 @@ window.PDIso.photo = function (variant) {
     <circle cx="700" cy="150" r="64" fill="#FFF3DA"/>
     <rect y="300" width="900" height="70" fill="#6FB2C1"/>
     <rect y="360" width="900" height="240" fill="#A7C58F"/>
-    <rect x="150" y="190" width="520" height="22" fill="#2C3848"/><rect x="150" y="208" width="520" height="8" fill="#D6A55A"/>
+    <rect x="150" y="190" width="520" height="22" fill="#0C1929"/><rect x="150" y="208" width="520" height="8" fill="#1A69FA"/>
     <rect x="175" y="216" width="470" height="150" fill="#F5F0E8"/>
     <rect x="205" y="236" width="170" height="130" fill="#9CCAD6"/><rect x="288" y="236" width="5" height="130" fill="#F5F0E8"/>
     <rect x="400" y="236" width="215" height="130" fill="#B6DDE6"/><rect x="505" y="236" width="5" height="130" fill="#F5F0E8"/>
-    <rect x="460" y="120" width="210" height="72" fill="#F5F0E8"/><rect x="450" y="110" width="232" height="14" fill="#2C3848"/>
+    <rect x="460" y="120" width="210" height="72" fill="#F5F0E8"/><rect x="450" y="110" width="232" height="14" fill="#0C1929"/>
     <rect x="490" y="135" width="150" height="45" fill="#9CCAD6"/>
     <polygon points="120,420 820,420 870,560 70,560" fill="#B9875A"/>
     <polygon points="230,440 700,440 730,535 200,535" fill="#F1EBE0"/>

@@ -4,21 +4,19 @@
   <body>
     <template>
       <style>
-        @font-face { font-family: "DM Serif Display"; font-style: normal; font-weight: 400; src: url("assets/fonts/dmserif.woff2") format("woff2"); }
-        @font-face { font-family: "DM Serif Display"; font-style: italic; font-weight: 400; src: url("assets/fonts/dmserif-italic.woff2") format("woff2"); }
         @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
-        #root { position: absolute; inset: 0; overflow: hidden; color: #F3EDE2; font-family: "Montserrat", sans-serif; }
+        #root { position: absolute; inset: 0; overflow: hidden; color: #0C1929; font-family: "Montserrat", sans-serif; }
         #s1-head { position: absolute; left: 60px; right: 60px; top: 190px; height: 300px; }
-        #s1-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 680px; background: linear-gradient(180deg, #0E1624 0%, #0E1624 68%, rgba(14,22,36,0) 100%); }
+        #s1-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 680px; background: linear-gradient(180deg, #F4F7FC 0%, #F4F7FC 68%, rgba(244,247,252,0) 100%); }
         .s1-line { position: absolute; left: 0; right: 0; text-align: center; }
-        #s1-h1 { top: 0; font-weight: 700; font-size: 64px; letter-spacing: -0.01em; }
-        #s1-h2 { top: 86px; font-family: "DM Serif Display", serif; font-style: italic; font-size: 68px; white-space: nowrap; line-height: 1.05; color: #D6A55A; }
-        #s1-h3 { top: 0; font-weight: 600; font-size: 52px; }
-        #s1-h4 { top: 72px; font-family: "DM Serif Display", serif; font-size: 124px; line-height: 1; color: #D6A55A; }
+        #s1-h1 { top: 0; font-weight: 800; font-size: 68px; letter-spacing: -0.01em; color: #0C1929; }
+        #s1-h2 { top: 88px; font-weight: 500; font-size: 54px; white-space: nowrap; line-height: 1.1; color: #1A69FA; }
+        #s1-h3 { top: 0; font-weight: 700; font-size: 50px; color: #0C1929; }
+        #s1-h4 { top: 76px; font-weight: 800; font-size: 112px; line-height: 1; letter-spacing: -0.02em; color: #1A69FA; }
         #s1-feedwrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
         #s1-feed { position: absolute; left: 110px; top: 0; width: 860px; }
         .s1-card { position: absolute; left: 0; width: 860px; height: 620px; }
-        .s1-paper { position: absolute; inset: 0; background: #E9E6E1; border-radius: 22px; box-shadow: 0 30px 60px rgba(0,0,0,0.35); }
+        .s1-paper { position: absolute; inset: 0; background: #ECEDEF; border-radius: 22px; border: 2px solid #D3D8E0; box-shadow: 0 24px 50px rgba(12,25,41,0.14); }
         .s1-photos { position: absolute; left: 0; top: 0; width: 860px; height: 360px; border-radius: 22px 22px 0 0; overflow: hidden; filter: grayscale(1) contrast(0.85) brightness(1.05); }
         .s1-p1 { position: absolute; left: 0; top: 0; width: 566px; height: 360px; }
         .s1-p2 { position: absolute; left: 574px; top: 0; width: 286px; height: 176px; }
@@ -31,18 +29,18 @@
         .s1-chip { position: absolute; top: 96px; height: 40px; padding: 0 18px; border-radius: 20px; background: #DAD6CF; color: #474D55; font-weight: 600; font-size: 22px; line-height: 40px; }
         #s1-target { perspective: 1800px; }
         #s1-card3d { position: absolute; inset: 0; transform-style: preserve-3d; }
-        #s1-vid { position: absolute; left: 110px; top: 600px; width: 860px; height: 920px; border-radius: 30px; overflow: hidden; background: #0E1624; box-shadow: 0 40px 90px rgba(0,0,0,0.5), 0 0 0 3px rgba(214,165,90,0.9); }
+        #s1-vid { position: absolute; left: 110px; top: 600px; width: 860px; height: 920px; border-radius: 30px; overflow: hidden; background: #0C1929; box-shadow: 0 40px 90px rgba(12,25,41,0.35), 0 0 0 6px #1A69FA; }
         #s1-vimg { position: absolute; left: -40px; top: -40px; width: 940px; height: 1040px; }
-        #s1-vshade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,22,36,0) 45%, rgba(14,22,36,0.88) 100%); }
-        #s1-vtag { position: absolute; left: 36px; top: 36px; height: 52px; padding: 0 22px; border-radius: 26px; background: rgba(14,22,36,0.72); color: #F3EDE2; font-weight: 700; font-size: 24px; line-height: 52px; letter-spacing: 0.08em; }
-        #s1-vtag b { color: #D6A55A; }
-        #s1-vt1 { position: absolute; left: 44px; bottom: 170px; font-family: "DM Serif Display", serif; font-size: 76px; line-height: 1; color: #F3EDE2; }
-        #s1-vt2 { position: absolute; left: 46px; bottom: 116px; font-weight: 600; font-size: 30px; color: #E8D3AE; letter-spacing: 0.02em; }
-        #s1-vprog { position: absolute; left: 46px; right: 46px; bottom: 64px; height: 8px; border-radius: 4px; background: rgba(243,237,226,0.25); }
-        #s1-vfill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 4px; background: #D6A55A; transform-origin: left center; }
-        #s1-vplay { position: absolute; right: 44px; bottom: 150px; width: 112px; height: 112px; border-radius: 56px; background: #D6A55A; }
+        #s1-vshade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,22,36,0) 45%, rgba(12,25,41,0.88) 100%); }
+        #s1-vtag { position: absolute; left: 36px; top: 36px; height: 52px; padding: 0 22px; border-radius: 26px; background: rgba(12,25,41,0.72); color: #FFFFFF; font-weight: 700; font-size: 24px; line-height: 52px; letter-spacing: 0.08em; }
+        #s1-vtag b { color: #6FA3FF; }
+        #s1-vt1 { position: absolute; left: 44px; bottom: 170px; font-weight: 800; font-size: 66px; line-height: 1; color: #FFFFFF; }
+        #s1-vt2 { position: absolute; left: 46px; bottom: 116px; font-weight: 600; font-size: 30px; color: #CFE0FF; letter-spacing: 0.02em; }
+        #s1-vprog { position: absolute; left: 46px; right: 46px; bottom: 64px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.25); }
+        #s1-vfill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 4px; background: #1A69FA; transform-origin: left center; }
+        #s1-vplay { position: absolute; right: 44px; bottom: 150px; width: 112px; height: 112px; border-radius: 56px; background: #1A69FA; }
         #s1-vplay svg { position: absolute; left: 38px; top: 32px; }
-        .s1-badge { position: absolute; height: 56px; padding: 0 24px; border-radius: 28px; background: #F3EDE2; color: #0E1624; font-weight: 800; font-size: 24px; line-height: 56px; letter-spacing: 0.04em; box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
+        .s1-badge { position: absolute; height: 56px; padding: 0 24px; border-radius: 28px; background: #1A69FA; color: #FFFFFF; font-weight: 800; font-size: 24px; line-height: 56px; letter-spacing: 0.04em; box-shadow: 0 14px 30px rgba(26,105,250,0.35); }
       </style>
 
       <div id="root" data-composition-id="s1-annonce" data-start="0" data-duration="5.5" data-width="1080" data-height="1920">
@@ -54,7 +52,7 @@
           <div id="s1-vtag">● <b>VIDÉO</b> · 9:16</div>
           <div id="s1-vt1">Villa d'architecte</div>
           <div id="s1-vt2">Vue mer · 5 pièces · 140 m² · Piscine</div>
-          <div id="s1-vplay"><svg width="44" height="48" viewBox="0 0 44 48"><polygon points="0,0 44,24 0,48" fill="#0E1624" /></svg></div>
+          <div id="s1-vplay"><svg width="44" height="48" viewBox="0 0 44 48"><polygon points="0,0 44,24 0,48" fill="#FFFFFF" /></svg></div>
           <div id="s1-vprog"><div id="s1-vfill"></div></div>
         </div>
         <div id="s1-b1" class="s1-badge" style="left: 64px; top: 1470px">Reels · TikTok</div>

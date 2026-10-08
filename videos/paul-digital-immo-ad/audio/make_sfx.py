@@ -1,14 +1,17 @@
-"""Synthesize the Paul Digital ad sound-design track (deterministic, royalty-free).
+"""Soft sound design for the Paul Digital ad (deterministic, royalty-free).
 
-Every effect is generated from math (seeded noise), then placed at the global
-timestamps of the on-screen events and mixed into one stereo track:
+Rounded, low-passed effects with a room reverb, sitting under the music bed:
+airy whooshes on camera moves, soft "bubble" pops on labels, gentle bell
+chimes on reveals, muffled thuds for the villa assembly.
     python3 audio/make_sfx.py  ->  assets/audio/sfx.wav
 """
 import wave
 import numpy as np
+from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-DUR = 32.0
+DUR = 36.5
+N = int(DUR * SR)
 rng = np.random.default_rng(7)
 
 
@@ -16,213 +19,191 @@ def t_axis(d):
     return np.arange(int(d * SR)) / SR
 
 
-def lowpass(x, cutoff):
-    """One-pole low-pass; cutoff may be an array (time-varying)."""
-    cutoff = np.broadcast_to(np.asarray(cutoff, dtype=float), x.shape)
-    a = np.exp(-2 * np.pi * cutoff / SR)
-    y = np.empty_like(x)
-    acc = 0.0
-    for i in range(len(x)):
-        acc = (1 - a[i]) * x[i] + a[i] * acc
-        y[i] = acc
-    return y
+def lp(x, f):
+    return sosfilt(butter(2, f, "low", fs=SR, output="sos"), x, axis=0)
 
 
-def env_ad(n, attack, decay_pow=2.0):
-    """Attack/decay envelope over n samples; attack is a 0..1 fraction."""
-    p = np.linspace(0, 1, n)
-    a = max(attack, 1e-4)
-    up = np.clip(p / a, 0, 1)
-    down = np.clip((1 - p) / (1 - a), 0, 1) ** decay_pow
-    return np.where(p < a, up, down)
+def bp(x, lo, hi):
+    return sosfilt(butter(2, [lo, hi], "band", fs=SR, output="sos"), x, axis=0)
 
 
-def whoosh(d=0.5, lo=300, hi=4000, attack=0.65, gain=0.5, pan_from=-0.6, pan_to=0.6):
+def stereo(sig, pan=0.0):
+    return np.stack([sig * (1 - pan * 0.6), sig * (1 + pan * 0.6)], 1)
+
+
+def whoosh(d=0.6, top=2800, gain=0.22, pan_from=-0.5, pan_to=0.5, attack=0.55):
     t = t_axis(d)
     n = len(t)
     noise = rng.standard_normal(n)
-    sweep = lo + (hi - lo) * np.sin(np.linspace(0, np.pi, n)) ** 1.5
-    band = lowpass(noise, sweep) - lowpass(noise, sweep * 0.25)
-    sig = band * env_ad(n, attack, 1.6)
-    sig /= np.max(np.abs(sig)) + 1e-9
+    out = np.zeros(n)
+    seg = max(1, n // 32)
+    for i in range(32):  # band sweeping up then down
+        a, b = i * seg, (i + 1) * seg if i < 31 else n
+        k = np.sin(np.pi * (i + 0.5) / 32)
+        fc = 250 + (top - 250) * k ** 1.4
+        out[a:b] = bp(noise[a:b], fc * 0.55, min(fc * 1.5, 20000))
+    p = np.linspace(0, 1, n)
+    env = np.where(p < attack, (p / attack) ** 2, ((1 - p) / (1 - attack)) ** 1.6)
+    out = lp(out * env, top * 1.2)
+    out /= np.max(np.abs(out)) + 1e-9
     pan = np.linspace(pan_from, pan_to, n)
-    return np.stack([sig * (1 - pan) / 2 * 2, sig * (1 + pan) / 2 * 2], 1) * gain
+    return np.stack([out * (1 - pan * 0.6), out * (1 + pan * 0.6)], 1) * gain
 
 
-def mono(sig, gain=1.0, pan=0.0):
-    sig = sig / (np.max(np.abs(sig)) + 1e-9) * gain
-    return np.stack([sig * (1 - pan), sig * (1 + pan)], 1)
-
-
-def pop(gain=0.35, f0=1100, f1=320, pan=0.0):
-    d = 0.16
+def bubble(gain=0.16, f0=640, f1=420, pan=0.0):
+    d = 0.22
     t = t_axis(d)
-    f = f1 + (f0 - f1) * np.exp(-t * 45)
-    ph = 2 * np.pi * np.cumsum(f) / SR
-    sig = np.sin(ph) * np.exp(-t * 28)
-    sig[:60] += rng.standard_normal(60) * np.linspace(1, 0, 60) * 0.6
-    return mono(sig, gain, pan)
+    f = f1 + (f0 - f1) * np.exp(-t * 30)
+    sig = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip(t / 0.004, 0, 1) * np.exp(-t * 18)
+    return stereo(sig * gain, pan)
 
 
-def tick(gain=0.22, f=2800, pan=0.0):
-    d = 0.05
+def chime(gain=0.10, base=1046.5, pan=0.0, d=1.4):
     t = t_axis(d)
-    sig = np.sin(2 * np.pi * f * t) * np.exp(-t * 140) + rng.standard_normal(len(t)) * np.exp(-t * 300) * 0.3
-    return mono(sig, gain, pan)
+    sig = sum(a * np.sin(2 * np.pi * base * m * t) for m, a in [(1, 1), (2, 0.25), (3, 0.08)])
+    sig *= np.clip(t / 0.006, 0, 1) * np.exp(-t * 3.2)
+    return stereo(sig * gain, pan)
 
 
-def thud(gain=0.5, f0=110, f1=42):
-    d = 0.45
+def thud(gain=0.22, f0=120, f1=55):
+    d = 0.5
     t = t_axis(d)
-    f = f1 + (f0 - f1) * np.exp(-t * 18)
-    ph = 2 * np.pi * np.cumsum(f) / SR
-    body = np.sin(ph) * np.exp(-t * 9)
-    noise = lowpass(rng.standard_normal(len(t)), 900) * np.exp(-t * 30) * 2.5
-    return mono(body + noise, gain)
+    f = f1 + (f0 - f1) * np.exp(-t * 14)
+    body = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip(t / 0.006, 0, 1) * np.exp(-t * 8)
+    return stereo(lp(body, 400) * gain)
 
 
-def boom(gain=0.75, d=2.2):
+def swell(gain=0.3, d=1.8):
     t = t_axis(d)
-    f = 34 + 46 * np.exp(-t * 6)
-    ph = 2 * np.pi * np.cumsum(f) / SR
-    sub = np.sin(ph) * np.exp(-t * 2.2)
-    hit = lowpass(rng.standard_normal(len(t)), 1800) * np.exp(-t * 14) * 3
-    shimmer = sum(np.sin(2 * np.pi * fr * t + k) for k, fr in enumerate([1568, 2093, 2637, 3136]))
-    shimmer = shimmer * np.exp(-t * 1.6) * np.clip(t / 0.05, 0, 1) * 0.05
-    return mono(sub + hit + shimmer, gain)
+    f = 38 + 30 * np.exp(-t * 3)
+    sub = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip(t / 0.05, 0, 1) * np.exp(-t * 2.0)
+    air = lp(rng.standard_normal(len(t)), 900) * np.clip(t / 0.08, 0, 1) * np.exp(-t * 4) * 0.4
+    return stereo((sub + air) * gain)
 
 
-def chime(gain=0.22, base=1320, pan=0.0, d=0.9):
-    t = t_axis(d)
-    sig = sum(a * np.sin(2 * np.pi * base * m * t) for m, a in [(1, 1), (1.5, 0.5), (2, 0.35), (3, 0.12)])
-    sig *= np.exp(-t * 5) * np.clip(t / 0.004, 0, 1)
-    return mono(sig, gain, pan)
-
-
-def riser(d=0.8, gain=0.3):
-    t = t_axis(d)
-    n = len(t)
-    noise = lowpass(rng.standard_normal(n), np.linspace(400, 7000, n))
-    f = np.linspace(220, 880, n)
-    tone = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.35
-    sig = (noise + tone) * np.linspace(0, 1, n) ** 2
-    sig[-int(0.03 * SR):] *= np.linspace(1, 0, int(0.03 * SR))
-    return mono(sig, gain)
-
-
-def shutter(gain=0.3):
-    a = tick(gain, 1900)
-    b = tick(gain * 0.8, 1500)
-    out = np.zeros((int(0.12 * SR), 2))
-    out[: len(a)] += a
-    o = int(0.055 * SR)
-    out[o : o + len(b)] += b
+def sparkle(gain=0.06, pan=0.0):
+    out = np.zeros((int(1.4 * SR), 2))
+    for k, fr in enumerate([2093, 2637, 3136, 3951]):
+        c = chime(gain * (1 - k * 0.15), fr, pan + (k - 1.5) * 0.2, 1.0)
+        o = int(k * 0.06 * SR)
+        out[o : o + len(c)] += c[: len(out) - o]
     return out
 
 
-def beep(gain=0.12, f=1000):
-    d = 0.09
+def riser(d=0.8, gain=0.08):
     t = t_axis(d)
-    sig = np.sin(2 * np.pi * f * t) * np.clip(t / 0.005, 0, 1) * np.clip((d - t) / 0.01, 0, 1)
-    return mono(sig, gain)
+    n = len(t)
+    noise = rng.standard_normal(n)
+    out = np.zeros(n)
+    seg = n // 16
+    for i in range(16):
+        a, b = i * seg, (i + 1) * seg if i < 15 else n
+        fc = 300 * (8 ** (i / 15))
+        out[a:b] = bp(noise[a:b], fc * 0.7, fc * 1.4)
+    out *= (t / d) ** 2
+    out[-int(0.04 * SR):] *= np.linspace(1, 0, int(0.04 * SR))
+    return stereo(out / (np.max(np.abs(out)) + 1e-9) * gain)
 
 
-track = np.zeros((int(DUR * SR) + SR, 2))
+track = np.zeros((N + 2 * SR, 2))
 
 
 def at(time, clip):
     i = int(time * SR)
-    track[i : i + len(clip)] += clip[: len(track) - i]
+    track[i : i + len(clip)] += clip
 
+
+PENTA = [1046.5, 1174.7, 1318.5, 1568.0, 1760.0, 2093.0]
 
 # ---- S1 listing → video (0 – 5.5)
-at(0.0, whoosh(1.4, 200, 2200, 0.15, 0.35, 0.3, -0.3))
-at(0.45, pop(0.22, 900, 400))
-at(1.5, whoosh(0.45, 600, 5000, 0.8, 0.18))
-at(1.98, shutter(0.32))
-at(1.9, beep())
-at(2.5, whoosh(0.7, 250, 3000, 0.5, 0.35, -0.5, 0.5))
-at(2.95, riser(0.5, 0.18))
-at(3.42, whoosh(0.35, 800, 6000, 0.3, 0.3))
-at(3.45, thud(0.3, 140, 60))
-at(3.9, pop(0.3, 1200, 380))
-at(4.15, pop(0.22, 1000, 450, -0.4))
-at(4.3, pop(0.22, 1250, 500, 0.4))
-at(4.95, whoosh(0.6, 300, 7000, 0.85, 0.55))
-# ---- S2 villa (5.5 – 16.5)
-at(5.5, boom(0.55, 1.6))
-for k, tm in enumerate([5.68, 5.82, 5.95, 6.12, 6.28]):
-    at(tm, thud(0.22 + 0.02 * k, 160 - k * 8, 60))
-at(6.5, thud(0.42, 120, 45))
-at(6.55, chime(0.10, 1046))
-at(7.9, whoosh(0.9, 200, 2600, 0.5, 0.4, -0.4, 0.4))
-for tm, p in [(8.65, 0.0), (8.95, -0.3), (9.25, 0.4)]:
-    at(tm, pop(0.28, 1150, 420, p))
-at(10.4, whoosh(0.7, 400, 5000, 0.3, 0.4, 0.0, 0.0))
-at(10.5, riser(0.5, 0.12))
-for tm, p in [(11.2, -0.2), (12.2, 0.0), (13.2, 0.2)]:
-    at(tm, chime(0.13, 1318, p))
-    at(tm + 0.1, pop(0.22, 1050, 420, p))
-for tm in [12.03, 13.03]:
-    at(tm, whoosh(0.6, 250, 2500, 0.5, 0.25, -0.3, 0.3))
-at(14.0, thud(0.35, 130, 50))
-at(14.05, whoosh(1.3, 150, 3200, 0.55, 0.45, 0.4, -0.4))
-for k in range(12):
-    at(14.85 + k * 0.04, tick(0.08, 1200 + (k % 4) * 150, (k % 3 - 1) * 0.5))
-at(14.85, whoosh(0.3, 900, 5000, 0.7, 0.15))
-at(15.2, thud(0.3, 200, 90))
-at(15.15, whoosh(0.7, 1500, 6000, 0.4, 0.12, -0.5, 0.5))
-for tm, p in [(15.5, 0.4), (15.62, -0.4), (15.74, 0.0)]:
-    at(tm, pop(0.24, 1200, 450, p))
-at(16.15, whoosh(0.45, 400, 6500, 0.7, 0.55, 0.6, -0.6))
-# ---- S3 turnkey (16.5 – 20)
-at(16.95, pop(0.3, 1000, 350))
-at(17.25, whoosh(0.5, 900, 6000, 0.6, 0.25, 0.5, -0.5))
-at(17.7, pop(0.3, 1050, 360))
-at(17.8, riser(0.85, 0.16))
-for tm in [17.95, 18.13, 18.31]:
-    at(tm, tick(0.18, 2400))
-at(18.45, pop(0.3, 1100, 370))
-at(18.75, chime(0.24, 1568))
-at(19.6, whoosh(0.4, 400, 7000, 0.8, 0.45))
-# ---- S4 proof + benefits (20 – 26)
-at(20.0, whoosh(0.35, 500, 4000, 0.2, 0.3))
-for tm in [20.2, 20.52, 20.84]:
-    at(tm, thud(0.28, 170, 70))
-tick_times = np.concatenate([20.3 + np.cumsum(np.linspace(0.05, 0.16, 6)), 20.9 + np.cumsum(np.linspace(0.03, 0.12, 14))])
-for k, tm in enumerate(tick_times):
-    at(tm, tick(0.07, 3200 - (k % 5) * 120))
-at(22.15, whoosh(0.4, 400, 5000, 0.6, 0.35, 0.0, 0.0))
-at(22.35, whoosh(0.7, 200, 2400, 0.25, 0.4, 0.0, 0.0))
-for tm in [23.6, 24.6]:
-    at(tm, whoosh(0.35, 800, 5000, 0.4, 0.22, 0.4, -0.4))
-for k, tm in enumerate([23.17, 23.5, 23.83, 24.16, 24.49]):
-    at(tm, pop(0.22, 900 + k * 60, 380))
-    at(tm + 0.1, tick(0.14, 2600 + k * 120))
-at(25.55, whoosh(0.5, 400, 7000, 0.8, 0.5))
-# ---- S5 CTA (26 – 32)
-at(26.0, boom(0.45, 1.4))
-at(26.32, thud(0.4, 120, 48))
-at(26.3, chime(0.12, 1046, 0, 1.4))
-at(28.4, whoosh(0.6, 250, 3500, 0.5, 0.35))
-at(29.2, whoosh(0.55, 500, 5500, 0.7, 0.3, -0.5, 0.5))
-for k in range(12):
-    at(29.35 + k * 0.035, tick(0.06, 1800 + k * 60, (k / 11 - 0.5)))
-at(29.55, shutter(0.32))
-at(29.7, boom(0.8, 2.2))
-at(31.9, beep(0.0))
+at(0.0, whoosh(1.3, 1800, 0.14, 0.3, -0.3, 0.2))
+at(0.45, bubble(0.10, 560, 380))
+at(1.5, whoosh(0.5, 2600, 0.10, -0.2, 0.2, 0.8))
+at(2.0, chime(0.07, 1568))
+at(2.5, whoosh(0.8, 2400, 0.16, -0.5, 0.5))
+at(2.95, riser(0.55, 0.06))
+at(3.45, whoosh(0.4, 3200, 0.14, 0.0, 0.0, 0.3))
+at(3.5, chime(0.08, 1318.5))
+at(3.9, bubble(0.12, 700, 460))
+at(4.15, bubble(0.09, 620, 420, -0.5))
+at(4.3, bubble(0.09, 760, 500, 0.5))
+at(4.95, whoosh(0.6, 3200, 0.20, 0.0, 0.0, 0.85))
+# ---- S2 villa (5.5 – 18)
+at(5.5, swell(0.30))
+for k, tm in enumerate([5.68, 5.85, 6.05, 6.25, 6.45]):
+    at(tm, thud(0.14 + 0.02 * k, 130 - k * 6, 55))
+at(6.5, chime(0.07, 1046.5, 0, 1.6))
+at(7.95, whoosh(0.9, 2200, 0.16, -0.4, 0.4))
+for tm, p, f in [(8.65, 0.0, 600), (8.95, -0.4, 660), (9.25, 0.4, 720)]:
+    at(tm, bubble(0.11, f, f * 0.66, p))
+at(8.5, whoosh(0.6, 2000, 0.10, 0.0, 0.0, 0.3))
+at(10.95, whoosh(0.7, 3000, 0.16, 0.0, 0.0, 0.3))
+at(11.05, riser(0.5, 0.05))
+for i, (tm, p) in enumerate([(11.7, -0.3), (12.7, -0.1), (13.7, 0.1), (14.7, 0.3)]):
+    at(tm, chime(0.08, PENTA[i + 1], p))
+    at(tm + 0.1, bubble(0.09, 640, 430, p))
+for tm in [12.55, 13.55, 14.55]:
+    at(tm, whoosh(0.6, 1800, 0.10, -0.3, 0.3))
+at(15.5, thud(0.16, 110, 50))
+at(15.55, whoosh(1.3, 2200, 0.18, 0.4, -0.4))
+at(16.35, whoosh(0.6, 1600, 0.08, -0.6, 0.6, 0.2))
+at(16.4, bubble(0.12, 520, 340))
+at(16.65, whoosh(0.7, 3000, 0.07, -0.5, 0.5, 0.4))
+for tm, p, f in [(17.0, 0.4, 600), (17.12, -0.4, 680), (17.24, 0.0, 760)]:
+    at(tm, bubble(0.09, f, f * 0.66, p))
+at(17.65, whoosh(0.45, 3200, 0.20, 0.6, -0.6, 0.7))
+# ---- S3 turnkey (18 – 21.5)
+at(18.0, whoosh(0.45, 2400, 0.12, 0.6, -0.2, 0.25))
+for i, tm in enumerate([18.4, 19.0, 19.6]):
+    at(tm, bubble(0.11, 560 + i * 80, 380 + i * 50))
+at(18.65, whoosh(0.5, 2800, 0.09, 0.5, -0.5))
+at(19.1, riser(0.75, 0.05))
+at(19.85, chime(0.10, 1568, 0, 1.6))
+at(20.05, whoosh(0.6, 2000, 0.12, 0.0, 0.0, 0.3))
+at(21.15, whoosh(0.4, 3200, 0.18, 0.0, 0.0, 0.8))
+# ---- S4 proof, benefits, formats (21.5 – 30.5)
+at(21.5, whoosh(0.4, 2400, 0.12, 0.0, 0.0, 0.2))
+for i, tm in enumerate([21.7, 22.0, 22.3]):
+    at(tm, thud(0.13, 150, 70))
+    at(tm + 0.02, chime(0.05, PENTA[i * 2], 0, 0.8))
+at(23.7, whoosh(0.45, 2600, 0.14, 0.0, 0.0, 0.6))
+at(24.0, whoosh(0.5, 2000, 0.10, 0.0, 0.0, 0.3))
+for i in range(5):
+    tm = 24.25 + i * 0.3
+    at(tm, whoosh(0.35, 2200, 0.06, -0.5 if i % 2 == 0 else 0.5, 0.0, 0.3))
+    at(tm + 0.2, chime(0.07, PENTA[i], (i - 2) * 0.2, 1.0))
+at(26.7, whoosh(0.4, 2400, 0.14, 0.0, 0.0, 0.6))
+at(27.1, whoosh(0.7, 2000, 0.16, 0.0, 0.0, 0.25))
+at(27.3, whoosh(0.6, 2600, 0.10, 0.6, 0.0, 0.25))
+at(27.45, whoosh(0.6, 2600, 0.10, 0.6, 0.0, 0.25))
+for i, tm in enumerate([27.95, 28.13, 28.31]):
+    at(tm, bubble(0.10, 600 + i * 70, 420 + i * 40, (i - 1) * 0.4))
+at(30.1, whoosh(0.4, 3200, 0.18, 0.0, 0.0, 0.8))
+# ---- S5 CTA + logo (30.5 – 36.5)
+at(30.5, swell(0.24, 1.6))
+at(30.8, chime(0.08, 1318.5, 0, 1.6))
+at(32.9, whoosh(0.6, 2400, 0.14, 0.0, 0.0, 0.5))
+at(33.25, whoosh(0.4, 3000, 0.12, -0.4, 0.4, 0.6))
+at(33.4, bubble(0.12, 520, 330))
+at(33.5, sparkle(0.07))
+at(33.65, whoosh(0.4, 2200, 0.08, -0.3, 0.0, 0.5))
+at(33.8, whoosh(0.4, 2400, 0.08, 0.0, 0.3, 0.5))
+at(34.4, sparkle(0.05, 0.3))
 
-# light room reverb (two feedback taps) for glue
-mix = track.copy()
-for delay, g in [(0.043, 0.22), (0.071, 0.16), (0.113, 0.11)]:
-    d = int(delay * SR)
-    mix[d:] += track[:-d] * g
-mix = mix[: int(DUR * SR)]
-# fade out the tail so the last frame ends clean
-fade = int(0.6 * SR)
+# ---- room reverb (convolution) for a soft, non-dry finish
+irn = int(1.6 * SR)
+it = np.arange(irn) / SR
+ir = np.stack([rng.standard_normal(irn), rng.standard_normal(irn)], 1) * np.exp(-it * 3.8)[:, None]
+ir = lp(ir, 5000)
+ir /= np.sqrt(np.sum(ir ** 2))
+dry = track[:N]
+wet = np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in range(2)], 1)
+mix = dry * 0.85 + wet * 0.45
+mix = lp(mix, 9000)
+fade = int(0.8 * SR)
 mix[-fade:] *= np.linspace(1, 0, fade)[:, None]
-peak = np.max(np.abs(mix))
-mix = np.tanh(mix / peak * 1.4) / np.tanh(1.4) * 0.89
+mix /= np.max(np.abs(mix))
+mix = np.tanh(mix * 1.2) / np.tanh(1.2) * 0.7
 
 pcm = (mix * 32767).astype("<i2")
 with wave.open("assets/audio/sfx.wav", "wb") as w:
@@ -230,4 +211,4 @@ with wave.open("assets/audio/sfx.wav", "wb") as w:
     w.setsampwidth(2)
     w.setframerate(SR)
     w.writeframes(pcm.tobytes())
-print("wrote assets/audio/sfx.wav", len(pcm) / SR, "s")
+print("wrote assets/audio/sfx.wav", N / SR, "s")
