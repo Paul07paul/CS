@@ -10,234 +10,405 @@
       @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0d0b09; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0d0b09; font-family: "Montserrat", sans-serif; }
-      .shot { position: absolute; inset: 0; }
-      .shot .fade { position: absolute; inset: 0; }
-      .shot .bg { position: absolute; inset: -40px; width: 1160px; height: 2000px; object-fit: cover; }
-      .shot .band { position: absolute; left: 0; top: 470px; width: 1080px; height: 900px; overflow: hidden;
-        -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
-        mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%); }
-      .shot .band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .shot .vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.32) 100%); }
-      #grade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0) 22%, rgba(10,8,6,0) 74%, rgba(10,8,6,0.6) 100%); pointer-events: none; }
-      .txt { position: absolute; left: 60px; right: 60px; text-align: center; color: #FFFFFF; white-space: nowrap; }
-      .txt.top { top: 268px; }
-      .txt.top2 { top: 372px; }
-      .txt.bottom { top: 1420px; }
-      .txt.title { white-space: normal; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 70px; line-height: 1.08; letter-spacing: 0.01em; text-shadow: 0 2px 24px rgba(0,0,0,0.35); }
-      .txt.title.top { top: 252px; font-size: 74px; }
-      .txt.small { white-space: normal; font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; font-size: 50px; }
-      .txt.kicker { font-weight: 500; font-size: 28px; letter-spacing: 0.42em; color: rgba(255,255,255,0.92); }
-      .txt.kicker i { font-style: normal; color: #D9B98A; padding: 0 6px; }
-      .rule { position: absolute; left: 490px; width: 100px; height: 2px; background: #D9B98A; transform-origin: 50% 50%; }
-      /* snow */
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0d0b09; font-family: "Montserrat", sans-serif; color: #fff; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .bgblur { position: absolute; left: -40px; top: -40px; width: 1160px; height: 2000px; object-fit: cover; }
+      .ph { position: absolute; overflow: hidden; background: #000; }
+      .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.30) 100%); }
+      .dim { position: absolute; inset: 0; background: rgba(10,8,6,0.45); }
+      .gold { color: #D9B98A; }
+      .k { font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; white-space: nowrap; }
+      .it { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; white-space: nowrap; }
+      .lab { font-weight: 600; font-size: 24px; letter-spacing: 0.34em; text-transform: uppercase; white-space: nowrap; }
+      .center { position: absolute; left: 0; right: 0; text-align: center; }
+      .ch span { display: inline-block; }
+      .chip { position: absolute; height: 62px; padding: 0 26px; border-radius: 31px; background: rgba(255,255,255,0.94); color: #1B1612; font-weight: 700; font-size: 26px; line-height: 62px; white-space: nowrap; box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
+      .chip i { display: inline-block; width: 12px; height: 12px; border-radius: 6px; background: #C9A26B; margin-right: 12px; vertical-align: 2px; }
+      .tag { position: absolute; height: 50px; padding: 0 20px; border-radius: 8px; background: rgba(13,11,9,0.72); color: #fff; font-weight: 700; font-size: 22px; letter-spacing: 0.22em; line-height: 50px; text-transform: uppercase; white-space: nowrap; }
+      .shade-b { position: absolute; left: 0; right: 0; bottom: 0; height: 55%; background: linear-gradient(180deg, rgba(10,8,6,0) 0%, rgba(10,8,6,0.85) 100%); }
+      .shade-t { position: absolute; left: 0; right: 0; top: 0; height: 40%; background: linear-gradient(0deg, rgba(10,8,6,0) 0%, rgba(10,8,6,0.8) 100%); }
+      #flash { position: absolute; inset: 0; background: #fff; pointer-events: none; }
+      .frame-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+      .card { position: absolute; border-radius: 26px; background: rgba(20,17,14,0.62); border: 1.5px solid rgba(217,185,138,0.45); }
       .snow { position: absolute; inset: 0; pointer-events: none; }
       .flake { position: absolute; border-radius: 50%; background: #FFFFFF; }
-      /* services */
-      #serv-panel { position: absolute; left: 90px; right: 90px; top: 420px; height: 1080px; }
-      #serv-title { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 64px; color: #FFFFFF; }
-      #serv-kick { position: absolute; left: 0; right: 0; top: 96px; text-align: center; font-weight: 500; font-size: 24px; letter-spacing: 0.42em; color: #D9B98A; }
-      .serv { position: absolute; left: 40px; right: 40px; height: 120px; border-bottom: 1px solid rgba(255,255,255,0.22); }
-      .serv svg { position: absolute; left: 0; top: 34px; width: 52px; height: 52px; color: #D9B98A; fill: none; stroke: currentColor; stroke-width: 2.4; }
-      .serv span { position: absolute; left: 92px; top: 0; line-height: 120px; font-family: "Cormorant Garamond", serif; font-size: 48px; font-weight: 500; color: #FFFFFF; white-space: nowrap; }
-      /* booking card */
-      #book { position: absolute; left: 80px; right: 80px; top: 760px; height: 380px; border-radius: 34px; background: rgba(255,255,255,0.96); box-shadow: 0 30px 80px rgba(0,0,0,0.45); }
-      #book .bt1 { position: absolute; left: 48px; top: 38px; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 56px; color: #1B1612; white-space: nowrap; }
-      #book .bt2 { position: absolute; left: 48px; top: 112px; font-weight: 500; font-size: 24px; letter-spacing: 0.12em; color: #6B6259; white-space: nowrap; }
-      #book .dates { position: absolute; left: 48px; right: 48px; top: 172px; height: 72px; border-radius: 16px; border: 2px solid #E4DDD4; }
-      #book .dates span { position: absolute; top: 0; line-height: 68px; font-weight: 500; font-size: 26px; color: #6B6259; }
-      #book .btn { position: absolute; left: 48px; right: 48px; top: 268px; height: 80px; border-radius: 20px; background: #1B1612; color: #FFFFFF; text-align: center; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; line-height: 80px; overflow: hidden; }
-      #book .ripple { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: rgba(217,185,138,0.55); }
-      #cursor { position: absolute; left: 0; top: 0; width: 44px; height: 44px; }
-      /* signature */
-      #sig { position: absolute; inset: 0; background: #F4F1EC; }
-      #sig-by { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-weight: 500; font-size: 26px; letter-spacing: 0.36em; color: #6B7280; }
-      #sig-mark { position: absolute; left: 400px; top: 790px; width: 280px; height: 269px; }
-      #sig-mark img { position: absolute; left: 0; top: 0; width: 280px; height: 269px; }
-      #sig-word { position: absolute; left: 190px; top: 1110px; width: 700px; height: 144px; overflow: hidden; }
-      #sig-word img { position: absolute; left: 0; top: 0; width: 700px; height: 144px; }
+      .num { font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.03em; white-space: nowrap; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="47.5" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38" data-width="1080" data-height="1920">
 
-      <div id="ext1" class="shot clip" data-start="0.0" data-duration="5.2" data-track-index="1"><div class="fade" id="ext1-f">
-        <img class="bg" src="assets/photos/bg/p03.jpg" alt="" />
-        <div class="band"><img id="ext1-img" src="assets/photos/p03.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="living" class="shot clip" data-start="4.6" data-duration="4.8" data-track-index="2"><div class="fade" id="living-f">
-        <img class="bg" src="assets/photos/bg/p23.jpg" alt="" />
-        <div class="band"><img id="living-img" src="assets/photos/p23.jpg" style="object-position:45% 50%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="windows" class="shot clip" data-start="8.8" data-duration="4.6" data-track-index="1"><div class="fade" id="windows-f">
-        <img class="bg" src="assets/photos/bg/p24.jpg" alt="" />
-        <div class="band"><img id="windows-img" src="assets/photos/p24.jpg" style="object-position:55% 45%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="kitchen" class="shot clip" data-start="12.8" data-duration="3.6" data-track-index="2"><div class="fade" id="kitchen-f">
-        <img class="bg" src="assets/photos/bg/p26.jpg" alt="" />
-        <div class="band"><img id="kitchen-img" src="assets/photos/p26.jpg" style="object-position:55% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="master" class="shot clip" data-start="15.8" data-duration="3.2" data-track-index="1"><div class="fade" id="master-f">
-        <img class="bg" src="assets/photos/bg/p12.jpg" alt="" />
-        <div class="band"><img id="master-img" src="assets/photos/p12.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="bed2" class="shot clip" data-start="18.6" data-duration="1.6" data-track-index="2"><div class="fade" id="bed2-f">
-        <img class="bg" src="assets/photos/bg/p21.jpg" alt="" />
-        <div class="band"><img id="bed2-img" src="assets/photos/p21.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="bunk" class="shot clip" data-start="19.8" data-duration="1.6" data-track-index="1"><div class="fade" id="bunk-f">
-        <img class="bg" src="assets/photos/bg/p17.jpg" alt="" />
-        <div class="band"><img id="bunk-img" src="assets/photos/p17.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="bed3" class="shot clip" data-start="21.0" data-duration="1.4" data-track-index="2"><div class="fade" id="bed3-f">
-        <img class="bg" src="assets/photos/bg/p13.jpg" alt="" />
-        <div class="band"><img id="bed3-img" src="assets/photos/p13.jpg" style="object-position:40% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="bath" class="shot clip" data-start="22.0" data-duration="3.0" data-track-index="1"><div class="fade" id="bath-f">
-        <img class="bg" src="assets/photos/bg/p09.jpg" alt="" />
-        <div class="band"><img id="bath-img" src="assets/photos/p09.jpg" style="object-position:40% 50%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="tub" class="shot clip" data-start="24.6" data-duration="2.0" data-track-index="2"><div class="fade" id="tub-f">
-        <img class="bg" src="assets/photos/bg/p08.jpg" alt="" />
-        <div class="band"><img id="tub-img" src="assets/photos/p08.jpg" style="object-position:45% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="view" class="shot clip" data-start="26.2" data-duration="5.0" data-track-index="1"><div class="fade" id="view-f">
-        <img class="bg" src="assets/photos/bg/p28.jpg" alt="" />
-        <div class="band"><img id="view-img" src="assets/photos/p28.jpg" style="object-position:50% 45%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m1" class="shot clip" data-start="31.0" data-duration="0.75" data-track-index="2"><div class="fade" id="m1-f">
-        <img class="bg" src="assets/photos/bg/p01.jpg" alt="" />
-        <div class="band"><img id="m1-img" src="assets/photos/p01.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m2" class="shot clip" data-start="31.6" data-duration="0.75" data-track-index="1"><div class="fade" id="m2-f">
-        <img class="bg" src="assets/photos/bg/p27.jpg" alt="" />
-        <div class="band"><img id="m2-img" src="assets/photos/p27.jpg" style="object-position:50% 50%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m3" class="shot clip" data-start="32.2" data-duration="0.75" data-track-index="2"><div class="fade" id="m3-f">
-        <img class="bg" src="assets/photos/bg/p10.jpg" alt="" />
-        <div class="band"><img id="m3-img" src="assets/photos/p10.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m4" class="shot clip" data-start="32.8" data-duration="0.75" data-track-index="1"><div class="fade" id="m4-f">
-        <img class="bg" src="assets/photos/bg/p25.jpg" alt="" />
-        <div class="band"><img id="m4-img" src="assets/photos/p25.jpg" style="object-position:45% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m5" class="shot clip" data-start="33.4" data-duration="0.75" data-track-index="2"><div class="fade" id="m5-f">
-        <img class="bg" src="assets/photos/bg/p22.jpg" alt="" />
-        <div class="band"><img id="m5-img" src="assets/photos/p22.jpg" style="object-position:50% 50%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m6" class="shot clip" data-start="34.0" data-duration="0.75" data-track-index="1"><div class="fade" id="m6-f">
-        <img class="bg" src="assets/photos/bg/p24.jpg" alt="" />
-        <div class="band"><img id="m6-img" src="assets/photos/p24.jpg" style="object-position:70% 40%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="m7" class="shot clip" data-start="34.6" data-duration="0.9" data-track-index="2"><div class="fade" id="m7-f">
-        <img class="bg" src="assets/photos/bg/p02.jpg" alt="" />
-        <div class="band"><img id="m7-img" src="assets/photos/p02.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="serv" class="shot clip" data-start="35.3" data-duration="4.9" data-track-index="1"><div class="fade" id="serv-f">
-        <img class="bg" src="assets/photos/bg/p05.jpg" alt="" />
-        <div class="band"><img id="serv-img" src="assets/photos/p05.jpg" style="object-position:50% 50%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="ext2" class="shot clip" data-start="39.6" data-duration="5.4" data-track-index="2"><div class="fade" id="ext2-f">
-        <img class="bg" src="assets/photos/bg/p02.jpg" alt="" />
-        <div class="band"><img id="ext2-img" src="assets/photos/p02.jpg" style="object-position:50% 55%" alt="" /><div class="vig"></div></div>
-      </div></div>
-      <div id="snow1" class="snow clip" data-start="0.0" data-duration="5.2" data-track-index="3"><div class="flake" data-k="0" style="left:93px;top:0;width:3.0px;height:3.0px;opacity:0.35"></div><div class="flake" data-k="1" style="left:250px;top:0;width:6.2px;height:6.2px;opacity:0.78"></div><div class="flake" data-k="2" style="left:407px;top:0;width:9.4px;height:9.4px;opacity:0.71"></div><div class="flake" data-k="3" style="left:564px;top:0;width:4.6px;height:4.6px;opacity:0.64"></div><div class="flake" data-k="4" style="left:721px;top:0;width:7.8px;height:7.8px;opacity:0.56"></div><div class="flake" data-k="5" style="left:878px;top:0;width:3.0px;height:3.0px;opacity:0.49"></div><div class="flake" data-k="6" style="left:1035px;top:0;width:6.2px;height:6.2px;opacity:0.42"></div><div class="flake" data-k="7" style="left:112px;top:0;width:9.4px;height:9.4px;opacity:0.35"></div><div class="flake" data-k="8" style="left:269px;top:0;width:4.6px;height:4.6px;opacity:0.78"></div><div class="flake" data-k="9" style="left:426px;top:0;width:7.8px;height:7.8px;opacity:0.71"></div><div class="flake" data-k="10" style="left:583px;top:0;width:3.0px;height:3.0px;opacity:0.64"></div><div class="flake" data-k="11" style="left:740px;top:0;width:6.2px;height:6.2px;opacity:0.56"></div><div class="flake" data-k="12" style="left:897px;top:0;width:9.4px;height:9.4px;opacity:0.49"></div><div class="flake" data-k="13" style="left:1054px;top:0;width:4.6px;height:4.6px;opacity:0.42"></div><div class="flake" data-k="14" style="left:131px;top:0;width:7.8px;height:7.8px;opacity:0.35"></div><div class="flake" data-k="15" style="left:288px;top:0;width:3.0px;height:3.0px;opacity:0.78"></div><div class="flake" data-k="16" style="left:445px;top:0;width:6.2px;height:6.2px;opacity:0.71"></div><div class="flake" data-k="17" style="left:602px;top:0;width:9.4px;height:9.4px;opacity:0.64"></div><div class="flake" data-k="18" style="left:759px;top:0;width:4.6px;height:4.6px;opacity:0.56"></div><div class="flake" data-k="19" style="left:916px;top:0;width:7.8px;height:7.8px;opacity:0.49"></div><div class="flake" data-k="20" style="left:1073px;top:0;width:3.0px;height:3.0px;opacity:0.42"></div><div class="flake" data-k="21" style="left:150px;top:0;width:6.2px;height:6.2px;opacity:0.35"></div><div class="flake" data-k="22" style="left:307px;top:0;width:9.4px;height:9.4px;opacity:0.78"></div><div class="flake" data-k="23" style="left:464px;top:0;width:4.6px;height:4.6px;opacity:0.71"></div><div class="flake" data-k="24" style="left:621px;top:0;width:7.8px;height:7.8px;opacity:0.64"></div><div class="flake" data-k="25" style="left:778px;top:0;width:3.0px;height:3.0px;opacity:0.56"></div><div class="flake" data-k="26" style="left:935px;top:0;width:6.2px;height:6.2px;opacity:0.49"></div><div class="flake" data-k="27" style="left:12px;top:0;width:9.4px;height:9.4px;opacity:0.42"></div><div class="flake" data-k="28" style="left:169px;top:0;width:4.6px;height:4.6px;opacity:0.35"></div><div class="flake" data-k="29" style="left:326px;top:0;width:7.8px;height:7.8px;opacity:0.78"></div><div class="flake" data-k="30" style="left:483px;top:0;width:3.0px;height:3.0px;opacity:0.71"></div><div class="flake" data-k="31" style="left:640px;top:0;width:6.2px;height:6.2px;opacity:0.64"></div><div class="flake" data-k="32" style="left:797px;top:0;width:9.4px;height:9.4px;opacity:0.56"></div><div class="flake" data-k="33" style="left:954px;top:0;width:4.6px;height:4.6px;opacity:0.49"></div><div class="flake" data-k="34" style="left:31px;top:0;width:7.8px;height:7.8px;opacity:0.42"></div><div class="flake" data-k="35" style="left:188px;top:0;width:3.0px;height:3.0px;opacity:0.35"></div><div class="flake" data-k="36" style="left:345px;top:0;width:6.2px;height:6.2px;opacity:0.78"></div><div class="flake" data-k="37" style="left:502px;top:0;width:9.4px;height:9.4px;opacity:0.71"></div><div class="flake" data-k="38" style="left:659px;top:0;width:4.6px;height:4.6px;opacity:0.64"></div><div class="flake" data-k="39" style="left:816px;top:0;width:7.8px;height:7.8px;opacity:0.56"></div><div class="flake" data-k="40" style="left:973px;top:0;width:3.0px;height:3.0px;opacity:0.49"></div><div class="flake" data-k="41" style="left:50px;top:0;width:6.2px;height:6.2px;opacity:0.42"></div><div class="flake" data-k="42" style="left:207px;top:0;width:9.4px;height:9.4px;opacity:0.35"></div><div class="flake" data-k="43" style="left:364px;top:0;width:4.6px;height:4.6px;opacity:0.78"></div><div class="flake" data-k="44" style="left:521px;top:0;width:7.8px;height:7.8px;opacity:0.71"></div><div class="flake" data-k="45" style="left:678px;top:0;width:3.0px;height:3.0px;opacity:0.64"></div><div class="flake" data-k="46" style="left:835px;top:0;width:6.2px;height:6.2px;opacity:0.56"></div><div class="flake" data-k="47" style="left:992px;top:0;width:9.4px;height:9.4px;opacity:0.49"></div><div class="flake" data-k="48" style="left:69px;top:0;width:4.6px;height:4.6px;opacity:0.42"></div><div class="flake" data-k="49" style="left:226px;top:0;width:7.8px;height:7.8px;opacity:0.35"></div><div class="flake" data-k="50" style="left:383px;top:0;width:3.0px;height:3.0px;opacity:0.78"></div><div class="flake" data-k="51" style="left:540px;top:0;width:6.2px;height:6.2px;opacity:0.71"></div><div class="flake" data-k="52" style="left:697px;top:0;width:9.4px;height:9.4px;opacity:0.64"></div><div class="flake" data-k="53" style="left:854px;top:0;width:4.6px;height:4.6px;opacity:0.56"></div><div class="flake" data-k="54" style="left:1011px;top:0;width:7.8px;height:7.8px;opacity:0.49"></div><div class="flake" data-k="55" style="left:88px;top:0;width:3.0px;height:3.0px;opacity:0.42"></div><div class="flake" data-k="56" style="left:245px;top:0;width:6.2px;height:6.2px;opacity:0.35"></div><div class="flake" data-k="57" style="left:402px;top:0;width:9.4px;height:9.4px;opacity:0.78"></div><div class="flake" data-k="58" style="left:559px;top:0;width:4.6px;height:4.6px;opacity:0.71"></div><div class="flake" data-k="59" style="left:716px;top:0;width:7.8px;height:7.8px;opacity:0.64"></div><div class="flake" data-k="60" style="left:873px;top:0;width:3.0px;height:3.0px;opacity:0.56"></div><div class="flake" data-k="61" style="left:1030px;top:0;width:6.2px;height:6.2px;opacity:0.49"></div><div class="flake" data-k="62" style="left:107px;top:0;width:9.4px;height:9.4px;opacity:0.42"></div><div class="flake" data-k="63" style="left:264px;top:0;width:4.6px;height:4.6px;opacity:0.35"></div><div class="flake" data-k="64" style="left:421px;top:0;width:7.8px;height:7.8px;opacity:0.78"></div><div class="flake" data-k="65" style="left:578px;top:0;width:3.0px;height:3.0px;opacity:0.71"></div><div class="flake" data-k="66" style="left:735px;top:0;width:6.2px;height:6.2px;opacity:0.64"></div><div class="flake" data-k="67" style="left:892px;top:0;width:9.4px;height:9.4px;opacity:0.56"></div><div class="flake" data-k="68" style="left:1049px;top:0;width:4.6px;height:4.6px;opacity:0.49"></div><div class="flake" data-k="69" style="left:126px;top:0;width:7.8px;height:7.8px;opacity:0.42"></div></div>
-      <div id="snow2" class="snow clip" data-start="39.6" data-duration="5.4" data-track-index="3"><div class="flake" data-k="0" style="left:279px;top:0;width:3.0px;height:3.0px;opacity:0.35"></div><div class="flake" data-k="1" style="left:436px;top:0;width:6.2px;height:6.2px;opacity:0.78"></div><div class="flake" data-k="2" style="left:593px;top:0;width:9.4px;height:9.4px;opacity:0.71"></div><div class="flake" data-k="3" style="left:750px;top:0;width:4.6px;height:4.6px;opacity:0.64"></div><div class="flake" data-k="4" style="left:907px;top:0;width:7.8px;height:7.8px;opacity:0.56"></div><div class="flake" data-k="5" style="left:1064px;top:0;width:3.0px;height:3.0px;opacity:0.49"></div><div class="flake" data-k="6" style="left:141px;top:0;width:6.2px;height:6.2px;opacity:0.42"></div><div class="flake" data-k="7" style="left:298px;top:0;width:9.4px;height:9.4px;opacity:0.35"></div><div class="flake" data-k="8" style="left:455px;top:0;width:4.6px;height:4.6px;opacity:0.78"></div><div class="flake" data-k="9" style="left:612px;top:0;width:7.8px;height:7.8px;opacity:0.71"></div><div class="flake" data-k="10" style="left:769px;top:0;width:3.0px;height:3.0px;opacity:0.64"></div><div class="flake" data-k="11" style="left:926px;top:0;width:6.2px;height:6.2px;opacity:0.56"></div><div class="flake" data-k="12" style="left:3px;top:0;width:9.4px;height:9.4px;opacity:0.49"></div><div class="flake" data-k="13" style="left:160px;top:0;width:4.6px;height:4.6px;opacity:0.42"></div><div class="flake" data-k="14" style="left:317px;top:0;width:7.8px;height:7.8px;opacity:0.35"></div><div class="flake" data-k="15" style="left:474px;top:0;width:3.0px;height:3.0px;opacity:0.78"></div><div class="flake" data-k="16" style="left:631px;top:0;width:6.2px;height:6.2px;opacity:0.71"></div><div class="flake" data-k="17" style="left:788px;top:0;width:9.4px;height:9.4px;opacity:0.64"></div><div class="flake" data-k="18" style="left:945px;top:0;width:4.6px;height:4.6px;opacity:0.56"></div><div class="flake" data-k="19" style="left:22px;top:0;width:7.8px;height:7.8px;opacity:0.49"></div><div class="flake" data-k="20" style="left:179px;top:0;width:3.0px;height:3.0px;opacity:0.42"></div><div class="flake" data-k="21" style="left:336px;top:0;width:6.2px;height:6.2px;opacity:0.35"></div><div class="flake" data-k="22" style="left:493px;top:0;width:9.4px;height:9.4px;opacity:0.78"></div><div class="flake" data-k="23" style="left:650px;top:0;width:4.6px;height:4.6px;opacity:0.71"></div><div class="flake" data-k="24" style="left:807px;top:0;width:7.8px;height:7.8px;opacity:0.64"></div><div class="flake" data-k="25" style="left:964px;top:0;width:3.0px;height:3.0px;opacity:0.56"></div><div class="flake" data-k="26" style="left:41px;top:0;width:6.2px;height:6.2px;opacity:0.49"></div><div class="flake" data-k="27" style="left:198px;top:0;width:9.4px;height:9.4px;opacity:0.42"></div><div class="flake" data-k="28" style="left:355px;top:0;width:4.6px;height:4.6px;opacity:0.35"></div><div class="flake" data-k="29" style="left:512px;top:0;width:7.8px;height:7.8px;opacity:0.78"></div><div class="flake" data-k="30" style="left:669px;top:0;width:3.0px;height:3.0px;opacity:0.71"></div><div class="flake" data-k="31" style="left:826px;top:0;width:6.2px;height:6.2px;opacity:0.64"></div><div class="flake" data-k="32" style="left:983px;top:0;width:9.4px;height:9.4px;opacity:0.56"></div><div class="flake" data-k="33" style="left:60px;top:0;width:4.6px;height:4.6px;opacity:0.49"></div><div class="flake" data-k="34" style="left:217px;top:0;width:7.8px;height:7.8px;opacity:0.42"></div><div class="flake" data-k="35" style="left:374px;top:0;width:3.0px;height:3.0px;opacity:0.35"></div><div class="flake" data-k="36" style="left:531px;top:0;width:6.2px;height:6.2px;opacity:0.78"></div><div class="flake" data-k="37" style="left:688px;top:0;width:9.4px;height:9.4px;opacity:0.71"></div><div class="flake" data-k="38" style="left:845px;top:0;width:4.6px;height:4.6px;opacity:0.64"></div><div class="flake" data-k="39" style="left:1002px;top:0;width:7.8px;height:7.8px;opacity:0.56"></div><div class="flake" data-k="40" style="left:79px;top:0;width:3.0px;height:3.0px;opacity:0.49"></div><div class="flake" data-k="41" style="left:236px;top:0;width:6.2px;height:6.2px;opacity:0.42"></div><div class="flake" data-k="42" style="left:393px;top:0;width:9.4px;height:9.4px;opacity:0.35"></div><div class="flake" data-k="43" style="left:550px;top:0;width:4.6px;height:4.6px;opacity:0.78"></div><div class="flake" data-k="44" style="left:707px;top:0;width:7.8px;height:7.8px;opacity:0.71"></div><div class="flake" data-k="45" style="left:864px;top:0;width:3.0px;height:3.0px;opacity:0.64"></div><div class="flake" data-k="46" style="left:1021px;top:0;width:6.2px;height:6.2px;opacity:0.56"></div><div class="flake" data-k="47" style="left:98px;top:0;width:9.4px;height:9.4px;opacity:0.49"></div><div class="flake" data-k="48" style="left:255px;top:0;width:4.6px;height:4.6px;opacity:0.42"></div><div class="flake" data-k="49" style="left:412px;top:0;width:7.8px;height:7.8px;opacity:0.35"></div><div class="flake" data-k="50" style="left:569px;top:0;width:3.0px;height:3.0px;opacity:0.78"></div><div class="flake" data-k="51" style="left:726px;top:0;width:6.2px;height:6.2px;opacity:0.71"></div><div class="flake" data-k="52" style="left:883px;top:0;width:9.4px;height:9.4px;opacity:0.64"></div><div class="flake" data-k="53" style="left:1040px;top:0;width:4.6px;height:4.6px;opacity:0.56"></div><div class="flake" data-k="54" style="left:117px;top:0;width:7.8px;height:7.8px;opacity:0.49"></div><div class="flake" data-k="55" style="left:274px;top:0;width:3.0px;height:3.0px;opacity:0.42"></div><div class="flake" data-k="56" style="left:431px;top:0;width:6.2px;height:6.2px;opacity:0.35"></div><div class="flake" data-k="57" style="left:588px;top:0;width:9.4px;height:9.4px;opacity:0.78"></div><div class="flake" data-k="58" style="left:745px;top:0;width:4.6px;height:4.6px;opacity:0.71"></div><div class="flake" data-k="59" style="left:902px;top:0;width:7.8px;height:7.8px;opacity:0.64"></div><div class="flake" data-k="60" style="left:1059px;top:0;width:3.0px;height:3.0px;opacity:0.56"></div><div class="flake" data-k="61" style="left:136px;top:0;width:6.2px;height:6.2px;opacity:0.49"></div><div class="flake" data-k="62" style="left:293px;top:0;width:9.4px;height:9.4px;opacity:0.42"></div><div class="flake" data-k="63" style="left:450px;top:0;width:4.6px;height:4.6px;opacity:0.35"></div><div class="flake" data-k="64" style="left:607px;top:0;width:7.8px;height:7.8px;opacity:0.78"></div><div class="flake" data-k="65" style="left:764px;top:0;width:3.0px;height:3.0px;opacity:0.71"></div><div class="flake" data-k="66" style="left:921px;top:0;width:6.2px;height:6.2px;opacity:0.64"></div><div class="flake" data-k="67" style="left:1078px;top:0;width:9.4px;height:9.4px;opacity:0.56"></div><div class="flake" data-k="68" style="left:155px;top:0;width:4.6px;height:4.6px;opacity:0.49"></div><div class="flake" data-k="69" style="left:312px;top:0;width:7.8px;height:7.8px;opacity:0.42"></div></div>
-      <div id="grade" class="clip" data-start="0" data-duration="45" data-track-index="4"></div>
-      <div id="serv-panel" class="clip" data-start="35.4" data-duration="4.4" data-track-index="5">
-        <div id="serv-title">Tout est prévu</div><div id="serv-kick">SERVICES INCLUS</div><div class="serv" id="sv0" style="top:190px"><svg viewBox="0 0 48 48"><path d="M8 40 L40 8 M14 44 L44 14" stroke-linecap="round"/><path d="M30 34 l8 8" stroke-linecap="round"/></svg><span>Ski-room avec sèche-chaussures</span></div><div class="serv" id="sv1" style="top:322px"><svg viewBox="0 0 48 48"><rect x="9" y="7" width="30" height="34" rx="6"/><path d="M19 33 V16 h7 a6 6 0 0 1 0 12 h-7"/></svg><span>Parking privatif</span></div><div class="serv" id="sv2" style="top:454px"><svg viewBox="0 0 48 48"><path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0" stroke-linecap="round"/><circle cx="24" cy="39" r="2.5" fill="currentColor"/></svg><span>Wi-Fi haut débit</span></div><div class="serv" id="sv3" style="top:586px"><svg viewBox="0 0 48 48"><path d="M8 14 h32 v8 h-32 z M10 22 v18 h28 v-18"/><path d="M16 30 h16" stroke-linecap="round"/></svg><span>Linge de maison fourni</span></div><div class="serv" id="sv4" style="top:718px"><svg viewBox="0 0 48 48"><path d="M24 6 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z"/><path d="M36 30 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5 z"/></svg><span>Entretien pendant le séjour</span></div><div class="serv" id="sv5" style="top:850px"><svg viewBox="0 0 48 48"><circle cx="16" cy="24" r="8"/><path d="M24 24 h18 M36 24 v6 M41 24 v4" stroke-linecap="round"/></svg><span>Accès autonome</span></div>
+      <!-- A · HOOK -->
+      <div id="sA" class="scene clip" data-start="0" data-duration="2.3" data-track-index="1">
+        <div class="ph" id="A-ph" style="left:0;top:0;width:1080px;height:1920px"><img id="A-img" src="assets/photos/p03.jpg" style="object-position:58% 50%" alt="" /></div>
+        <div class="shade-t" style="height:45%"></div><div class="shade-b"></div>
+        <div id="A-t1" class="center k ch" style="top:300px;font-size:128px;letter-spacing:0.08em">COURCHEVEL</div>
+        <div id="A-t2" class="center lab" style="top:460px;font-size:34px;text-shadow:0 2px 18px rgba(0,0,0,0.7)">Moriond · 1650 m</div>
+        <div id="A-snow" class="snow"></div>
       </div>
-      <div id="t-loc1" class="txt top kicker clip" data-start="0.8" data-duration="3.6" data-track-index="6"><div class="in">COURCHEVEL MORIOND 1650</div></div>
-      <div id="t-name1" class="txt bottom title clip" data-start="1.9" data-duration="2.5" data-track-index="6"><div class="in">Chalet Le Sabot de Vénus</div></div>
-      <div id="t-share" class="txt bottom title clip" data-start="5.4" data-duration="3.5" data-track-index="6"><div class="in">Un chalet pensé pour partager</div></div>
-      <div id="t-light" class="txt bottom title clip" data-start="9.4" data-duration="3.5" data-track-index="6"><div class="in">De grands espaces baignés de lumière</div></div>
-      <div id="t-rooms" class="txt top kicker clip" data-start="10.6" data-duration="2.3" data-track-index="6"><div class="in">Salon <i>•</i> Cuisine <i>•</i> Salle à manger</div></div>
-      <div id="t-kitchen" class="txt bottom title clip" data-start="13.4" data-duration="2.7" data-track-index="6"><div class="in">Une cuisine entièrement équipée</div></div>
-      <div id="t-sleep" class="txt bottom title clip" data-start="16.4" data-duration="3.8" data-track-index="6"><div class="in">Des chambres pensées pour se ressourcer</div></div>
-      <div id="t-five" class="txt bottom title clip" data-start="20.3" data-duration="1.9" data-track-index="6"><div class="in">Jusqu'à 5 chambres</div></div>
-      <div id="t-bath" class="txt bottom title clip" data-start="22.6" data-duration="2.2" data-track-index="6"><div class="in">Confort &amp; bien-être</div></div>
-      <div id="t-tub" class="txt bottom small clip" data-start="25.0" data-duration="1.5" data-track-index="6"><div class="in">Baignoire balnéothérapie dans la suite master</div></div>
-      <div id="t-view" class="txt bottom title clip" data-start="27.0" data-duration="2.9" data-track-index="6"><div class="in">Une vue panoramique sur les montagnes</div></div>
-      <div id="t-loc2" class="txt top kicker clip" data-start="29.6" data-duration="1.5" data-track-index="6"><div class="in">COURCHEVEL MORIOND</div></div>
-      <div id="t-family" class="txt bottom title clip" data-start="31.3" data-duration="1.8" data-track-index="6"><div class="in">En famille ou entre amis</div></div>
-      <div id="t-season" class="txt bottom title clip" data-start="33.3" data-duration="1.9" data-track-index="6"><div class="in">Hiver comme été</div></div>
-      <div id="t-name2" class="txt top title clip" data-start="40.3" data-duration="4.6" data-track-index="6"><div class="in">Chalet Le Sabot de Vénus</div></div>
-      <div id="t-loc3" class="txt top2 kicker clip" data-start="40.9" data-duration="4.0" data-track-index="6"><div class="in">COURCHEVEL MORIOND 1650</div></div>
-      <div id="t-end" class="txt bottom title clip" data-start="41.7" data-duration="3.2" data-track-index="6"><div class="in">Votre séjour à la montagne commence ici.</div></div>
-      <div id="rule1" class="rule clip" style="top:350px" data-start="1.0" data-duration="3.4" data-track-index="7"></div>
-      <div id="rule2" class="rule clip" style="top:470px" data-start="41.0" data-duration="3.9" data-track-index="7"></div>
-      <div id="book" class="clip" data-start="42.6" data-duration="2.4" data-track-index="8">
-        <div class="bt1">Chalet Le Sabot de Vénus</div>
-        <div class="bt2">COURCHEVEL MORIOND · JUSQU'À 5 CHAMBRES</div>
-        <div class="dates"><span style="left:22px">Arrivée</span><span style="left:290px">Départ</span><span style="right:22px">Voyageurs</span></div>
-        <div class="btn"><div class="ripple"></div><span>Réserver</span></div>
-        <svg id="cursor" viewBox="0 0 44 44"><path d="M8 4 L8 36 L16 28 L22 40 L27 38 L21 26 L32 26 Z" fill="#FFFFFF" stroke="#1B1612" stroke-width="2.5" stroke-linejoin="round"/></svg>
+
+      <!-- B · TITLE -->
+      <div id="sB" class="scene clip" data-start="2.0" data-duration="2.3" data-track-index="2">
+        <img class="bgblur" src="assets/photos/bg/p02.jpg" alt="" />
+        <div class="ph" id="B-ph" style="left:70px;top:560px;width:940px;height:860px"><img id="B-img" src="assets/photos/p02.jpg" style="object-position:50% 55%" alt="" /></div>
+        <svg class="frame-svg"><rect id="B-frame" x="46" y="536" width="988" height="908" fill="none" stroke="#D9B98A" stroke-width="3" /></svg>
+        <div id="B-t0" class="center lab gold" style="top:236px">Chalet de luxe · Alpes françaises</div>
+        <div id="B-t1" class="center k" style="top:300px;font-size:112px;letter-spacing:0.14em">CHALET</div>
+        <div id="B-t2" class="center it gold" style="top:410px;font-size:98px">Le Sabot de Vénus</div>
+        <div id="B-tag" class="tag" style="left:94px;top:1350px">Courchevel Moriond</div>
       </div>
-      <div id="sig" class="clip" data-start="44.9" data-duration="2.6" data-track-index="9">
-        <div id="sig-by">VIDÉO RÉALISÉE PAR</div>
-        <div id="sig-mark"><img id="sig-d" src="assets/logo/mark-d.png" alt="" /><img id="sig-a" src="assets/logo/mark-arrow.png" alt="" /></div>
-        <div id="sig-word"><img id="sig-wp" src="assets/logo/word-paul.png" alt="Paul" /><img id="sig-wd" src="assets/logo/word-digital.png" alt="Digital" /></div>
+
+      <!-- C · ALTITUDE -->
+      <div id="sC" class="scene clip" data-start="4.0" data-duration="2.3" data-track-index="1">
+        <img class="bgblur" src="assets/photos/bg/p01.jpg" alt="" /><div class="dim"></div>
+        <svg class="frame-svg">
+          <path id="C-mtn" d="M -20 1260 L 140 1120 L 230 1180 L 380 960 L 470 1040 L 560 860 L 650 990 L 760 900 L 880 1060 L 1100 1000" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" />
+          <path id="C-fill" d="M -20 1260 L 140 1120 L 230 1180 L 380 960 L 470 1040 L 560 860 L 650 990 L 760 900 L 880 1060 L 1100 1000 L 1100 1920 L -20 1920 Z" fill="rgba(217,185,138,0.14)" />
+          <line id="C-dash" x1="560" y1="860" x2="560" y2="1500" stroke="#D9B98A" stroke-width="3" stroke-dasharray="10 12" />
+        </svg>
+        <div id="C-pin" style="position:absolute;left:530px;top:776px;width:60px;height:80px"><svg viewBox="0 0 60 80" width="60" height="80"><path d="M30 78 C30 78 3 46 3 29 A27 27 0 0 1 57 29 C57 46 30 78 30 78 Z" fill="#D9B98A"/><circle cx="30" cy="29" r="11" fill="#0d0b09"/></svg></div>
+        <div id="C-num" class="center num" style="top:300px;font-size:230px"><span id="C-n">0</span><span class="gold" style="font-size:120px"> m</span></div>
+        <div id="C-l1" class="center lab" style="top:560px;font-size:30px">d'altitude</div>
+        <div id="C-l2" class="center it gold" style="top:1540px;font-size:72px">Courchevel Moriond</div>
       </div>
-      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="47.5" data-track-index="10" data-volume="0.8"></audio>
-      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="47.5" data-track-index="11" data-volume="1"></audio>
+
+      <!-- D · LIVING (stacked panels) -->
+      <div id="sD" class="scene clip" data-start="6.0" data-duration="3.8" data-track-index="2">
+        <div class="ph" id="D-p1" style="left:0;top:0;width:1080px;height:636px"><img src="assets/photos/p23.jpg" style="object-position:50% 50%" alt="" /></div>
+        <div class="ph" id="D-p2" style="left:0;top:642px;width:1080px;height:636px"><img src="assets/photos/p24.jpg" style="object-position:50% 45%" alt="" /></div>
+        <div class="ph" id="D-p3" style="left:0;top:1284px;width:1080px;height:636px"><img src="assets/photos/p27.jpg" style="object-position:50% 55%" alt="" /></div>
+        <div id="D-band" style="position:absolute;left:0;right:0;top:770px;height:380px;background:linear-gradient(90deg, rgba(10,8,6,0.82), rgba(10,8,6,0.55) 60%, rgba(10,8,6,0.15))"></div>
+        <div id="D-t1" class="k" style="position:absolute;left:80px;top:830px;font-size:100px">UN CHALET</div>
+        <div id="D-t2" class="it gold" style="position:absolute;left:84px;top:946px;font-size:88px">pensé pour partager</div>
+        <div id="D-c1" class="tag" style="left:40px;top:40px">Salle à manger</div>
+        <div id="D-c2" class="tag" style="left:40px;top:682px">Pièce de vie</div>
+        <div id="D-c3" class="tag" style="left:40px;top:1324px">Salon</div>
+      </div>
+
+      <!-- E · KITCHEN -->
+      <div id="sE" class="scene clip" data-start="9.5" data-duration="2.3" data-track-index="1">
+        <img class="bgblur" src="assets/photos/bg/p26.jpg" alt="" />
+        <div class="ph" id="E-ph" style="left:0;top:480px;width:1080px;height:960px"><img id="E-img" src="assets/photos/p26.jpg" style="object-position:55% 55%" alt="" /></div>
+        <div id="E-t1" class="center k" style="top:250px;font-size:96px">CUISINE</div>
+        <div id="E-t2" class="center it gold" style="top:350px;font-size:80px">entièrement équipée</div>
+        <div id="E-c1" class="chip" style="left:120px;top:1300px"><i></i>Îlot central</div>
+        <div id="E-c2" class="chip" style="left:520px;top:1390px"><i></i>Équipements haut de gamme</div>
+      </div>
+
+      <!-- F · BEDROOMS -->
+      <div id="sF" class="scene clip" data-start="11.5" data-duration="3.8" data-track-index="2">
+        <img class="bgblur" src="assets/photos/bg/p12.jpg" alt="" /><div class="dim"></div>
+        <div id="F-num" class="num" style="position:absolute;left:70px;top:150px;font-size:300px"><span id="F-n">0</span></div>
+        <div id="F-l1" class="k" style="position:absolute;left:300px;top:200px;font-size:78px">CHAMBRES</div>
+        <div id="F-l2" class="it gold" style="position:absolute;left:304px;top:290px;font-size:64px">pour se ressourcer</div>
+        <div class="ph" id="F-g1" style="left:60px;top:500px;width:470px;height:440px;border-radius:18px"><img src="assets/photos/p12.jpg" style="object-position:40% 55%" alt="" /></div>
+        <div class="ph" id="F-g2" style="left:550px;top:500px;width:470px;height:440px;border-radius:18px"><img src="assets/photos/p21.jpg" style="object-position:45% 55%" alt="" /></div>
+        <div class="ph" id="F-g3" style="left:60px;top:960px;width:470px;height:440px;border-radius:18px"><img src="assets/photos/p13.jpg" style="object-position:35% 55%" alt="" /></div>
+        <div class="ph" id="F-g4" style="left:550px;top:960px;width:470px;height:440px;border-radius:18px"><img src="assets/photos/p17.jpg" style="object-position:45% 55%" alt="" /></div>
+        <div id="F-c1" class="chip" style="left:90px;top:1440px"><i></i>Lit king size</div>
+        <div id="F-c2" class="chip" style="left:440px;top:1440px"><i></i>Bois naturel · literie premium</div>
+      </div>
+
+      <!-- G · BATH -->
+      <div id="sG" class="scene clip" data-start="15.0" data-duration="2.8" data-track-index="1">
+        <img class="bgblur" src="assets/photos/bg/p09.jpg" alt="" /><div class="dim"></div>
+        <div id="G-t1" class="center k" style="top:200px;font-size:84px">CONFORT</div>
+        <div id="G-t2" class="center it gold" style="top:290px;font-size:76px">&amp; bien-être</div>
+        <div class="ph" id="G-p1" style="left:0;top:420px;width:1080px;height:560px"><img id="G-i1" src="assets/photos/p09.jpg" style="object-position:40% 50%" alt="" /></div>
+        <div class="ph" id="G-p2" style="left:0;top:990px;width:1080px;height:560px"><img id="G-i2" src="assets/photos/p08.jpg" style="object-position:45% 55%" alt="" /></div>
+        <div id="G-c1" class="chip" style="left:60px;top:880px"><i></i>Double vasque</div>
+        <div id="G-c2" class="chip" style="left:440px;top:880px"><i></i>Douche à l'italienne</div>
+        <div id="G-c3" class="chip" style="left:60px;top:1450px"><i></i>Baignoire balnéothérapie · suite master</div>
+      </div>
+
+      <!-- H · VIEW -->
+      <div id="sH" class="scene clip" data-start="17.5" data-duration="4.3" data-track-index="2">
+        <img class="bgblur" src="assets/photos/bg/p28.jpg" alt="" />
+        <div class="ph" id="H-ph" style="left:0;top:330px;width:1080px;height:1200px"><img id="H-img" src="assets/photos/p28.jpg" style="object-position:55% 40%" alt="" /></div>
+        <div class="shade-t" style="height:30%"></div>
+        <div id="H-t1" class="center k ch" style="top:190px;font-size:150px;letter-spacing:0.3em">VUE</div>
+        <div id="H-t2" class="center lab" style="top:360px;font-size:36px">panoramique</div>
+        <div id="H-t3" class="center it gold" style="top:1550px;font-size:78px">sur les montagnes</div>
+      </div>
+
+      <!-- I · MONTAGE -->
+      <div id="sI" class="scene clip" data-start="21.5" data-duration="2.8" data-track-index="1">
+        <div class="ph" id="I-1" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p01.jpg" style="object-position:30% 50%" alt="" /></div>
+        <div class="ph" id="I-2" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p27.jpg" style="object-position:50% 50%" alt="" /></div>
+        <div class="ph" id="I-3" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p20.jpg" style="object-position:45% 50%" alt="" /></div>
+        <div class="ph" id="I-4" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p25.jpg" style="object-position:40% 50%" alt="" /></div>
+        <div class="ph" id="I-5" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p24.jpg" style="object-position:70% 50%" alt="" /></div>
+        <div class="ph" id="I-6" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p10.jpg" style="object-position:45% 50%" alt="" /></div>
+        <div class="ph" id="I-7" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p23.jpg" style="object-position:60% 50%" alt="" /></div>
+        <div class="ph" id="I-8" style="left:0;top:0;width:1080px;height:1920px"><img src="assets/photos/p02.jpg" style="object-position:55% 50%" alt="" /></div>
+        <div class="dim" style="background:rgba(10,8,6,0.35)"></div>
+        <div id="I-w1" class="center k" style="top:820px;font-size:130px">EN FAMILLE</div>
+        <div id="I-w2" class="center k gold" style="top:820px;font-size:130px">ENTRE AMIS</div>
+        <div id="I-w3" class="center k" style="top:820px;font-size:150px">HIVER</div>
+        <div id="I-w4" class="center k gold" style="top:820px;font-size:130px">COMME ÉTÉ</div>
+      </div>
+
+      <!-- J · SERVICES -->
+      <div id="sJ" class="scene clip" data-start="24.0" data-duration="4.3" data-track-index="2">
+        <div class="ph" style="left:0;top:0;width:1080px;height:1920px"><img id="J-img" src="assets/photos/p05.jpg" style="object-position:50% 50%" alt="" /></div>
+        <div class="dim" style="background:rgba(10,8,6,0.72)"></div>
+        <div id="J-num" class="num center" style="top:200px;font-size:200px"><span id="J-n">0</span></div>
+        <div id="J-l1" class="center k" style="top:420px;font-size:70px">SERVICES</div>
+        <div id="J-l2" class="center it gold" style="top:500px;font-size:64px">inclus pour votre séjour</div>
+        <div id="J-grid"></div>
+      </div>
+
+      <!-- K · KEY FIGURES -->
+      <div id="sK" class="scene clip" data-start="28.0" data-duration="2.8" data-track-index="1">
+        <img class="bgblur" src="assets/photos/bg/p03.jpg" alt="" /><div class="dim" style="background:rgba(10,8,6,0.5)"></div>
+        <div id="K-t" class="center lab gold" style="top:230px;font-size:30px">Le chalet en chiffres</div>
+        <div id="K-cards"></div>
+      </div>
+
+      <!-- L · FINALE -->
+      <div id="sL" class="scene clip" data-start="30.5" data-duration="5.3" data-track-index="2">
+        <img class="bgblur" src="assets/photos/bg/p02.jpg" alt="" />
+        <div class="ph" id="L-ph" style="left:0;top:470px;width:1080px;height:980px"><img id="L-img" src="assets/photos/p02.jpg" style="object-position:50% 55%" alt="" /></div>
+        <div class="shade-t" style="height:30%"></div>
+        <div id="L-t1" class="center k ch" style="top:210px;font-size:74px;letter-spacing:0.08em">LE SABOT DE VÉNUS</div>
+        <div id="L-t2" class="center lab gold" style="top:316px">Chalet · Courchevel Moriond 1650</div>
+        <div id="L-t3" class="center it" style="top:1480px;font-size:70px">Votre séjour à la montagne</div>
+        <div id="L-t4" class="center it gold" style="top:1560px;font-size:70px">commence ici.</div>
+        <div id="L-snow" class="snow"></div>
+        <div id="book" style="position:absolute;left:80px;right:80px;top:740px;height:380px;border-radius:34px;background:rgba(255,255,255,0.96);box-shadow:0 30px 80px rgba(0,0,0,0.45);color:#1B1612">
+          <div style="position:absolute;left:48px;top:38px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:56px;white-space:nowrap">Chalet Le Sabot de Vénus</div>
+          <div style="position:absolute;left:48px;top:112px;font-weight:500;font-size:24px;letter-spacing:0.12em;color:#6B6259;white-space:nowrap">COURCHEVEL MORIOND · JUSQU'À 5 CHAMBRES</div>
+          <div style="position:absolute;left:48px;right:48px;top:172px;height:72px;border-radius:16px;border:2px solid #E4DDD4">
+            <span style="position:absolute;left:22px;line-height:68px;font-weight:500;font-size:26px;color:#6B6259">Arrivée</span>
+            <span style="position:absolute;left:300px;line-height:68px;font-weight:500;font-size:26px;color:#6B6259">Départ</span>
+            <span style="position:absolute;right:22px;line-height:68px;font-weight:500;font-size:26px;color:#6B6259">Voyageurs</span>
+          </div>
+          <div id="book-btn" style="position:absolute;left:48px;right:48px;top:268px;height:80px;border-radius:20px;background:#1B1612;color:#fff;text-align:center;font-weight:600;font-size:30px;letter-spacing:0.08em;line-height:80px;overflow:hidden">
+            <div id="book-rip" style="position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:rgba(217,185,138,0.55)"></div><span style="position:relative">Réserver</span>
+          </div>
+          <svg id="cursor" viewBox="0 0 44 44" style="position:absolute;left:0;top:0;width:44px;height:44px"><path d="M8 4 L8 36 L16 28 L22 40 L27 38 L21 26 L32 26 Z" fill="#FFFFFF" stroke="#1B1612" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- M · SIGNATURE -->
+      <div id="sM" class="scene clip" data-start="35.5" data-duration="2.5" data-track-index="1" style="background:#F4F1EC">
+        <div id="M-by" class="center lab" style="top:700px;color:#6B7280;font-size:26px">Vidéo réalisée par</div>
+        <div id="M-mark" style="position:absolute;left:400px;top:790px;width:280px;height:269px"><img id="M-d" src="assets/logo/mark-d.png" style="position:absolute;left:0;top:0;width:280px;height:269px" alt="" /><img id="M-a" src="assets/logo/mark-arrow.png" style="position:absolute;left:0;top:0;width:280px;height:269px" alt="" /></div>
+        <div id="M-word" style="position:absolute;left:190px;top:1110px;width:700px;height:144px;overflow:hidden"><img id="M-wp" src="assets/logo/word-paul.png" style="position:absolute;left:0;top:0;width:700px;height:144px" alt="Paul" /><img id="M-wd" src="assets/logo/word-digital.png" style="position:absolute;left:0;top:0;width:700px;height:144px" alt="Digital" /></div>
+      </div>
+
+      <div id="flash" class="clip" data-start="0" data-duration="38" data-track-index="3"></div>
+
+      <audio id="music" src="assets/audio/music_v2.wav" data-start="0" data-duration="38" data-track-index="10" data-volume="0.85"></audio>
+      <audio id="sfx" src="assets/audio/sfx_v2.wav" data-start="0" data-duration="38" data-track-index="11" data-volume="0.9"></audio>
     </div>
 
     <script>
-      const SHOTS = [["ext1", "03", 0.0, 5.2, [1.0, 0, 0], [1.1, 0, -14], "50% 55%", 0.0], ["living", "23", 4.6, 4.8, [1.06, 34, 0], [1.16, -30, -6], "45% 50%", 0.6], ["windows", "24", 8.8, 4.6, [1.04, -14, 4], [1.2, 26, -12], "55% 45%", 0.6], ["kitchen", "26", 12.8, 3.6, [1.05, 0, 0], [1.17, -44, 10], "55% 55%", 0.6], ["master", "12", 15.8, 3.2, [1.03, 0, 0], [1.1, -12, -4], "50% 55%", 0.6], ["bed2", "21", 18.6, 1.6, [1.04, 10, 0], [1.09, -10, 0], "50% 55%", 0.4], ["bunk", "17", 19.8, 1.6, [1.04, -10, 0], [1.09, 10, 0], "50% 55%", 0.4], ["bed3", "13", 21.0, 1.4, [1.04, 0, 0], [1.09, -10, -4], "40% 55%", 0.4], ["bath", "09", 22.0, 3.0, [1.04, 0, 0], [1.11, -16, -6], "40% 50%", 0.6], ["tub", "08", 24.6, 2.0, [1.04, 10, 0], [1.1, -8, 0], "45% 55%", 0.4], ["view", "28", 26.2, 5.0, [1.0, 0, 0], [1.3, -70, 50], "50% 45%", 0.6], ["m1", "01", 31.0, 0.75, [1.06, 0, 0], [1.12, 0, -8], "50% 55%", 0.15], ["m2", "27", 31.6, 0.75, [1.06, 10, 0], [1.12, -10, 0], "50% 50%", 0.15], ["m3", "10", 32.2, 0.75, [1.06, 0, 0], [1.12, -8, 0], "50% 55%", 0.15], ["m4", "25", 32.8, 0.75, [1.06, -8, 0], [1.12, 8, 0], "45% 55%", 0.15], ["m5", "22", 33.4, 0.75, [1.06, 0, 0], [1.12, 8, -6], "50% 50%", 0.15], ["m6", "24", 34.0, 0.75, [1.08, 0, 0], [1.15, 10, -8], "70% 40%", 0.15], ["m7", "02", 34.6, 0.9, [1.06, 0, 0], [1.12, 0, -8], "50% 55%", 0.15], ["serv", "05", 35.3, 4.9, [1.06, 0, 0], [1.12, 0, -8], "50% 50%", 0.6], ["ext2", "02", 39.6, 5.4, [1.14, 0, -10], [1.0, 0, 0], "50% 55%", 0.8]];
-      const TEXTS = [["t-loc1", "COURCHEVEL MORIOND 1650", 0.8, 4.4, "top", "kicker"], ["t-name1", "Chalet Le Sabot de V\u00e9nus", 1.9, 4.4, "bottom", "title"], ["t-share", "Un chalet pens\u00e9 pour partager", 5.4, 8.9, "bottom", "title"], ["t-light", "De grands espaces baign\u00e9s de lumi\u00e8re", 9.4, 12.9, "bottom", "title"], ["t-rooms", "Salon <i>\u2022</i> Cuisine <i>\u2022</i> Salle \u00e0 manger", 10.6, 12.9, "top", "kicker"], ["t-kitchen", "Une cuisine enti\u00e8rement \u00e9quip\u00e9e", 13.4, 16.1, "bottom", "title"], ["t-sleep", "Des chambres pens\u00e9es pour se ressourcer", 16.4, 20.2, "bottom", "title"], ["t-five", "Jusqu'\u00e0 5 chambres", 20.3, 22.2, "bottom", "title"], ["t-bath", "Confort &amp; bien-\u00eatre", 22.6, 24.8, "bottom", "title"], ["t-tub", "Baignoire baln\u00e9oth\u00e9rapie dans la suite master", 25.0, 26.5, "bottom", "small"], ["t-view", "Une vue panoramique sur les montagnes", 27.0, 29.9, "bottom", "title"], ["t-loc2", "COURCHEVEL MORIOND", 29.6, 31.1, "top", "kicker"], ["t-family", "En famille ou entre amis", 31.3, 33.1, "bottom", "title"], ["t-season", "Hiver comme \u00e9t\u00e9", 33.3, 35.2, "bottom", "title"], ["t-name2", "Chalet Le Sabot de V\u00e9nus", 40.3, 44.9, "top", "title"], ["t-loc3", "COURCHEVEL MORIOND 1650", 40.9, 44.9, "top2", "kicker"], ["t-end", "Votre s\u00e9jour \u00e0 la montagne commence ici.", 41.7, 44.9, "bottom", "title"]];
+      // ---------- build-time content ----------
+      const SERVICES = [
+        ["Ski-room", "& sèche-chaussures", '<path d="M8 40 L40 8 M14 44 L44 14" stroke-linecap="round"/><path d="M30 34 l8 8" stroke-linecap="round"/>'],
+        ["Parking", "privatif", '<rect x="9" y="7" width="30" height="34" rx="6"/><path d="M19 33 V16 h7 a6 6 0 0 1 0 12 h-7"/>'],
+        ["Wi-Fi", "haut débit", '<path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0" stroke-linecap="round"/><circle cx="24" cy="39" r="2.5" fill="currentColor"/>'],
+        ["Linge de maison", "fourni", '<path d="M8 14 h32 v8 h-32 z M10 22 v18 h28 v-18"/><path d="M16 30 h16" stroke-linecap="round"/>'],
+        ["Entretien", "pendant le séjour", '<path d="M24 6 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z"/><path d="M36 30 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5 z"/>'],
+        ["Accès", "autonome", '<circle cx="16" cy="24" r="8"/><path d="M24 24 h18 M36 24 v6 M41 24 v4" stroke-linecap="round"/>'],
+      ];
+      const grid = document.getElementById("J-grid");
+      SERVICES.forEach(([a, b, ic], i) => {
+        const x = 70 + (i % 2) * 480, y = 650 + Math.floor(i / 2) * 270;
+        const d = document.createElement("div");
+        d.className = "card";
+        d.id = "J-s" + i;
+        d.style.cssText = `left:${x}px;top:${y}px;width:460px;height:250px;`;
+        d.innerHTML = `<svg viewBox="0 0 48 48" style="position:absolute;left:36px;top:36px;width:64px;height:64px;color:#D9B98A;fill:none;stroke:currentColor;stroke-width:2.6">${ic}</svg>
+          <div style="position:absolute;left:36px;top:126px;font-weight:800;font-size:38px;white-space:nowrap">${a}</div>
+          <div style="position:absolute;left:36px;top:176px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:38px;color:#E8D5B5;white-space:nowrap">${b}</div>`;
+        grid.appendChild(d);
+      });
+      const FIGS = [[1650, " m", "d'altitude"], [5, "", "chambres"], [6, "", "services inclus"], [1, "", "baignoire balnéo"]];
+      const kc = document.getElementById("K-cards");
+      FIGS.forEach(([v, u, l], i) => {
+        const d = document.createElement("div");
+        d.className = "card";
+        d.id = "K-c" + i;
+        d.style.cssText = `left:90px;top:${330 + i * 290}px;width:900px;height:250px;`;
+        d.innerHTML = `<div class="num" style="position:absolute;left:50px;top:52px;font-size:150px"><span id="K-n${i}">0</span><span style="font-size:70px;color:#D9B98A">${u}</span></div>
+          <div class="it" style="position:absolute;right:50px;top:92px;font-size:64px;color:#E8D5B5">${l}</div>`;
+        kc.appendChild(d);
+      });
+      // split headline letters
+      document.querySelectorAll(".ch").forEach((el) => {
+        el.innerHTML = el.textContent.split("").map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("");
+      });
+      // snow
+      function snow(layer, n, seed) {
+        for (let k = 0; k < n; k++) {
+          const f = document.createElement("div");
+          f.className = "flake";
+          const s = 3 + ((k * 7) % 5) * 1.5;
+          f.style.cssText = `left:${(k * 157 + seed * 31) % 1080}px;top:0;width:${s}px;height:${s}px;opacity:${0.35 + ((k * 13) % 7) / 14};`;
+          f.dataset.k = k;
+          layer.appendChild(f);
+        }
+      }
+      snow(document.getElementById("A-snow"), 60, 3);
+      snow(document.getElementById("L-snow"), 60, 9);
+
+      // ---------- timeline ----------
       const tl = gsap.timeline({ paused: true });
-      // shots: crossfade in, slow Ken Burns across the whole clip (scale/translate only)
-      SHOTS.forEach(([id, ph, st, du, f, t, pos, fi]) => {
-        if (fi > 0) tl.fromTo("#" + id + "-f", { opacity: 0 }, { opacity: 1, duration: fi, ease: "sine.inOut" }, st);
-        tl.fromTo("#" + id + "-img", { scale: f[0], x: f[1], y: f[2] }, { scale: t[0], x: t[1], y: t[2], duration: du, ease: id === "view" ? "power1.inOut" : "none" }, st);
-        tl.fromTo("#" + id + " .bg", { scale: 1.05 }, { scale: 1.12, duration: du, ease: "none" }, st);
-      });
-      // text: soft blur-rise in, soft fade out
-      TEXTS.forEach(([id, html, s, e]) => {
-        const el = "#" + id + " .in";
-        tl.fromTo(el, { opacity: 0, y: 18, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "power2.out" }, s);
-        tl.to(el, { opacity: 0, y: -8, filter: "blur(6px)", duration: 0.55, ease: "power1.in" }, e - 0.55);
-      });
-      tl.fromTo("#rule1", { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 1.0, ease: "power2.out" }, 1.0);
-      tl.to("#rule1", { opacity: 0, duration: 0.5 }, 3.9);
-      tl.fromTo("#rule2", { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 1.0, ease: "power2.out" }, 41.0);
-      // snow: each flake falls with its own speed and sway (deterministic, finite repeats)
-      document.querySelectorAll(".snow").forEach((layer) => {
-        const st = parseFloat(layer.dataset.start), du = parseFloat(layer.dataset.duration);
-        layer.querySelectorAll(".flake").forEach((fl) => {
-          const k = +fl.dataset.k;
-          const fall = 4.5 + (k * 37 % 30) / 10;
-          const y0 = -60 - (k * 89 % 1900);
-          tl.fromTo(fl, { y: y0 }, { y: y0 + (2000 / fall) * du, duration: du, ease: "none" }, st);
-          tl.fromTo(fl, { x: -14 }, { x: 14, duration: 1.6 + (k % 5) * 0.3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(du / 1.6) }, st);
+      const flash = (t, a) => tl.fromTo("#flash", { opacity: a || 0.85 }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, t);
+      gsap.set("#flash", { opacity: 0 });
+      const enter = (sel, t, dir, d) => {
+        const from = { left: { x: -1080 }, right: { x: 1080 }, up: { y: 1920 }, down: { y: -1920 }, zoom: { scale: 1.35 } }[dir];
+        tl.fromTo(sel, Object.assign({ filter: "blur(18px)", opacity: dir === "zoom" ? 0 : 1 }, from), { x: 0, y: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: d || 0.45, ease: "power4.out" }, t);
+      };
+      const exit = (sel, t, dir, d) => {
+        const to = { left: { x: -1080 }, right: { x: 1080 }, up: { y: -1920 }, down: { y: 1920 }, zoom: { scale: 1.4, opacity: 0 } }[dir];
+        tl.to(sel, Object.assign({ filter: "blur(18px)", duration: d || 0.3, ease: "power3.in" }, to), t);
+      };
+      const rise = (sel, t, d) => tl.fromTo(sel, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: d || 0.45, ease: "power3.out" }, t);
+      const pop = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, t);
+      const kb = (sel, t, d, a, b) => tl.fromTo(sel, a, Object.assign({ duration: d, ease: "none" }, b), t);
+      const count = (id, to, t, d) => {
+        const el = document.getElementById(id);
+        let cur = 0;
+        const o = { v(x) { if (x === undefined) return cur; cur = x; el.textContent = String(Math.round(x)).replace(/\B(?=(\d{3})+(?!\d))/g, " "); } };
+        tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "power3.out" }, t);
+      };
+      const letters = (sel, t, stagger) => tl.fromTo(sel + " span", { opacity: 0, y: 70, rotationX: -70 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.5, ease: "power4.out", stagger: stagger || 0.035 }, t);
+      const snowFall = (layerSel, t, du) => {
+        document.querySelectorAll(layerSel + " .flake").forEach((fl) => {
+          const k = +fl.dataset.k, fall = 4.5 + ((k * 37) % 30) / 10, y0 = -60 - ((k * 89) % 1900);
+          tl.fromTo(fl, { y: y0 }, { y: y0 + (2000 / fall) * du, duration: du, ease: "none" }, t);
         });
-        tl.fromTo(layer, { opacity: 0 }, { opacity: 1, duration: 0.8 }, st);
+      };
+
+      // A · hook (0 – 2.3)
+      flash(0.0, 0.9);
+      kb("#A-img", 0, 2.3, { scale: 1.45 }, { scale: 1.05, ease: "power3.out" });
+      letters("#A-t1", 0.15, 0.04);
+      rise("#A-t2", 0.8);
+      snowFall("#A-snow", 0, 2.3);
+      exit(["#A-ph", "#A-t1", "#A-t2"], 2.0, "left");
+
+      // B · title (2.0 – 4.3)
+      enter("#sB", 2.0, "right", 0.4);
+      kb("#B-img", 2.0, 2.3, { scale: 1.12, x: 20 }, { scale: 1.02, x: -20 });
+      tl.fromTo("#B-frame", { strokeDasharray: 3800, strokeDashoffset: 3800 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 2.25);
+      rise("#B-t0", 2.35); letters("#B-t1", 2.45, 0.05); rise("#B-t2", 2.75, 0.5);
+      tl.fromTo("#B-tag", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 3.0);
+      exit("#sB", 4.0, "zoom", 0.3);
+
+      // C · altitude (4.0 – 6.3)
+      enter("#sC", 4.0, "zoom", 0.35);
+      tl.fromTo("#C-mtn", { strokeDasharray: 1600, strokeDashoffset: 1600 }, { strokeDashoffset: 0, duration: 1.0, ease: "power2.inOut" }, 4.1);
+      tl.fromTo("#C-fill", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 4.7);
+      tl.fromTo("#C-dash", { strokeDashoffset: 640, strokeDasharray: "10 12" }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, 4.9);
+      tl.fromTo("#C-pin", { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "bounce.out" }, 4.8);
+      rise("#C-num", 4.2, 0.4); count("C-n", 1650, 4.25, 1.4);
+      rise("#C-l1", 4.5); rise("#C-l2", 5.0);
+      exit("#sC", 6.0, "up", 0.3);
+
+      // D · living (6.0 – 9.8)
+      enter("#D-p1", 6.0, "left", 0.5); enter("#D-p2", 6.12, "right", 0.5); enter("#D-p3", 6.24, "left", 0.5);
+      ["#D-p1 img", "#D-p2 img", "#D-p3 img"].forEach((s, i) => kb(s, 6.0, 3.8, { scale: 1.12, x: i % 2 ? -20 : 20 }, { scale: 1.02, x: i % 2 ? 20 : -20 }));
+      tl.fromTo("#D-band", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 6.55);
+      letters("#D-t1", 6.7, 0.03); rise("#D-t2", 6.95, 0.5);
+      ["#D-c1", "#D-c2", "#D-c3"].forEach((s, i) => tl.fromTo(s, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, 7.4 + i * 0.15));
+      exit("#D-p1", 9.5, "right"); exit("#D-p2", 9.55, "left"); exit("#D-p3", 9.6, "right");
+      exit(["#D-band", "#D-t1", "#D-t2", "#D-c1", "#D-c2", "#D-c3"], 9.5, "left");
+
+      // E · kitchen (9.5 – 11.8)
+      enter("#sE", 9.5, "up", 0.45);
+      kb("#E-img", 9.5, 2.3, { scale: 1.04, x: 0 }, { scale: 1.2, x: -60, y: 20 });
+      letters("#E-t1", 9.8, 0.04); rise("#E-t2", 10.05);
+      pop("#E-c1", 10.4); pop("#E-c2", 10.6);
+      exit("#sE", 11.5, "left");
+
+      // F · bedrooms (11.5 – 15.3)
+      enter("#sF", 11.5, "right", 0.4);
+      rise("#F-num", 11.6, 0.4); count("F-n", 5, 11.65, 0.9);
+      tl.fromTo("#F-l1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 11.9);
+      rise("#F-l2", 12.1);
+      ["#F-g1", "#F-g2", "#F-g3", "#F-g4"].forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, scale: 0.7, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power4.out" }, 12.1 + i * 0.12);
+        kb(s + " img", 12.1, 3.2, { scale: 1.15 }, { scale: 1.03 });
       });
-      // services: lines appear one by one
-      tl.fromTo("#serv-title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 35.5);
-      tl.fromTo("#serv-kick", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 35.7);
-      ["sv0", "sv1", "sv2", "sv3", "sv4", "sv5"].forEach((id, i) => {
-        const at = 35.9 + i * 0.42;
-        tl.fromTo("#" + id + " svg", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, at);
-        tl.fromTo("#" + id + " span", { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, at + 0.05);
-        tl.fromTo("#" + id, { borderBottomColor: "rgba(255,255,255,0)" }, { borderBottomColor: "rgba(255,255,255,0.22)", duration: 0.6 }, at);
+      pop("#F-c1", 13.0); pop("#F-c2", 13.2);
+      exit("#sF", 15.0, "zoom", 0.3);
+
+      // G · bath (15.0 – 17.8)
+      enter("#sG", 15.0, "zoom", 0.4);
+      letters("#G-t1", 15.15, 0.04); rise("#G-t2", 15.4);
+      tl.fromTo("#G-p1", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power4.out" }, 15.2);
+      tl.fromTo("#G-p2", { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power4.out" }, 15.4);
+      kb("#G-i1", 15.0, 2.8, { scale: 1.12, x: 30 }, { scale: 1.02, x: -30 });
+      kb("#G-i2", 15.0, 2.8, { scale: 1.02, x: -30 }, { scale: 1.12, x: 30 });
+      pop("#G-c1", 15.9); pop("#G-c2", 16.05); pop("#G-c3", 16.3);
+      exit("#sG", 17.5, "down", 0.35);
+
+      // H · view (17.5 – 21.8) — the emotional breath
+      enter("#sH", 17.5, "zoom", 0.6);
+      kb("#H-img", 17.5, 4.3, { scale: 1.0, x: 0, y: 0 }, { scale: 1.32, x: -60, y: 60, ease: "power1.inOut" });
+      letters("#H-t1", 17.9, 0.12);
+      rise("#H-t2", 18.5, 0.6);
+      rise("#H-t3", 19.0, 0.7);
+      flash(21.5, 0.8);
+      exit("#sH", 21.4, "zoom", 0.15);
+
+      // I · montage (21.5 – 24.3): a cut on every beat
+      for (let i = 1; i <= 8; i++) {
+        const t = 21.5 + (i - 1) * 0.33;
+        tl.fromTo("#I-" + i, { opacity: 0 }, { opacity: 1, duration: 0.06, immediateRender: i > 1 }, t);
+        kb("#I-" + i + " img", t, 0.5, { scale: 1.15 }, { scale: 1.05 });
+      }
+      [["#I-w1", 21.55], ["#I-w2", 22.2], ["#I-w3", 22.85], ["#I-w4", 23.5]].forEach(([s, t], i) => {
+        tl.fromTo(s, { opacity: 0, scale: 1.6, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, t);
+        tl.to(s, { opacity: 0, duration: 0.12 }, t + (i === 3 ? 0.62 : 0.55));
       });
-      tl.to("#serv-panel", { opacity: 0, duration: 0.5 }, 39.3);
-      tl.to("#serv-f", { opacity: 0.42, duration: 0.6, ease: "sine.inOut" }, 35.9);
-      // booking card
-      tl.fromTo("#book", { opacity: 0, y: 120 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 42.6);
-      tl.fromTo("#cursor", { x: 760, y: 360, opacity: 0 }, { x: 470, y: 296, opacity: 1, duration: 0.7, ease: "power2.inOut" }, 43.1);
-      tl.fromTo("#book .btn", { scale: 1 }, { scale: 0.96, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 43.85);
-      tl.fromTo("#book .ripple", { scale: 0, opacity: 1 }, { scale: 22, opacity: 0, duration: 0.8, ease: "power2.out" }, 43.9);
-      tl.to("#book", { opacity: 0, y: -30, duration: 0.4, ease: "power1.in" }, 44.6);
-      // signature: Paul Digital logo
-      tl.fromTo("#sig", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 44.9);
-      tl.fromTo("#sig-by", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 45.2);
-      tl.fromTo("#sig-d", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "expo.out" }, 45.3);
-      tl.fromTo("#sig-a", { x: -90, y: 90, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" }, 45.45);
-      tl.fromTo("#sig-wp", { y: 150 }, { y: 0, duration: 0.6, ease: "power4.out" }, 45.6);
-      tl.fromTo("#sig-wd", { y: 150 }, { y: 0, duration: 0.6, ease: "power4.out" }, 45.75);
-      tl.fromTo("#sig-mark", { scale: 1 }, { scale: 1.03, duration: 1.4, ease: "sine.inOut" }, 46.1);
+      exit("#sI", 24.0, "up", 0.3);
+
+      // J · services (24.0 – 28.3)
+      enter("#sJ", 24.0, "up", 0.4);
+      kb("#J-img", 24.0, 4.3, { scale: 1.1 }, { scale: 1.0 });
+      rise("#J-num", 24.2, 0.4); count("J-n", 6, 24.25, 0.8);
+      letters("#J-l1", 24.45, 0.04); rise("#J-l2", 24.7);
+      for (let i = 0; i < 6; i++) {
+        tl.fromTo("#J-s" + i, { opacity: 0, y: 80, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power4.out" }, 25.0 + i * 0.22);
+      }
+      exit("#sJ", 28.0, "left");
+
+      // K · key figures (28.0 – 30.8)
+      enter("#sK", 28.0, "right", 0.4);
+      rise("#K-t", 28.1);
+      [[1650, 0], [5, 1], [6, 2], [1, 3]].forEach(([v, i]) => {
+        tl.fromTo("#K-c" + i, { opacity: 0, x: 300 }, { opacity: 1, x: 0, duration: 0.45, ease: "power4.out" }, 28.2 + i * 0.18);
+        count("K-n" + i, v, 28.3 + i * 0.18, 0.9);
+      });
+      exit("#sK", 30.5, "zoom", 0.3);
+
+      // L · finale (30.5 – 35.8)
+      enter("#sL", 30.5, "zoom", 0.6);
+      kb("#L-img", 30.5, 5.3, { scale: 1.18 }, { scale: 1.0 });
+      snowFall("#L-snow", 30.5, 5.3);
+      letters("#L-t1", 30.8, 0.04); rise("#L-t2", 31.3);
+      rise("#L-t3", 31.8, 0.6); rise("#L-t4", 32.1, 0.6);
+      tl.fromTo("#book", { opacity: 0, y: 140, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power4.out" }, 33.0);
+      tl.fromTo("#cursor", { x: 760, y: 420, opacity: 0 }, { x: 470, y: 296, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 33.5);
+      tl.fromTo("#book-btn", { scale: 1 }, { scale: 0.96, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 34.2);
+      tl.fromTo("#book-rip", { scale: 0, opacity: 1 }, { scale: 22, opacity: 0, duration: 0.8, ease: "power2.out" }, 34.25);
+      tl.to("#book", { opacity: 0, y: -30, duration: 0.35, ease: "power1.in" }, 35.1);
+
+      // M · signature (35.5 – 38)
+      tl.fromTo("#sM", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 35.5);
+      rise("#M-by", 35.7);
+      tl.fromTo("#M-d", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "expo.out" }, 35.8);
+      tl.fromTo("#M-a", { x: -90, y: 90, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, 35.95);
+      tl.fromTo("#M-wp", { y: 150 }, { y: 0, duration: 0.55, ease: "power4.out" }, 36.1);
+      tl.fromTo("#M-wd", { y: 150 }, { y: 0, duration: 0.55, ease: "power4.out" }, 36.25);
+      tl.fromTo("#M-mark", { scale: 1 }, { scale: 1.03, duration: 1.3, ease: "sine.inOut" }, 36.6);
+
       window.__timelines["main"] = tl;
     </script>
   </body>
