@@ -1,0 +1,4 @@
+{
+  "_doc": "Reading holds for the dynamic cut, in original (38 s) seconds: [time, extra]. Extras are multiples of a beat (0.5 s at 120 BPM) so cuts stay on the beat.",
+  "holds": [[1.4, 1.0], [3.4, 1.0], [5.7, 1.0], [8.0, 0.5], [11.0, 1.0], [13.6, 0.5], [16.7, 1.0], [19.8, 0.5], [26.6, 1.5], [29.8, 1.5], [32.7, 1.0], [34.9, 1.0]]
+}

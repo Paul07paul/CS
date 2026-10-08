@@ -6,7 +6,7 @@ import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-DUR = 38.0
+DUR = 49.5
 N = int(DUR * SR)
 rng = np.random.default_rng(8)
 
@@ -22,8 +22,16 @@ def bp(x, lo, hi):
 track = np.zeros((N + 3 * SR, 2))
 
 
+import json
+HOLDS = json.load(open("assets/timing_v2.json"))["holds"]
+
+
+def T(t):  # event times are authored on the original 38 s cut
+    return t + sum(e for h, e in HOLDS if t > h + 1e-6)
+
+
 def at(t, c):
-    i = int(t * SR)
+    i = int(T(t) * SR)
     track[i : i + len(c)] += c
 
 
@@ -84,8 +92,8 @@ def chime(f, gain=0.04, pan=0.0):
 
 
 # exteriors
-at(0.0, wind(2.4, 0.10))
-at(30.4, wind(5.2, 0.08))
+at(0.0, wind(3.4, 0.10))
+at(30.4, wind(7.3, 0.08))
 # transitions
 for t, p in [(1.95, -1), (3.95, 1), (5.95, -1), (9.45, 1), (11.45, -1), (14.95, 1), (17.4, -1), (23.95, 1), (27.95, -1), (30.4, 1), (35.4, -1)]:
     at(t, whoosh(0.5, 4200, 0.22, 0.6 * p, -0.6 * p))

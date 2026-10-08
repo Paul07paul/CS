@@ -9,12 +9,13 @@ import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-DUR = 38.0
+DUR = 49.5
 N = int(DUR * SR)
 BEAT = 0.5
 BAR = 2.0
 rng = np.random.default_rng(33)
-BD0, BD1, LOGO = 17.5, 21.5, 35.5
+BD0, BD1, LOGO = 23.5, 28.0, 47.0  # after the reading holds (assets/timing_v2.json)
+LIGHT = 40.0
 
 
 def hz(m):
@@ -120,7 +121,7 @@ for b in range(nb):
             f = hz(root + (12 if e % 4 == 3 else 0))
             s = (np.sin(2 * np.pi * f * x) + 0.3 * (2 * ((f * x) % 1) - 1)) * np.exp(-x * 6) * np.clip(x / 0.004, 0, 1)
             place(bass, tt, lp(s, 420) * 0.34)
-        light = t0 >= 30.5  # finale: half-time feel
+        light = t0 >= LIGHT  # finale: half-time feel
         for q in range(4):
             tb = t0 + q * BEAT
             if not light or q % 2 == 0:

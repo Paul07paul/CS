@@ -33,4 +33,5 @@ signature Paul Digital à la fin.
 ## Revision v2 (dynamique) + v2.1
 
 - v2 : version rapide (38 s) avec chiffres animés, typographie cinétique, cartes de services, musique 120 BPM (`audio/make_music_v2.py`, `audio/make_sfx_v2.py`).
+- v2.2 : pauses de lecture (assets/timing_v2.json, multiples d'un temps) → 49,5 s ; musique et sons recalés.
 - v2.1 : photo de la terrasse fournie (`source-photos/photo_29_terrasse.webp`) utilisée pour la vue panoramique et dans le montage (« comme été ») ; fin « Réservez sur Airbnb » avec le logo Airbnb et un bouton « Réserver » qui passe à « Réservé ✓ » (demande explicite de l'utilisateur).
