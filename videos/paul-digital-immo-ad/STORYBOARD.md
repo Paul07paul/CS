@@ -4,11 +4,22 @@ duration: 32s
 message: "Vous nous envoyez votre annonce, nous nous occupons du reste."
 arc: Annonce plate → Transformation → Visite 3D du bien → Clé en main → Preuve → Bénéfices → CTA
 audience: agences immobilières et professionnels de l'immobilier
-mode: collaborative
+mode: autonomous
 version: v1
 ---
 
 # Paul Digital — publicité 9:16 (v1)
+
+## Changes from v1
+
+- Utilisateur : « fait la vidéo » / « vas y » → construction directe sans planche de croquis (mode autonome) ; scène 08 = engagements sans chiffres inventés.
+
+## Build notes
+
+- Construit comme 5 sous-compositions (`s1-annonce` 0–5,5 s · `s2-villa` 5,5–16,5 s · `s3-cle` 16,5–20 s · `s4-preuve` 20–26 s · `s5-final` 26–32 s) + fond et viseur dans `index.html`. Durée finale : 32 s.
+- 3D isométrique en CSS 3D orthographique (`assets/iso.js`), caméra pilotée par GSAP (accesseurs), sans WebGL.
+- Scène 06 : « Et tout ce qui l'entoure. » ; scènes 04–05 : titres « Chaque détail compte. » / « Pièce par pièce. » ajoutés en tête.
+- GSAP et polices servis en local (`assets/vendor`, `assets/fonts`) : le CDN jsdelivr est bloqué dans cet environnement.
 
 ## Decisions
 
@@ -27,8 +38,8 @@ version: v1
 - scene: Une annonce plate, grise, scrolle dans un fil d'annonces identiques ; le viseur doré s'y pose.
 - duration: 2.5s
 - transition_in: cut
-- status: outline
-- src: compositions/01-annonce.html
+- status: animated
+- src: compositions/s1-annonce.html
 - type: hook
 - blueprint: kinetic-type-beats (adapt) + rules: waterfall-entry, motion-blur-streak
 
@@ -42,8 +53,8 @@ doré se referme sur la carte, avec le point REC qui clignote. Interdit : pas de
 - scene: La carte bascule en 3D, les photos se détachent en calques, l'annonce devient une vidéo verticale premium qui joue.
 - duration: 3s
 - transition_in: zoom-through
-- status: outline
-- src: compositions/02-transformation.html
+- status: animated
+- src: compositions/s1-annonce.html
 - type: product_intro
 - blueprint: video-text-pivot (adapt) + rules: hacker-flip-3d, 3d-text-depth-layers, depth-scatter-assemble
 
@@ -57,8 +68,8 @@ avec un sous-titre animé « Villa d'architecte · Vue mer ». Texte : « Paul D
 - scene: La villa isométrique s'assemble bloc par bloc sur un socle flottant.
 - duration: 2.5s
 - transition_in: zoom-through
-- status: outline
-- src: compositions/03-villa.html
+- status: animated
+- src: compositions/s2-villa.html
 - type: feature_showcase
 - blueprint: logo-assemble-lockup (adapt : assemblage d'un objet) + rules: depth-scatter-assemble, spring-pop-entrance, orbit-3d-entry
 
@@ -71,8 +82,8 @@ Titre en 3D extrudé : « Chaque bien » / « mérite sa mise en scène. »
 - scene: La caméra plonge sur la terrasse et la piscine ; des étiquettes se plantent comme des épingles.
 - duration: 2.5s
 - transition_in: camera-move
-- status: outline
-- src: compositions/04-exterieur.html
+- status: animated
+- src: compositions/s2-villa.html
 - type: feature_showcase
 - blueprint: camera-journey (B — vol sans curseur) + rules: 3d-camera-flight, coordinate-target-zoom, spring-pop-entrance
 
@@ -84,8 +95,8 @@ liseré or surgissent sur ressort : « Piscine 10 × 4 m », « Terrasse 45 m² 
 - scene: Le toit se soulève, la caméra traverse salon → cuisine → chambre ; chaque pièce s'éclaire à son tour.
 - duration: 3.5s
 - transition_in: camera-move
-- status: outline
-- src: compositions/05-pieces.html
+- status: animated
+- src: compositions/s2-villa.html
 - type: feature_showcase
 - blueprint: spatial-pan-stations (adapt : les pièces sont les « stations ») + rules: multi-phase-camera, depth-of-field-blur
 
@@ -98,8 +109,8 @@ chacun avec un éclairage chaud de la pièce et une étiquette : « Salon lumine
 - scene: Dézoom : la villa devient une épingle sur une carte isométrique, avec rayons de trajet et points d'intérêt.
 - duration: 2.5s
 - transition_in: zoom-out
-- status: outline
-- src: compositions/06-emplacement.html
+- status: animated
+- src: compositions/s2-villa.html
 - type: feature_showcase
 - blueprint: zoom-out-workspace-reveal + rules: svg-path-draw, spring-pop-entrance
 
@@ -112,8 +123,8 @@ centre-ville). Une épingle dorée tombe, un cercle de 1 km se dessine, les traj
 - scene: Trois étapes en un geste : l'annonce s'envoie, Paul Digital crée, la vidéo arrive prête à publier.
 - duration: 3.5s
 - transition_in: whip
-- status: outline
-- src: compositions/07-cle-en-main.html
+- status: animated
+- src: compositions/s3-cle.html
 - type: benefit_highlight
 - blueprint: agent-progress-theater (adapt) + rules: svg-path-draw, press-release-spring, stat-bars-and-fills
 
@@ -124,24 +135,24 @@ Titre : « Vous nous envoyez votre annonce. » / « On s'occupe du reste. »
 
 ## Frame 8 — Les chiffres
 
-- scene: Trois statistiques qui comptent en grand sur fond encre.
+- scene: Trois engagements qui s'affichent en grand, avec compteurs animés.
 - duration: 2.5s
 - transition_in: zoom-through
-- status: outline
-- src: compositions/08-chiffres.html
+- status: animated
+- src: compositions/s4-preuve.html
 - type: social_proof
 - blueprint: dataviz-countup + rules: counting-dynamic-scale, stat-bars-and-fills
 
-« ×3 de vues » · « +80 % d'engagement » · « 100 % clé en main ». Les chiffres sont
-**illustratifs, à valider ou remplacer** (voir « Questions ouvertes »).
+« 0 tournage nécessaire » · « 3 formats réseaux sociaux » · « 100 % clé en main ».
+Validé par l'utilisateur (« vas-y ») : engagements vérifiables plutôt que statistiques inventées.
 
 ## Frame 9 — Les bénéfices
 
 - scene: Les 5 bénéfices s'empilent avec icônes, à côté d'un téléphone qui fait défiler un Reel immobilier.
 - duration: 3.5s
 - transition_in: camera-move
-- status: outline
-- src: compositions/09-benefices.html
+- status: animated
+- src: compositions/s4-preuve.html
 - type: benefit_highlight
 - blueprint: grid-card-assemble (liste verticale qui s'accumule) + rules: waterfall-entry, svg-icon-enrichment
 
@@ -156,8 +167,8 @@ pour les réseaux sociaux » · « Plus d'impact auprès des acheteurs et locata
 - scene: La villa revient en petit et tourne ; la phrase-titre se pose en 3D et tient.
 - duration: 2.5s
 - transition_in: zoom-through
-- status: outline
-- src: compositions/10-dimension.html
+- status: animated
+- src: compositions/s5-final.html
 - type: cta
 - blueprint: titlecard-reveal + rules: 3d-text-depth-layers, ambient-glow-bloom
 
@@ -170,8 +181,8 @@ Rappel de la scène 03 : la villa tourne lentement sous un halo or. Texte extrud
 - scene: Le viseur doré se referme sur le logo Paul Digital ; la phrase finale s'affiche.
 - duration: 3s
 - transition_in: cut
-- status: outline
-- src: compositions/11-cta.html
+- status: animated
+- src: compositions/s5-final.html
 - type: branding
 - blueprint: logo-assemble-lockup + rules: kinetic-beat-slam, ambient-glow-bloom
 

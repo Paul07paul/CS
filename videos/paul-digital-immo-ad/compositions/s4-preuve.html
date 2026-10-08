@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        @font-face { font-family: "DM Serif Display"; font-style: normal; font-weight: 400; src: url("assets/fonts/dmserif.woff2") format("woff2"); }
+        @font-face { font-family: "DM Serif Display"; font-style: italic; font-weight: 400; src: url("assets/fonts/dmserif-italic.woff2") format("woff2"); }
+        @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
+        #root { position: absolute; inset: 0; overflow: hidden; color: #F3EDE2; font-family: "Montserrat", sans-serif; }
+        #s4-a { position: absolute; inset: 0; }
+        #s4-b { position: absolute; inset: 0; }
+        #s4-kick { position: absolute; left: 0; right: 0; top: 230px; text-align: center; font-weight: 700; font-size: 28px; letter-spacing: 0.32em; color: #D6A55A; }
+        .s4-row { position: absolute; left: 110px; width: 860px; height: 300px; }
+        .s4-num { position: absolute; left: 0; top: 0; font-family: "DM Serif Display", serif; font-size: 210px; line-height: 1; color: #D6A55A; }
+        .s4-lab { position: absolute; left: 0; top: 214px; font-weight: 700; font-size: 44px; color: #F3EDE2; }
+        .s4-rule { position: absolute; left: 0; top: 284px; width: 860px; height: 3px; background: rgba(214,165,90,0.45); transform-origin: 0% 50%; }
+        #s4-phone { position: absolute; left: 300px; top: 210px; width: 480px; height: 860px; border-radius: 64px; background: #0A111D; box-shadow: 0 0 0 10px #26354D, 0 50px 90px rgba(0,0,0,0.55); overflow: hidden; }
+        #s4-screen { position: absolute; left: 18px; top: 18px; right: 18px; bottom: 18px; border-radius: 48px; overflow: hidden; background: #0E1624; }
+        #s4-reel { position: absolute; left: 0; top: 0; width: 444px; }
+        .s4-shot { position: absolute; left: 0; width: 444px; height: 824px; overflow: hidden; }
+        .s4-shot .img { position: absolute; inset: 0; }
+        .s4-shot .cap { position: absolute; left: 30px; bottom: 120px; font-family: "DM Serif Display", serif; font-size: 50px; line-height: 1.05; color: #F3EDE2; }
+        .s4-shot .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,22,36,0) 50%, rgba(14,22,36,0.85) 100%); }
+        .s4-ui { position: absolute; right: 22px; width: 56px; height: 56px; border-radius: 28px; background: rgba(243,237,226,0.9); }
+        .s4-ui svg { position: absolute; left: 14px; top: 14px; }
+        #s4-heart { top: 430px; }
+        #s4-plat { position: absolute; left: 0; right: 0; top: 1110px; text-align: center; }
+        .s4-chip { display: inline-block; margin: 0 8px; height: 54px; padding: 0 24px; border-radius: 27px; background: #1A2A42; border: 2px solid rgba(214,165,90,0.6); color: #F3EDE2; font-weight: 700; font-size: 26px; line-height: 50px; }
+        #s4-list { position: absolute; left: 110px; width: 880px; top: 1210px; }
+        .s4-ben { position: absolute; left: 0; width: 880px; height: 64px; }
+        .s4-ben svg { position: absolute; left: 0; top: 6px; }
+        .s4-ben span { position: absolute; left: 70px; top: 6px; font-weight: 700; font-size: 34px; line-height: 44px; color: #F3EDE2; white-space: nowrap; }
+        .s4-ben span b { color: #D6A55A; font-weight: 800; }
+      </style>
+
+      <div id="root" data-composition-id="s4-preuve" data-start="0" data-duration="6" data-width="1080" data-height="1920">
+        <div id="s4-a">
+          <div id="s4-kick">ZÉRO CONTRAINTE POUR L'AGENCE</div>
+          <div class="s4-row" id="s4-r1" style="top: 340px"><div class="s4-num"><span id="s4-n1">5</span></div><div class="s4-lab">tournage nécessaire</div><div class="s4-rule"></div></div>
+          <div class="s4-row" id="s4-r2" style="top: 700px"><div class="s4-num"><span id="s4-n2">0</span></div><div class="s4-lab">formats réseaux sociaux</div><div class="s4-rule"></div></div>
+          <div class="s4-row" id="s4-r3" style="top: 1060px"><div class="s4-num"><span id="s4-n3">0</span> %</div><div class="s4-lab">clé en main</div><div class="s4-rule"></div></div>
+        </div>
+        <div id="s4-b">
+          <div id="s4-phone">
+            <div id="s4-screen">
+              <div id="s4-reel"></div>
+              <div class="s4-ui" id="s4-heart"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M14 25 C14 25 2 17 2 9 A6 6 0 0 1 14 7 A6 6 0 0 1 26 9 C26 17 14 25 14 25 Z" fill="#E5484D"/></svg></div>
+              <div class="s4-ui" style="top: 506px"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M3 5 H25 V19 H12 L6 24 V19 H3 Z" fill="none" stroke="#0E1624" stroke-width="3" stroke-linejoin="round"/></svg></div>
+              <div class="s4-ui" style="top: 582px"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M4 14 L24 4 L18 24 L13 16 Z" fill="none" stroke="#0E1624" stroke-width="3" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+          <div id="s4-plat"><span class="s4-chip">Instagram</span><span class="s4-chip">TikTok</span><span class="s4-chip">Facebook</span></div>
+          <div id="s4-list"></div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const shots = [["main", "Villa d'architecte"], ["salon", "Salon lumineux"], ["pool", "Piscine & terrasse"]];
+          const reel = document.getElementById("s4-reel");
+          shots.forEach(([v, cap], i) => {
+            const d = document.createElement("div");
+            d.className = "s4-shot";
+            d.style.top = i * 824 + "px";
+            d.innerHTML = `<div class="img">${PDIso.photo(v === "main" ? "reel" : v)}</div><div class="shade"></div><div class="cap">${cap}</div>`;
+            reel.appendChild(d);
+          });
+          const bens = [
+            "Des annonces <b>plus attractives</b>",
+            "Vos biens <b>mieux mis en valeur</b>",
+            "Un contenu <b>taillé pour les réseaux</b>",
+            "<b>Plus d'impact</b> auprès des acheteurs",
+            "Une image <b>pro et moderne</b>",
+          ];
+          const list = document.getElementById("s4-list");
+          bens.forEach((t, i) => {
+            const d = document.createElement("div");
+            d.className = "s4-ben";
+            d.style.top = i * 66 + "px";
+            d.innerHTML = `<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#D6A55A"/><path class="s4-tick" d="M13 25 L21 33 L36 16" fill="none" stroke="#0E1624" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40"/></svg><span>${t}</span>`;
+            list.appendChild(d);
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          // ---- Frame 8: commitments (0 – 2.5s)
+          tl.fromTo("#s4-a", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" }, 0);
+          tl.fromTo("#s4-kick", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+          ["#s4-r1", "#s4-r2", "#s4-r3"].forEach((id, i) => {
+            const at = 0.2 + i * 0.32;
+            tl.fromTo(id + " .s4-num", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power4.out" }, at);
+            tl.fromTo(id + " .s4-lab", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, at + 0.12);
+            tl.fromTo(id + " .s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, at + 0.1);
+          });
+          const counter = (id, from, to, at, dur) => {
+            const o = { v: from };
+            const el = document.getElementById(id);
+            el.textContent = String(from);
+            // seek-safe: the text is written by a getter/setter, so every seek re-derives it
+            const api = { val(v) { if (v === undefined) return o.v; o.v = v; el.textContent = String(Math.round(v)); } };
+            tl.fromTo(api, { val: from }, { val: to, duration: dur, ease: "power2.out" }, at);
+          };
+          counter("s4-n1", 5, 0, 0.3, 0.9);
+          counter("s4-n2", 0, 3, 0.6, 0.7);
+          counter("s4-n3", 0, 100, 0.9, 1.0);
+          tl.to("#s4-a", { y: -260, opacity: 0, duration: 0.4, ease: "power3.in" }, 2.2);
+
+          // ---- Frame 9: benefits (2.5 – 6s)
+          tl.fromTo("#s4-phone", { y: 1800, rotation: 8 }, { y: 0, rotation: 0, duration: 0.7, ease: "power4.out" }, 2.4);
+          tl.fromTo("#s4-reel", { y: 0 }, { y: -824, duration: 0.35, ease: "power3.inOut" }, 3.6);
+          tl.fromTo("#s4-reel", { y: -824 }, { y: -1648, duration: 0.35, ease: "power3.inOut", immediateRender: false }, 4.6);
+          tl.fromTo(".s4-shot .img", { scale: 1.15 }, { scale: 1, duration: 3.4, ease: "none" }, 2.6);
+          tl.fromTo("#s4-heart", { scale: 1 }, { scale: 1.35, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 5 }, 3.2);
+          tl.fromTo("#s4-plat .s4-chip", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(2)", stagger: 0.1 }, 2.8);
+          list.querySelectorAll(".s4-ben").forEach((b, i) => {
+            const at = 3.05 + i * 0.33;
+            tl.fromTo(b.querySelector("svg"), { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.4)" }, at);
+            tl.fromTo(b.querySelector(".s4-tick"), { strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, at + 0.12);
+            tl.fromTo(b.querySelector("span"), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, at + 0.05);
+          });
+          tl.to("#s4-b", { scale: 1.5, opacity: 0, filter: "blur(12px)", duration: 0.4, ease: "power3.in" }, 5.6);
+          window.__timelines["s4-preuve"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
