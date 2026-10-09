@@ -57,6 +57,9 @@
       <div id="s11" class="scene clip" data-start="82" data-duration="6.3" data-track-index="1"></div>
       <div id="s12" class="scene clip" data-start="88" data-duration="7.8" data-track-index="2"></div>
       <div id="s13" class="scene clip" data-start="95.5" data-duration="3.5" data-track-index="1" style="background:#F4F1EC"></div>
+      <div id="leak" class="clip" data-start="7" data-duration="88.5" data-track-index="4" style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen"><div id="leak-b" style="position:absolute;left:-700px;top:-200px;width:1100px;height:1100px;border-radius:50%;background:radial-gradient(circle, rgba(255,170,90,0.22) 0%, rgba(255,170,90,0) 65%)"></div></div>
+      <div id="chap" class="clip" data-start="7" data-duration="81" data-track-index="5" style="position:absolute;left:64px;top:52px;width:700px;height:60px;pointer-events:none"></div>
+      <div id="prog" class="clip" data-start="7" data-duration="88.5" data-track-index="6" style="position:absolute;left:0;right:0;bottom:0;height:5px;pointer-events:none"><div id="prog-bar" style="position:absolute;left:0;top:0;bottom:0;width:1920px;background:linear-gradient(90deg,#FFB86B,#FFE2BF);transform-origin:0% 50%;box-shadow:0 0 12px rgba(255,184,107,0.8)"></div></div>
       <div id="flash" class="clip" data-start="0" data-duration="99" data-track-index="3"></div>
       <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="99" data-track-index="11" data-volume="1"></audio>
     </div>
@@ -145,7 +148,8 @@
         <div class="abs it amber" id="s4-t2" style="left:122px;top:860px;font-size:80px">&amp; chaleureux</div>
         <div class="abs k glow" id="s4-t3" style="left:116px;top:750px;font-size:96px">Des vues</div>
         <div class="abs it amber" id="s4-t4" style="left:122px;top:852px;font-size:80px">à couper le souffle</div>
-        ${pill("s4-p1", 1300, 860, "Cheminée")}${pill("s4-p2", 1300, 760, "Vue sur les sommets")}`);
+        ${pill("s4-p1", 1300, 860, "Cheminée")}${pill("s4-p2", 1300, 760, "Vue sur les sommets")}
+        ${card("c17", 1380, 150, 460, 306, "Coin salon", "s4-c")}`);
 
       // ================= S5 · cuisine =================
       H("s5", `${photo("w02", "left:0;top:0;width:1920px;height:1080px", "", "s5-ph")}<div class="shade-l"></div>
@@ -249,7 +253,26 @@
       gsap.set("#flash", { opacity: 0 });
       gsap.set("#btn-b", { opacity: 0 });
       const flash = (t, a) => tl.fromTo("#flash", { opacity: a || 0.85 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, t);
-      const rise = (s, t, d) => tl.fromTo(s, { opacity: 0, y: 46, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: d || 0.6, ease: "power3.out" }, t);
+      // split title lines into words (kinetic word reveal)
+      document.querySelectorAll(".scene .k, .scene .it").forEach((el) => {
+        if (el.children.length || el.id === "s1-t1") return;
+        const words = el.textContent.split(" ");
+        if (words.length < 2) return;
+        el.innerHTML = words.map((w) => `<span class="w" style="display:inline-block;white-space:pre">${w} </span>`).join("");
+      });
+      const riseBlock = (s, t, d) => tl.fromTo(s, { opacity: 0, y: 46, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: d || 0.6, ease: "power3.out" }, t);
+      const rise = (s, t, d) => {
+        const el = typeof s === "string" ? document.querySelector(s) : null;
+        const ws = el ? el.querySelectorAll(".w") : [];
+        if (ws.length > 1) {
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.01 }, t);
+          tl.fromTo(ws, { opacity: 0, y: 70, rotationX: -55, filter: "blur(10px)", transformPerspective: 900 }, { opacity: 1, y: 0, rotationX: 0, filter: "blur(0px)", duration: (d || 0.6) + 0.15, ease: "power4.out", stagger: 0.09 }, t);
+        } else riseBlock(s, t, d);
+      };
+      // light-sweep reveal of a photo: a bright bar travels while the image uncovers
+      const sweep = (photoSel, t, vertical) => {
+        tl.fromTo(photoSel, { clipPath: vertical ? "inset(0% 0% 100% 0%)" : "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.0, ease: "expo.inOut" }, t);
+      };
       const out = (s, t, d) => tl.to(s, { opacity: 0, y: -24, filter: "blur(8px)", duration: d || 0.4, ease: "power2.in" }, t);
       const pop = (s, t) => tl.fromTo(s, { opacity: 0, scale: 0.7, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, t);
       const kb = (s, t, d, a, b) => tl.fromTo(s, a, Object.assign({ duration: d, ease: "none" }, b), t);
@@ -311,7 +334,9 @@
       exitScene("#s3", 24.7, "zoom");
 
       // S4 · salon 25–35
-      enterScene("#s4", 25, "zoom");
+      sweep("#s4-a", 25.0);
+      tl.fromTo("#s4-c", { opacity: 0, x: 160, rotation: 5 }, { opacity: 1, x: 0, rotation: -2, duration: 0.8, ease: "power4.out" }, 27.6);
+      tl.to("#s4-c", { opacity: 0, x: 120, duration: 0.4, ease: "power2.in" }, 29.6);
       kb("#s4-a", 25, 5.5, { scale: 1.0, x: 0 }, { scale: 1.12, x: -60 });
       tl.fromTo("#s4-b", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 30);
       kb("#s4-b", 30, 5.3, { scale: 1.12, x: 50 }, { scale: 1.0, x: -20 });
@@ -368,7 +393,8 @@
       exitScene("#s8", 69.75, "zoom");
 
       // S9 · balcon 70–75
-      kb("#s9-ph", 70, 5.3, { scale: 1.14, y: 30 }, { scale: 1.0, y: 0 });
+      sweep("#s9-ph", 70.0, true);
+      kb("#s9-ph img", 70, 5.3, { scale: 1.16, y: 30 }, { scale: 1.0, y: 0 });
       rise("#s9-k", 70.5); rise("#s9-t1", 70.7, 0.7); rise("#s9-t2", 71.1, 0.7);
       exitScene("#s9", 74.7, "left");
 
@@ -412,6 +438,26 @@
       tl.fromTo("#s13-wp", { y: 130 }, { y: 0, duration: 0.55, ease: "power4.out" }, 96.1);
       tl.fromTo("#s13-wd", { y: 130 }, { y: 0, duration: 0.55, ease: "power4.out" }, 96.25);
       tl.fromTo("#s13-mark", { scale: 1 }, { scale: 1.03, duration: 2.0, ease: "sine.inOut" }, 96.8);
+
+      // ---- ambient layer: warm light leak drifting across, progress line
+      tl.fromTo("#leak-b", { x: 0, y: 0 }, { x: 2400, y: 300, duration: 44, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7);
+      tl.fromTo("#prog-bar", { scaleX: 0 }, { scaleX: 1, duration: 88.5, ease: "none" }, 7);
+      // ---- chapter tag: number + line + label, swapped at every scene
+      const CH = [[7, "01", "Emplacement"], [15, "02", "En chiffres"], [25, "03", "Le salon"], [35, "04", "La cuisine"], [42, "05", "Les chambres"], [54, "06", "Salles d'eau"], [60, "07", "Bien-être"], [70, "08", "Extérieur"], [75, "09", "Équipements"], [82, "10", "Infos pratiques"]];
+      $("chap").innerHTML = CH.map(([t, n, l], i) => `<div id="ch${i}" style="position:absolute;left:0;top:0;white-space:nowrap;text-shadow:0 2px 14px rgba(0,0,0,0.6)"><span style="font-weight:800;font-size:30px;color:#FFC88E">${n}</span><span class="chl" style="display:inline-block;width:70px;height:2px;background:#FFC88E;margin:0 18px;vertical-align:8px;transform-origin:0 50%"></span><span style="font-weight:600;font-size:24px;letter-spacing:0.3em;text-transform:uppercase">${l}</span></div>`).join("");
+      CH.forEach(([t], i) => {
+        tl.fromTo("#ch" + i, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, t + 0.3);
+        tl.fromTo("#ch" + i + " .chl", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, t + 0.45);
+        const end = i + 1 < CH.length ? CH[i + 1][0] - 0.35 : 87.6;
+        tl.to("#ch" + i, { opacity: 0, x: 20, duration: 0.3, ease: "power2.in" }, end);
+      });
+      // ---- gentle sway on cards, pills and widgets (rotation only, independent of their entrances)
+      document.querySelectorAll(".scene .card, .scene .pill, .scene .glass").forEach((el, k) => {
+        if (el.id === "s4-c" || el.id === "s5-c") return;
+        const sc = el.closest(".scene");
+        const st = parseFloat(sc.dataset.start), du = parseFloat(sc.dataset.duration);
+        tl.fromTo(el, { rotation: -0.6 * ((k % 2) ? 1 : -1) }, { rotation: 0.6 * ((k % 2) ? 1 : -1), duration: 1.9 + (k % 3) * 0.3, ease: "sine.inOut", yoyo: true, repeat: Math.max(1, Math.floor(du / 2)) }, st);
+      });
 
       window.__timelines["main"] = tl;
     </script>

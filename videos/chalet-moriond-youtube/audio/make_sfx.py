@@ -32,6 +32,9 @@ def st(s, pan=0.0):
 
 
 def whoosh(d=0.5, top=4000, gain=0.2, p0=-0.6, p1=0.6):
+    top = min(top, 2400)  # keep it airy and soft
+    gain *= 0.45
+    d = max(d, 0.6)
     n = int(d * SR)
     x = np.arange(n) / SR
     noise = rng.standard_normal(n)
@@ -49,19 +52,22 @@ def whoosh(d=0.5, top=4000, gain=0.2, p0=-0.6, p1=0.6):
 
 
 def hit(gain=0.2):
-    n = int(1.0 * SR)
+    """soft 'bloom': rounded low swell + airy bell, no transient click"""
+    n = int(1.8 * SR)
     x = np.arange(n) / SR
-    s = np.sin(2 * np.pi * np.cumsum(48 + 90 * np.exp(-x * 22)) / SR) * np.exp(-x * 6)
-    s += lp(rng.standard_normal(n), 2200) * np.exp(-x * 28) * 0.45
-    return st(s * gain)
+    env = np.clip(x / 0.06, 0, 1) * np.exp(-x * 2.6)
+    s = np.sin(2 * np.pi * 70 * x) * env * 0.6
+    s += sum(a * np.sin(2 * np.pi * f * x) for f, a in [(523.3, 0.30), (784.0, 0.18), (1046.5, 0.10)]) * np.clip(x / 0.02, 0, 1) * np.exp(-x * 2.2)
+    return st(lp(s, 3500) * gain * 0.45)
 
 
 def tick(gain=0.04, f=2400):
-    x = np.arange(int(0.04 * SR)) / SR
-    return st(np.sin(2 * np.pi * f * x) * np.exp(-x * 120) * gain)
+    x = np.arange(int(0.12 * SR)) / SR
+    return st(np.sin(2 * np.pi * (f * 0.5) * x) * np.clip(x / 0.004, 0, 1) * np.exp(-x * 40) * gain * 0.35)
 
 
 def pop(gain=0.09, f0=700, f1=450, pan=0.0):
+    gain *= 0.55
     x = np.arange(int(0.2 * SR)) / SR
     f = f1 + (f0 - f1) * np.exp(-x * 30)
     return st(np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-x * 20) * np.clip(x / 0.003, 0, 1) * gain, pan)
@@ -81,6 +87,8 @@ def texture(d, lo, hi, gain):
 
 
 # scene changes
+at(25.0, whoosh(1.0, 2200, 0.14, -0.5, 0.5))
+at(70.0, whoosh(1.0, 2200, 0.14, 0.0, 0.0))
 at(4.4, whoosh(2.2, 2600, 0.16, 0.0, 0.0))  # window opening onto the mountains
 for k in range(6):
     at(0.9 + k * 0.1, tick(0.035, 1800 + 120 * k))  # letter reveal
@@ -118,11 +126,11 @@ for k, f in enumerate([1568, 2093, 2349, 2637, 3136]):
 
 irn = int(1.4 * SR)
 it = np.arange(irn) / SR
-ir = lp(rng.standard_normal((irn, 2)) * np.exp(-it * 3.5)[:, None], 6000)
+ir = lp(rng.standard_normal((irn, 2)) * np.exp(-it * 2.4)[:, None], 5000)
 ir /= np.sqrt(np.sum(ir ** 2))
-dry = track[:N]
-mix = dry * 0.9 + np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in range(2)], 1) * 0.3
-mix = mix * 2.5  # no music bed any more: effects carry the soundtrack
+dry = lp(track[:N], 6000)
+mix = dry * 0.8 + np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in range(2)], 1) * 0.55
+mix = mix * 2.4  # soft timbres, gentle overall level (~ -24 LUFS)
 mix = np.tanh(mix * 1.1) / np.tanh(1.1) * 0.92
 pcm = (mix * 32767).astype("<i2")
 with wave.open("assets/audio/sfx.wav", "wb") as w:
