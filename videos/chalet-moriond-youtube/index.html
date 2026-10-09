@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400 600; src: url("assets/fonts/cormorant.woff2") format("woff2"); }
+      @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400 600; src: url("assets/fonts/cormorant-italic.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #07080B; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #07080B; font-family: "Montserrat", sans-serif; color: #fff; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .abs { position: absolute; }
+      .full { position: absolute; inset: 0; }
+      .photo { position: absolute; overflow: hidden; }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .cone { position: absolute; left: 360px; top: -420px; width: 1200px; height: 1100px; background: radial-gradient(ellipse at 50% 30%, rgba(255,238,214,0.34) 0%, rgba(255,214,170,0.12) 35%, rgba(255,214,170,0) 70%); }
+      .floor { position: absolute; left: 0; right: 0; bottom: 0; height: 360px; background: linear-gradient(180deg, rgba(7,8,11,0) 0%, rgba(7,8,11,0.9) 100%); }
+      .glass { position: absolute; border-radius: 36px; background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border: 1.5px solid rgba(255,255,255,0.17); box-shadow: 0 0 70px rgba(255,186,110,0.10), inset 0 1px 0 rgba(255,255,255,0.22); }
+      .pill { position: absolute; height: 84px; border-radius: 42px; background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.04)); border: 1.5px solid rgba(255,255,255,0.22); box-shadow: 0 0 40px rgba(255,186,110,0.14), inset 0 1px 0 rgba(255,255,255,0.25); white-space: nowrap; font-weight: 700; font-size: 30px; line-height: 81px; padding: 0 36px; }
+      .pill i { display: inline-block; width: 14px; height: 14px; border-radius: 7px; background: #FFB86B; box-shadow: 0 0 14px #FFB86B; margin-right: 16px; vertical-align: 3px; }
+      .glow { text-shadow: 0 0 28px rgba(255,200,140,0.55), 0 0 2px rgba(255,255,255,0.6); }
+      .glow-blue { text-shadow: 0 0 30px rgba(120,190,255,0.75), 0 0 2px rgba(255,255,255,0.7); }
+      .glow-ember { text-shadow: 0 0 30px rgba(255,120,60,0.75), 0 0 2px rgba(255,255,255,0.7); }
+      .k { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; line-height: 0.95; white-space: nowrap; }
+      .it { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; white-space: nowrap; }
+      .kick { font-weight: 600; font-size: 24px; letter-spacing: 0.38em; text-transform: uppercase; white-space: nowrap; color: #FFC88E; }
+      .amber { color: #FFC88E; }
+      .num { font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; line-height: 1; white-space: nowrap; }
+      .shade-l { position: absolute; left: 0; top: 0; bottom: 0; width: 1150px; background: linear-gradient(90deg, rgba(7,8,11,0.88) 0%, rgba(7,8,11,0.55) 55%, rgba(7,8,11,0) 100%); }
+      .shade-b { position: absolute; left: 0; right: 0; bottom: 0; height: 520px; background: linear-gradient(180deg, rgba(7,8,11,0) 0%, rgba(7,8,11,0.85) 100%); }
+      .card { position: absolute; overflow: hidden; border-radius: 26px; box-shadow: 0 30px 70px rgba(0,0,0,0.5); }
+      .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .tag { position: absolute; left: 22px; bottom: 22px; height: 46px; padding: 0 18px; border-radius: 23px; background: rgba(7,8,11,0.72); font-weight: 700; font-size: 20px; letter-spacing: 0.08em; line-height: 46px; white-space: nowrap; }
+      .ring-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; perspective: 1700px; }
+      .ring { position: absolute; left: 960px; top: 540px; width: 0; height: 0; transform-style: preserve-3d; }
+      .ring span { position: absolute; left: -30px; top: -50px; width: 60px; height: 100px; text-align: center; font-weight: 800; font-size: 84px; line-height: 100px; color: #FFFFFF; backface-visibility: hidden; text-shadow: 0 0 22px rgba(255,200,140,0.6); }
+      .dot { position: absolute; border-radius: 50%; background: #FFE2BF; }
+      #flash { position: absolute; inset: 0; background: #FFF6EA; pointer-events: none; }
+      .ico { position: absolute; color: #FFC88E; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="99" data-width="1920" data-height="1080">
+      <div id="s1" class="scene clip" data-start="0" data-duration="7.3" data-track-index="1"></div>
+      <div id="s2" class="scene clip" data-start="7" data-duration="8.3" data-track-index="2"></div>
+      <div id="s3" class="scene clip" data-start="15" data-duration="10.3" data-track-index="1"></div>
+      <div id="s4" class="scene clip" data-start="25" data-duration="10.3" data-track-index="2"></div>
+      <div id="s5" class="scene clip" data-start="35" data-duration="7.3" data-track-index="1"></div>
+      <div id="s6" class="scene clip" data-start="42" data-duration="12.3" data-track-index="2"></div>
+      <div id="s7" class="scene clip" data-start="54" data-duration="6.3" data-track-index="1"></div>
+      <div id="s8" class="scene clip" data-start="60" data-duration="10.3" data-track-index="2"></div>
+      <div id="s9" class="scene clip" data-start="70" data-duration="5.3" data-track-index="1"></div>
+      <div id="s10" class="scene clip" data-start="75" data-duration="7.3" data-track-index="2"></div>
+      <div id="s11" class="scene clip" data-start="82" data-duration="6.3" data-track-index="1"></div>
+      <div id="s12" class="scene clip" data-start="88" data-duration="7.8" data-track-index="2"></div>
+      <div id="s13" class="scene clip" data-start="95.5" data-duration="3.5" data-track-index="1" style="background:#F4F1EC"></div>
+      <div id="flash" class="clip" data-start="0" data-duration="99" data-track-index="3"></div>
+      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="99" data-track-index="10" data-volume="0.85"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="99" data-track-index="11" data-volume="0.9"></audio>
+    </div>
+
+    <script>
+      // ================= helpers =================
+      const $ = (id) => document.getElementById(id);
+      const H = (id, html) => ($(id).innerHTML = html);
+      const photo = (src, style, imgStyle, id) => `<div class="photo" ${id ? `id="${id}"` : ""} style="${style}"><img src="assets/photos/${src}.jpg" style="${imgStyle || ""}" alt="" /></div>`;
+      const card = (src, x, y, w, h, tag, id) => `<div class="card" id="${id}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"><img src="assets/photos/${src}.jpg" alt="" />${tag ? `<div class="tag">${tag}</div>` : ""}</div>`;
+      const pill = (id, x, y, html, extra) => `<div class="pill" id="${id}" style="left:${x}px;top:${y}px;${extra || ""}"><i></i>${html}</div>`;
+      const dots = (n, seed, color) => Array.from({ length: n }, (_, k) => {
+        const s = 2 + ((k * 7 + seed) % 5);
+        return `<div class="dot" data-k="${k}" style="left:${(k * 197 + seed * 53) % 1920}px;top:${(k * 131 + seed * 29) % 1080}px;width:${s}px;height:${s}px;opacity:${0.25 + ((k * 13) % 7) / 12};${color ? "background:" + color : ""}"></div>`;
+      }).join("");
+      const ICONS = {
+        kitchen: '<path d="M10 6 v14 a4 4 0 0 0 8 0 V6 M14 6 v36 M32 6 c-5 0 -6 8 -6 14 h6 v22"/>',
+        wifi: '<path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0"/><circle cx="24" cy="39" r="2.4" fill="currentColor"/>',
+        park: '<rect x="9" y="7" width="30" height="34" rx="6"/><path d="M19 33 V16 h7 a6 6 0 0 1 0 12 h-7"/>',
+        pool: '<path d="M4 34 c5 -4 10 4 15 0 s10 4 15 0 s10 4 10 0 M4 42 c5 -4 10 4 15 0 s10 4 15 0 s10 4 10 0 M16 30 V10 a4 4 0 0 1 8 0 M30 30 V10 a4 4 0 0 1 8 0 M16 18 h14"/>',
+        sauna: '<rect x="6" y="20" width="36" height="22" rx="3"/><path d="M14 14 c-3 -3 3 -5 0 -8 M24 14 c-3 -3 3 -5 0 -8 M34 14 c-3 -3 3 -5 0 -8 M6 31 h36"/>',
+        tv: '<rect x="5" y="9" width="38" height="25" rx="3"/><path d="M17 41 h14 M24 34 v7"/>',
+        wash: '<rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="26" r="9"/><path d="M13 11 h6"/>',
+        balcony: '<path d="M6 24 h36 M6 24 v18 M42 24 v18 M6 42 h36 M14 24 v18 M22 24 v18 M30 24 v18 M38 24 v18 M12 24 V8 h24 v16"/>',
+        clock: '<circle cx="24" cy="24" r="18"/><path d="M24 13 v12 l8 5"/>',
+        door: '<path d="M10 42 V6 h22 v36 M32 24 h12 M38 18 l6 6 -6 6"/><circle cx="26" cy="25" r="1.6" fill="currentColor"/>',
+        bolt: '<path d="M27 4 L10 27 h12 l-3 17 L38 20 H26 z"/>',
+        people: '<circle cx="17" cy="16" r="6"/><circle cx="33" cy="18" r="5"/><path d="M5 40 c0 -8 6 -13 12 -13 s12 5 12 13 M29 40 c0 -6 4 -10 9 -10 s7 4 7 10"/>',
+        chat: '<path d="M6 8 h36 v24 H20 l-10 8 v-8 H6 z"/>',
+      };
+      const ico = (name, x, y, s, id) => `<svg class="ico" ${id ? `id="${id}"` : ""} viewBox="0 0 48 48" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px">${ICONS[name]}</svg>`;
+
+      // ================= S1 · intro (ring + title) =================
+      const RING = "CHALET · COURCHEVEL MORIOND · 1650 M · ";
+      H("s1", `<div class="cone" id="s1-cone"></div><div class="full" id="s1-dots">${dots(60, 3)}</div>
+        <div class="ring-stage"><div class="ring" id="s1-ring">${RING.split("").map((c, i) => `<span data-layout-allow-overlap style="transform:rotateY(${(i * 360) / RING.length}deg) translateZ(640px)">${c === " " ? "&nbsp;" : c}</span>`).join("")}</div></div>
+        <div class="abs k glow" id="s1-t1" style="left:0;right:0;top:420px;text-align:center;font-size:190px;letter-spacing:0.12em">CHALET</div>
+        <div class="abs it amber" id="s1-t2" style="left:0;right:0;top:620px;text-align:center;font-size:86px">Courchevel Moriond</div>
+        <div class="abs kick" id="s1-t3" style="left:0;right:0;top:740px;text-align:center">Location de prestige · jusqu'à 12 voyageurs</div>
+        <div class="floor"></div>`);
+
+      // ================= S2 · location =================
+      H("s2", `${photo("w01", "left:0;top:0;width:1920px;height:1080px", "", "s2-ph")}<div class="shade-l"></div>
+        <div class="abs kick" id="s2-k" style="left:120px;top:300px">Emplacement idéal</div>
+        <div class="abs k glow" id="s2-t1" style="left:116px;top:360px;font-size:120px">À deux pas</div>
+        <div class="abs it amber" id="s2-t2" style="left:122px;top:490px;font-size:84px">des pistes &amp; des commerces</div>
+        <div class="glass" id="s2-map" style="left:1210px;top:220px;width:590px;height:640px;overflow:hidden;background:linear-gradient(180deg, rgba(14,14,18,0.9), rgba(10,10,14,0.82))">
+          <svg viewBox="0 0 590 640" width="590" height="640" style="position:absolute;left:0;top:0">
+            <path id="s2-m1" d="M -10 470 L 90 360 L 160 410 L 260 250 L 330 320 L 420 180 L 500 290 L 600 230" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="4" stroke-linejoin="round"/>
+            <path id="s2-m2" d="M -10 540 L 120 450 L 230 500 L 340 400 L 450 470 L 600 390" fill="none" stroke="rgba(255,200,142,0.55)" stroke-width="3" stroke-linejoin="round"/>
+            <path id="s2-road" d="M 60 640 C 160 560, 220 560, 300 470 S 420 380, 470 300" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 18"/>
+          </svg>
+          <div class="abs" id="s2-pulse" style="left:255px;top:425px;width:80px;height:80px;border-radius:50%;border:3px solid #FFB86B"></div>
+          <svg class="abs" id="s2-pin" viewBox="0 0 60 80" style="left:265px;top:385px;width:60px;height:80px"><path d="M30 78 C30 78 3 46 3 29 A27 27 0 0 1 57 29 C57 46 30 78 30 78 Z" fill="#FFB86B"/><circle cx="30" cy="29" r="10" fill="#07080B"/></svg>
+          <div class="abs kick" style="left:40px;top:42px;color:#fff">Courchevel</div>
+          <div class="abs it amber" style="left:40px;top:80px;font-size:52px">Moriond</div>
+          <div class="pill" id="s2-p1" style="left:40px;top:520px;height:64px;line-height:61px;font-size:24px;padding:0 24px"><i></i>Pistes à deux pas</div>
+          <div class="pill" id="s2-p2" style="left:310px;top:430px;height:64px;line-height:61px;font-size:24px;padding:0 24px;display:none"></div>
+        </div>
+        <div class="pill" id="s2-p3" style="left:120px;top:640px"><i></i>Commerces à proximité</div>`);
+
+      // ================= S3 · dashboard (figures + rating) =================
+      H("s3", `<div class="cone" id="s3-cone" style="left:360px"></div><div class="full" id="s3-dots">${dots(50, 7)}</div>
+        <div class="abs kick" id="s3-k" style="left:0;right:0;top:120px;text-align:center">Le chalet en chiffres</div>
+        <div id="s3-figs"></div>
+        <div class="glass" id="s3-score" style="left:610px;top:560px;width:700px;height:300px">
+          <div class="abs kick" style="left:0;right:0;top:40px;text-align:center;color:#fff">Note des voyageurs</div>
+          <div class="abs num glow" style="left:0;right:0;top:90px;text-align:center;font-size:150px"><span id="s3-score-n">0,00</span><span class="amber" style="font-size:96px"> ★</span></div>
+        </div>
+        <svg class="abs" viewBox="0 0 1920 1080" style="left:0;top:0;width:1920px;height:1080px"><path id="s3-bracket" d="M 960 860 V 900 M 470 940 V 900 H 1450 V 940" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3"/></svg>
+        ${pill("s3-b1", 300, 950, "168 évaluations")}${pill("s3-b2", 790, 950, "Réservation instantanée")}${pill("s3-b3", 1290, 950, "Répond dans l'heure")}`);
+      const FIGS = [[12, "voyageurs", "people"], [4, "chambres en suite", "door"], [1, "dortoir mansardé", "people"], [4, "salles d'eau", "wash"]];
+      $("s3-figs").innerHTML = FIGS.map(([v, l, ic], i) => `<div class="glass" id="s3-f${i}" style="left:${120 + i * 430}px;top:200px;width:400px;height:300px">
+          ${ico(ic, 40, 40, 56)}
+          <div class="abs num glow" style="left:40px;top:116px;font-size:120px" id="s3-n${i}">0</div>
+          <div class="abs" style="left:42px;top:240px;font-weight:600;font-size:28px;color:#E9DCCB;white-space:nowrap">${l}</div></div>`).join("");
+
+      // ================= S4 · salon =================
+      H("s4", `${photo("w01", "left:0;top:0;width:1920px;height:1080px", "object-position:50% 50%", "s4-a")}${photo("w03", "left:0;top:0;width:1920px;height:1080px", "object-position:50% 50%", "s4-b")}
+        <div class="shade-b"></div><div class="shade-l" style="width:900px;opacity:0.7"></div>
+        <div class="abs kick" id="s4-k" style="left:120px;top:700px">Le salon</div>
+        <div class="abs k glow" id="s4-t1" style="left:116px;top:750px;font-size:104px">Spacieux</div>
+        <div class="abs it amber" id="s4-t2" style="left:122px;top:860px;font-size:80px">&amp; chaleureux</div>
+        <div class="abs k glow" id="s4-t3" style="left:116px;top:750px;font-size:96px">Des vues</div>
+        <div class="abs it amber" id="s4-t4" style="left:122px;top:852px;font-size:80px">à couper le souffle</div>
+        ${pill("s4-p1", 1300, 860, "Cheminée")}${pill("s4-p2", 1300, 760, "Vue sur les sommets")}`);
+
+      // ================= S5 · cuisine =================
+      H("s5", `${photo("w02", "left:0;top:0;width:1920px;height:1080px", "", "s5-ph")}<div class="shade-l"></div>
+        <div class="abs kick" id="s5-k" style="left:120px;top:330px">La cuisine</div>
+        <div class="abs k glow" id="s5-t1" style="left:116px;top:390px;font-size:110px">Ouverte</div>
+        <div class="abs it amber" id="s5-t2" style="left:122px;top:510px;font-size:84px">parfaitement équipée</div>
+        ${pill("s5-p1", 120, 650, "Îlot central")}${pill("s5-p2", 440, 650, "Espace repas convivial")}
+        ${card("c19", 1330, 600, 480, 320, "Cuisine", "s5-c")}`);
+
+      // ================= S6 · chambres (colour block) =================
+      H("s6", `<div class="full" style="background:#0E2A5C"></div><div class="full" style="background:radial-gradient(ellipse at 20% 30%, rgba(120,170,255,0.35), rgba(14,42,92,0) 60%)"></div>
+        <div class="abs num glow-blue" id="s6-n" style="left:110px;top:150px;font-size:300px">4</div>
+        <div class="abs k" id="s6-t1" style="left:320px;top:205px;font-size:78px">CHAMBRES</div>
+        <div class="abs it" id="s6-t2" style="left:326px;top:292px;font-size:72px;color:#BBD5FF">en suite</div>
+        <div class="abs" id="s6-l" style="left:116px;top:470px;width:640px;font-weight:500;font-size:32px;line-height:1.45;color:#DDE8FF;white-space:normal">Chacune avec sa salle d'eau privative, dans le bois et la lumière.</div>
+        <div id="s6-grid" style="position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1800px">
+          ${card("c04", 900, 120, 450, 310, "Chambre 1", "s6-c1")}${card("c05", 1380, 120, 450, 310, "Chambre 2", "s6-c2")}
+          ${card("c06", 900, 460, 450, 310, "Chambre 3", "s6-c3")}${card("c07", 1380, 460, 450, 310, "Chambre 4", "s6-c4")}
+        </div>
+        <div id="s6-dorm" class="full">
+          ${card("w08", 860, 120, 970, 650, "Dortoir mansardé", "s6-d")}
+          <div class="abs k" id="s6-t3" style="left:116px;top:650px;font-size:84px">+ UN DORTOIR</div>
+          <div class="abs it" id="s6-t4" style="left:122px;top:740px;font-size:72px;color:#BBD5FF">mansardé, sous les poutres</div>
+        </div>
+        ${pill("s6-p", 860, 850, "Parfait pour accueillir famille &amp; amis", "background:rgba(255,255,255,0.12)")}`);
+
+      // ================= S7 · salles d'eau (colour block) =================
+      H("s7", `<div class="full" style="background:#3A2A1E"></div><div class="full" style="background:radial-gradient(ellipse at 80% 20%, rgba(255,190,120,0.3), rgba(58,42,30,0) 60%)"></div>
+        <div class="abs num glow" id="s7-n" style="left:110px;top:170px;font-size:300px">4</div>
+        <div class="abs k" id="s7-t1" style="left:330px;top:220px;font-size:92px">SALLES D'EAU</div>
+        <div class="abs it amber" id="s7-t2" style="left:336px;top:318px;font-size:76px">une pour chaque suite</div>
+        ${card("c09", 110, 520, 410, 280, "Douche à l'italienne", "s7-c1")}${card("c10", 550, 520, 410, 280, "Double vasque", "s7-c2")}
+        ${card("c11", 990, 520, 410, 280, "", "s7-c3")}${card("c12", 1430, 520, 380, 280, "", "s7-c4")}`);
+
+      // ================= S8 · bien-être =================
+      H("s8", `<div class="full" style="background:#04101C"></div>
+        ${photo("w15", "left:0;top:0;width:1920px;height:1080px", "", "s8-pool")}
+        <div class="full" style="background:linear-gradient(90deg, rgba(4,16,28,0.85), rgba(4,16,28,0.2) 60%)" id="s8-shade"></div>
+        <div class="abs kick" id="s8-k" style="left:120px;top:250px;color:#9ED0FF">Espace bien-être privé</div>
+        <div class="abs k glow-blue" id="s8-t1" style="left:112px;top:310px;font-size:170px">PISCINE</div>
+        <div class="abs it" id="s8-t2" style="left:122px;top:480px;font-size:80px;color:#BFE0FF">intérieure, rien que pour vous</div>
+        <div id="s8-sauna" class="full">
+          <div class="full" style="background:#1E0D06"></div><div class="full" style="background:radial-gradient(ellipse at 70% 50%, rgba(255,120,60,0.35), rgba(30,13,6,0) 60%)"></div>
+          ${card("c16", 1000, 200, 810, 540, "Sauna privé", "s8-c")}
+          <div class="abs kick" style="left:120px;top:300px;color:#FFB48A">Et pour se détendre</div>
+          <div class="abs k glow-ember" id="s8-t3" style="left:112px;top:360px;font-size:170px">SAUNA</div>
+          <div class="abs it" id="s8-t4" style="left:122px;top:530px;font-size:80px;color:#FFD2B5">après une journée de ski</div>
+        </div>`);
+
+      // ================= S9 · balcon =================
+      H("s9", `${photo("w14", "left:0;top:0;width:1920px;height:1080px", "object-position:50% 40%", "s9-ph")}<div class="shade-b"></div>
+        <div class="abs kick" id="s9-k" style="left:120px;top:740px">Extérieur</div>
+        <div class="abs k glow" id="s9-t1" style="left:116px;top:790px;font-size:110px">Balcon privé</div>
+        <div class="abs it amber" id="s9-t2" style="left:122px;top:925px;font-size:72px">face aux sommets</div>`);
+
+      // ================= S10 · équipements =================
+      const AM = [["kitchen", "Cuisine"], ["wifi", "Wi-Fi"], ["park", "Parking gratuit"], ["pool", "Piscine"], ["sauna", "Sauna privé"], ["tv", "Télévision"], ["wash", "Lave-linge"], ["balcony", "Patio ou balcon"]];
+      H("s10", `<div class="cone" style="left:360px"></div><div class="full">${dots(40, 11)}</div>
+        <div class="abs kick" id="s10-k" style="left:0;right:0;top:110px;text-align:center">Équipements</div>
+        <div class="abs k glow" id="s10-t" style="left:0;right:0;top:160px;text-align:center;font-size:84px">TOUT LE CONFORT</div>
+        ${AM.map(([ic, l], i) => `<div class="glass" id="s10-a${i}" style="left:${150 + (i % 4) * 420}px;top:${330 + Math.floor(i / 4) * 330}px;width:380px;height:290px">${ico(ic, 40, 46, 76)}<div class="abs" style="left:40px;top:180px;font-weight:700;font-size:36px;white-space:nowrap">${l}</div></div>`).join("")}`);
+
+      // ================= S11 · infos pratiques =================
+      const INFO = [["clock", "Arrivée", "16:00 – 21:00"], ["door", "Départ", "avant 10:00"], ["people", "Capacité", "12 voyageurs"], ["bolt", "Réservation", "instantanée"]];
+      H("s11", `<div class="cone" style="left:360px"></div>
+        <div class="abs kick" id="s11-k" style="left:0;right:0;top:150px;text-align:center">Infos pratiques</div>
+        ${INFO.map(([ic, a, b], i) => `<div class="glass" id="s11-i${i}" style="left:${120 + i * 430}px;top:320px;width:400px;height:420px">${ico(ic, 40, 46, 72)}<div class="abs kick" style="left:42px;top:170px;color:#fff">${a}</div><div class="abs" style="left:40px;top:220px;font-weight:800;font-size:46px;white-space:nowrap">${b}</div></div>`).join("")}
+        ${pill("s11-p", 700, 820, "Taux de réponse de l'hôte : 95 %")}`);
+
+      // ================= S12 · outro + booking =================
+      H("s12", `${photo("w03", "left:0;top:0;width:1920px;height:1080px", "", "s12-ph")}<div class="full" style="background:rgba(7,8,11,0.6)" id="s12-dim"></div>
+        <div class="abs k glow" id="s12-t1" style="left:0;right:0;top:330px;text-align:center;font-size:150px">FAMILLE</div>
+        <div class="abs it amber" id="s12-t2" style="left:0;right:0;top:490px;text-align:center;font-size:100px">&amp; amis</div>
+        <div class="abs kick" id="s12-t3" style="left:0;right:0;top:640px;text-align:center;color:#fff">Une ambiance conviviale et confortable</div>
+        <div id="book" style="position:absolute;left:560px;top:200px;width:800px;height:620px;border-radius:34px;background:#FFFFFF;box-shadow:0 40px 100px rgba(0,0,0,0.55);color:#222">
+          <div style="position:absolute;left:0;right:0;top:36px;height:130px;text-align:center"><span style="display:inline-block;vertical-align:middle;font-weight:600;font-size:34px;margin-right:24px">Réservez sur</span><img src="assets/logo/airbnb.png" alt="Airbnb" style="display:inline-block;vertical-align:middle;height:130px;width:115px" /></div>
+          <div style="position:absolute;left:56px;right:56px;top:186px;height:2px;background:#EBEBEB"></div>
+          <div style="position:absolute;left:56px;top:214px;font-weight:700;font-size:44px;white-space:nowrap">Chalet · Courchevel Moriond</div>
+          <div style="position:absolute;left:56px;top:276px;font-weight:600;font-size:28px;color:#222;white-space:nowrap">★ 4,74 · <span style="text-decoration:underline">168 commentaires</span></div>
+          <div style="position:absolute;left:56px;top:322px;font-weight:500;font-size:26px;color:#717171;white-space:nowrap">4 chambres en suite · dortoir · piscine · sauna</div>
+          <div style="position:absolute;left:56px;right:56px;top:384px;height:88px;border-radius:14px;border:2px solid #DDD">
+            <span style="position:absolute;left:24px;line-height:84px;font-weight:600;font-size:24px;letter-spacing:0.06em">ARRIVÉE</span><span style="position:absolute;left:300px;line-height:84px;font-weight:600;font-size:24px;letter-spacing:0.06em">DÉPART</span><span style="position:absolute;right:24px;line-height:84px;font-weight:600;font-size:24px;letter-spacing:0.06em">VOYAGEURS</span>
+          </div>
+          <div id="book-btn" style="position:absolute;left:56px;right:56px;top:500px;height:92px;border-radius:16px;background:linear-gradient(90deg,#E61E4E 0%,#E31C5F 50%,#D70466 100%);color:#fff;text-align:center;font-weight:600;font-size:36px;line-height:92px;overflow:hidden">
+            <div id="book-rip" style="position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:rgba(255,255,255,0.45)"></div>
+            <span id="btn-a" style="position:absolute;left:0;right:0;top:0">Réserver</span><span id="btn-b" style="position:absolute;left:0;right:0;top:0">Réservé&nbsp;&nbsp;✓</span>
+          </div>
+          <svg id="cursor" viewBox="0 0 44 44" style="position:absolute;left:0;top:0;width:52px;height:52px"><path d="M8 4 L8 36 L16 28 L22 40 L27 38 L21 26 L32 26 Z" fill="#FFFFFF" stroke="#222" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        </div>`);
+
+      // ================= S13 · signature =================
+      H("s13", `<div class="abs kick" id="s13-by" style="left:0;right:0;top:300px;text-align:center;color:#6B7280">Vidéo réalisée par</div>
+        <div class="abs" id="s13-mark" style="left:860px;top:370px;width:200px;height:192px"><img id="s13-d" src="assets/logo/mark-d.png" style="position:absolute;inset:0;width:200px;height:192px" alt="" /><img id="s13-a" src="assets/logo/mark-arrow.png" style="position:absolute;inset:0;width:200px;height:192px" alt="" /></div>
+        <div class="abs" id="s13-word" style="left:660px;top:610px;width:600px;height:123px;overflow:hidden"><img id="s13-wp" src="assets/logo/word-paul.png" style="position:absolute;inset:0;width:600px;height:123px" alt="Paul" /><img id="s13-wd" src="assets/logo/word-digital.png" style="position:absolute;inset:0;width:600px;height:123px" alt="Digital" /></div>`);
+
+      // ================= timeline =================
+      const tl = gsap.timeline({ paused: true });
+      gsap.set("#flash", { opacity: 0 });
+      gsap.set("#btn-b", { opacity: 0 });
+      const flash = (t, a) => tl.fromTo("#flash", { opacity: a || 0.85 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, t);
+      const rise = (s, t, d) => tl.fromTo(s, { opacity: 0, y: 46, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: d || 0.6, ease: "power3.out" }, t);
+      const out = (s, t, d) => tl.to(s, { opacity: 0, y: -24, filter: "blur(8px)", duration: d || 0.4, ease: "power2.in" }, t);
+      const pop = (s, t) => tl.fromTo(s, { opacity: 0, scale: 0.7, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, t);
+      const kb = (s, t, d, a, b) => tl.fromTo(s, a, Object.assign({ duration: d, ease: "none" }, b), t);
+      const enterScene = (s, t, dir) => {
+        const from = { left: { x: -1920 }, right: { x: 1920 }, up: { y: 1080 }, zoom: { scale: 1.25, opacity: 0 } }[dir];
+        tl.fromTo(s, Object.assign({ filter: "blur(20px)" }, from), { x: 0, y: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "power4.out" }, t);
+      };
+      const exitScene = (s, t, dir) => {
+        const to = { left: { x: -1920 }, right: { x: 1920 }, up: { y: -1080 }, zoom: { scale: 1.3, opacity: 0 } }[dir];
+        tl.to(s, Object.assign({ filter: "blur(20px)", duration: 0.35, ease: "power3.in" }, to), t);
+      };
+      const count = (id, to, t, d, dec) => {
+        const el = $(id);
+        let cur = 0;
+        const o = { v(x) { if (x === undefined) return cur; cur = x; el.textContent = dec ? x.toFixed(2).replace(".", ",") : String(Math.round(x)); } };
+        tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "power3.out" }, t);
+      };
+      const drift = (sel, t, d) => document.querySelectorAll(sel + " .dot").forEach((el) => {
+        const k = +el.dataset.k;
+        tl.fromTo(el, { y: 0, x: 0 }, { y: -60 - (k % 7) * 20, x: ((k % 5) - 2) * 15, duration: d, ease: "none" }, t);
+      });
+      const breathe = (sel, t, d) => tl.fromTo(sel, { opacity: 0.75, scale: 0.95 }, { opacity: 1, scale: 1.05, duration: d / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, t);
+
+      // S1 · intro 0–7
+      breathe("#s1-cone", 0, 7); drift("#s1-dots", 0, 7.3);
+      tl.fromTo("#s1-ring", { rotationY: 0, rotationX: 12, y: 0, scale: 1.0, opacity: 0 }, { rotationY: -200, duration: 7, ease: "none" }, 0);
+      tl.to("#s1-ring", { opacity: 1, duration: 0.8 }, 0.1);
+      tl.to("#s1-ring", { scale: 0.5, y: -345, rotationX: 24, duration: 1.2, ease: "power3.inOut" }, 2.4);
+      tl.fromTo("#s1-t1", { opacity: 0, scale: 0.86, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.0, ease: "power3.out" }, 3.0);
+      rise("#s1-t2", 3.6, 0.8); rise("#s1-t3", 4.2, 0.8);
+      flash(6.9, 0.9);
+      exitScene(["#s1-t1", "#s1-t2", "#s1-t3", "#s1-ring"], 6.75, "zoom");
+
+      // S2 · location 7–15
+      kb("#s2-ph", 7, 8.3, { scale: 1.12, x: 30 }, { scale: 1.0, x: -30 });
+      rise("#s2-k", 7.5); rise("#s2-t1", 7.7, 0.7); rise("#s2-t2", 8.1, 0.7);
+      tl.fromTo("#s2-map", { opacity: 0, x: 120, rotationY: -25, transformPerspective: 1600 }, { opacity: 1, x: 0, rotationY: 0, duration: 0.8, ease: "power4.out" }, 8.6);
+      tl.fromTo(["#s2-m1", "#s2-m2"], { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", stagger: 0.2 }, 8.9);
+      tl.fromTo("#s2-road", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 9.6);
+      tl.fromTo("#s2-pin", { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "bounce.out" }, 9.9);
+      tl.fromTo("#s2-pulse", { scale: 0.3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 1.2, ease: "power2.out", repeat: 3 }, 10.5);
+      pop("#s2-p1", 10.8); pop("#s2-p3", 11.1);
+      exitScene("#s2", 14.7, "left");
+
+      // S3 · dashboard 15–25
+      enterScene("#s3", 15, "right"); breathe("#s3-cone", 15, 10); drift("#s3-dots", 15, 10.3);
+      rise("#s3-k", 15.4);
+      FIGS.forEach(([v], i) => {
+        tl.fromTo("#s3-f" + i, { opacity: 0, y: 80, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power4.out" }, 15.6 + i * 0.25);
+        count("s3-n" + i, v, 15.8 + i * 0.25, 1.2);
+      });
+      tl.fromTo("#s3-score", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.5)" }, 18.6);
+      count("s3-score-n", 4.74, 18.8, 1.5, true);
+      tl.fromTo("#s3-bracket", { strokeDasharray: 1300, strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 19.8);
+      pop("#s3-b1", 20.4); pop("#s3-b2", 20.6); pop("#s3-b3", 20.8);
+      exitScene("#s3", 24.7, "zoom");
+
+      // S4 · salon 25–35
+      enterScene("#s4", 25, "zoom");
+      kb("#s4-a", 25, 5.5, { scale: 1.0, x: 0 }, { scale: 1.12, x: -60 });
+      tl.fromTo("#s4-b", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut" }, 30);
+      kb("#s4-b", 30, 5.3, { scale: 1.12, x: 50 }, { scale: 1.0, x: -20 });
+      rise("#s4-k", 25.6); rise("#s4-t1", 25.8, 0.7); rise("#s4-t2", 26.2, 0.7); pop("#s4-p1", 27.2);
+      out(["#s4-t1", "#s4-t2"], 29.6); tl.to("#s4-p1", { opacity: 0, duration: 0.3 }, 29.6);
+      rise("#s4-t3", 30.3, 0.7); rise("#s4-t4", 30.7, 0.7); pop("#s4-p2", 31.6);
+      exitScene("#s4", 34.7, "up");
+
+      // S5 · cuisine 35–42
+      enterScene("#s5", 35, "up");
+      kb("#s5-ph", 35, 7.3, { scale: 1.0, x: 0 }, { scale: 1.12, x: -80, y: 20 });
+      rise("#s5-k", 35.5); rise("#s5-t1", 35.7, 0.7); rise("#s5-t2", 36.1, 0.7);
+      pop("#s5-p1", 37.0); pop("#s5-p2", 37.25);
+      tl.fromTo("#s5-c", { opacity: 0, x: 200, rotation: 6 }, { opacity: 1, x: 0, rotation: -2, duration: 0.7, ease: "power4.out" }, 37.6);
+      exitScene("#s5", 41.7, "left");
+
+      // S6 · chambres 42–54
+      enterScene("#s6", 42, "right");
+      tl.fromTo("#s6-n", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.6)" }, 42.4);
+      rise("#s6-t1", 42.6); rise("#s6-t2", 42.9); rise("#s6-l", 43.4);
+      ["#s6-c1", "#s6-c2", "#s6-c3", "#s6-c4"].forEach((s, i) => tl.fromTo(s, { opacity: 0, rotationY: -60, x: 120 }, { opacity: 1, rotationY: 0, x: 0, duration: 0.7, ease: "power4.out" }, 43.0 + i * 0.18));
+      ["#s6-c1 img", "#s6-c2 img", "#s6-c3 img", "#s6-c4 img"].forEach((s) => kb(s, 43, 5, { scale: 1.12 }, { scale: 1.0 }));
+      gsap.set("#s6-dorm", { opacity: 0 });
+      tl.to(["#s6-grid", "#s6-l"], { opacity: 0, x: -80, duration: 0.45, ease: "power2.in" }, 48.3);
+      tl.to(["#s6-n", "#s6-t1", "#s6-t2"], { opacity: 0, duration: 0.4 }, 48.3);
+      tl.to("#s6-dorm", { opacity: 1, duration: 0.01 }, 48.75);
+      tl.fromTo("#s6-d", { opacity: 0, scale: 0.85, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power4.out" }, 48.75);
+      kb("#s6-d img", 48.75, 5.5, { scale: 1.12 }, { scale: 1.0 });
+      rise("#s6-t3", 49.0); rise("#s6-t4", 49.3);
+      pop("#s6-p", 50.2);
+      exitScene("#s6", 53.7, "up");
+
+      // S7 · salles d'eau 54–60
+      enterScene("#s7", 54, "up");
+      tl.fromTo("#s7-n", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.6)" }, 54.3);
+      rise("#s7-t1", 54.5); rise("#s7-t2", 54.8);
+      ["#s7-c1", "#s7-c2", "#s7-c3", "#s7-c4"].forEach((s, i) => tl.fromTo(s, { opacity: 0, y: 160 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, 55.1 + i * 0.15));
+      exitScene("#s7", 59.7, "zoom");
+
+      // S8 · bien-être 60–70 (pool reveal through an expanding window, then sauna)
+      tl.fromTo("#s8-pool", { clipPath: "inset(42% 42% 42% 42% round 40px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 1.3, ease: "expo.inOut" }, 60.1);
+      kb("#s8-pool img", 60.1, 5.2, { scale: 1.2 }, { scale: 1.02 });
+      tl.fromTo("#s8-shade", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 61.0);
+      rise("#s8-k", 61.2); tl.fromTo("#s8-t1", { opacity: 0, scale: 0.9, filter: "blur(16px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, 61.4);
+      rise("#s8-t2", 61.9, 0.7);
+      gsap.set("#s8-sauna", { opacity: 0 });
+      tl.to(["#s8-k", "#s8-t1", "#s8-t2"], { opacity: 0, duration: 0.3 }, 65.3);
+      tl.fromTo("#s8-sauna", { opacity: 0, x: 1920 }, { opacity: 1, x: 0, duration: 0.6, ease: "power4.out" }, 65.3);
+      tl.fromTo("#s8-c", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power4.out" }, 65.6);
+      kb("#s8-c img", 65.6, 4.6, { scale: 1.15 }, { scale: 1.0 });
+      tl.fromTo("#s8-t3", { opacity: 0, filter: "blur(16px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, 65.9);
+      rise("#s8-t4", 66.4, 0.7);
+      flash(69.9, 0.7);
+      exitScene("#s8", 69.75, "zoom");
+
+      // S9 · balcon 70–75
+      kb("#s9-ph", 70, 5.3, { scale: 1.14, y: 30 }, { scale: 1.0, y: 0 });
+      rise("#s9-k", 70.5); rise("#s9-t1", 70.7, 0.7); rise("#s9-t2", 71.1, 0.7);
+      exitScene("#s9", 74.7, "left");
+
+      // S10 · équipements 75–82
+      enterScene("#s10", 75, "right");
+      rise("#s10-k", 75.3); rise("#s10-t", 75.5);
+      AM.forEach((_, i) => tl.fromTo("#s10-a" + i, { opacity: 0, y: 60, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power4.out" }, 76.0 + i * 0.2));
+      exitScene("#s10", 81.7, "up");
+
+      // S11 · infos pratiques 82–88
+      enterScene("#s11", 82, "up");
+      rise("#s11-k", 82.3);
+      INFO.forEach((_, i) => tl.fromTo("#s11-i" + i, { opacity: 0, rotationX: -60, y: 60, transformPerspective: 1400 }, { opacity: 1, rotationX: 0, y: 0, duration: 0.6, ease: "power4.out" }, 82.6 + i * 0.25));
+      pop("#s11-p", 84.0);
+      exitScene("#s11", 87.7, "zoom");
+
+      // S12 · famille & amis + booking 88–95.8
+      kb("#s12-ph", 88, 7.8, { scale: 1.15 }, { scale: 1.0 });
+      tl.fromTo("#s12-t1", { opacity: 0, scale: 1.4, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "power4.out" }, 88.3);
+      rise("#s12-t2", 88.8, 0.7); rise("#s12-t3", 89.3, 0.7);
+      out(["#s12-t1", "#s12-t2", "#s12-t3"], 91.0);
+      tl.to("#s12-dim", { opacity: 1, backgroundColor: "rgba(7,8,11,0.72)", duration: 0.4 }, 91.0);
+      tl.fromTo("#book", { opacity: 0, y: 160, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power4.out" }, 91.3);
+      tl.fromTo("#cursor", { x: 900, y: 700, opacity: 0 }, { x: 420, y: 540, opacity: 1, duration: 0.8, ease: "power2.inOut" }, 92.2);
+      tl.fromTo("#book-btn", { scale: 1 }, { scale: 0.96, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 93.1);
+      tl.fromTo("#book-rip", { scale: 0, opacity: 1 }, { scale: 26, opacity: 0, duration: 0.8, ease: "power2.out" }, 93.15);
+      tl.fromTo("#btn-a", { opacity: 1, y: 0 }, { opacity: 0, y: -34, duration: 0.25, ease: "power2.in", immediateRender: false }, 93.3);
+      tl.fromTo("#btn-b", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 93.45);
+      tl.to("#book", { opacity: 0, y: -30, duration: 0.3, ease: "power1.in" }, 95.2);
+
+      // S13 · signature 95.5–99
+      tl.fromTo("#s13", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 95.5);
+      rise("#s13-by", 95.7);
+      tl.fromTo("#s13-d", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "expo.out" }, 95.8);
+      tl.fromTo("#s13-a", { x: -70, y: 70, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, 95.95);
+      tl.fromTo("#s13-wp", { y: 130 }, { y: 0, duration: 0.55, ease: "power4.out" }, 96.1);
+      tl.fromTo("#s13-wd", { y: 130 }, { y: 0, duration: 0.55, ease: "power4.out" }, 96.25);
+      tl.fromTo("#s13-mark", { scale: 1 }, { scale: 1.03, duration: 2.0, ease: "sine.inOut" }, 96.8);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
