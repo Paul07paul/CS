@@ -81,10 +81,13 @@ def texture(d, lo, hi, gain):
 
 
 # scene changes
-for t, p in [(6.75, 0), (14.7, -1), (24.7, 0), (34.7, 1), (41.7, -1), (53.7, 1), (59.7, 0), (65.25, 1), (69.75, 0), (74.7, -1), (81.7, 1), (87.7, 0), (95.3, 0)]:
+at(4.4, whoosh(2.2, 2600, 0.16, 0.0, 0.0))  # window opening onto the mountains
+for k in range(6):
+    at(0.9 + k * 0.1, tick(0.035, 1800 + 120 * k))  # letter reveal
+for t, p in [(6.85, 1), (14.7, -1), (24.7, 0), (34.7, 1), (41.7, -1), (53.7, 1), (59.7, 0), (65.25, 1), (69.75, 0), (74.7, -1), (81.7, 1), (87.7, 0), (95.3, 0)]:
     at(t, whoosh(0.55, 4200, 0.2, 0.6 * p, -0.6 * p))
 # big titles
-for t in [3.0, 7.7, 15.4, 25.8, 30.3, 35.7, 42.4, 49.0, 54.3, 61.4, 65.9, 70.7, 75.5, 88.3]:
+for t in [0.9, 7.7, 15.4, 25.8, 30.3, 35.7, 42.4, 49.0, 54.3, 61.4, 65.9, 70.7, 75.5, 88.3]:
     at(t, hit(0.2))
 # counters
 for i in range(4):
@@ -119,7 +122,8 @@ ir = lp(rng.standard_normal((irn, 2)) * np.exp(-it * 3.5)[:, None], 6000)
 ir /= np.sqrt(np.sum(ir ** 2))
 dry = track[:N]
 mix = dry * 0.9 + np.stack([fftconvolve(dry[:, c], ir[:, c])[:N] for c in range(2)], 1) * 0.3
-mix = np.clip(mix, -0.98, 0.98)
+mix = mix * 2.5  # no music bed any more: effects carry the soundtrack
+mix = np.tanh(mix * 1.1) / np.tanh(1.1) * 0.92
 pcm = (mix * 32767).astype("<i2")
 with wave.open("assets/audio/sfx.wav", "wb") as w:
     w.setnchannels(2)

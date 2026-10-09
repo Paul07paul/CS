@@ -58,8 +58,7 @@
       <div id="s12" class="scene clip" data-start="88" data-duration="7.8" data-track-index="2"></div>
       <div id="s13" class="scene clip" data-start="95.5" data-duration="3.5" data-track-index="1" style="background:#F4F1EC"></div>
       <div id="flash" class="clip" data-start="0" data-duration="99" data-track-index="3"></div>
-      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="99" data-track-index="10" data-volume="0.85"></audio>
-      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="99" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="99" data-track-index="11" data-volume="1"></audio>
     </div>
 
     <script>
@@ -74,14 +73,14 @@
         return `<div class="dot" data-k="${k}" style="left:${(k * 197 + seed * 53) % 1920}px;top:${(k * 131 + seed * 29) % 1080}px;width:${s}px;height:${s}px;opacity:${0.25 + ((k * 13) % 7) / 12};${color ? "background:" + color : ""}"></div>`;
       }).join("");
       const ICONS = {
-        kitchen: '<path d="M10 6 v14 a4 4 0 0 0 8 0 V6 M14 6 v36 M32 6 c-5 0 -6 8 -6 14 h6 v22"/>',
+        kitchen: '<path d="M12 6 v9 a4 4 0 0 0 8 0 V6 M16 6 v9 M16 19 v23"/><path d="M32 42 V6 c5 2 7 9 7 15 h-7"/>',
         wifi: '<path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0"/><circle cx="24" cy="39" r="2.4" fill="currentColor"/>',
         park: '<rect x="9" y="7" width="30" height="34" rx="6"/><path d="M19 33 V16 h7 a6 6 0 0 1 0 12 h-7"/>',
-        pool: '<path d="M4 34 c5 -4 10 4 15 0 s10 4 15 0 s10 4 10 0 M4 42 c5 -4 10 4 15 0 s10 4 15 0 s10 4 10 0 M16 30 V10 a4 4 0 0 1 8 0 M30 30 V10 a4 4 0 0 1 8 0 M16 18 h14"/>',
-        sauna: '<rect x="6" y="20" width="36" height="22" rx="3"/><path d="M14 14 c-3 -3 3 -5 0 -8 M24 14 c-3 -3 3 -5 0 -8 M34 14 c-3 -3 3 -5 0 -8 M6 31 h36"/>',
+        pool: '<path d="M16 32 V11 a4 4 0 0 1 8 0 M28 32 V11 a4 4 0 0 1 8 0 M16 18 h12 M16 25 h12"/><path d="M4 37 c4 -3 8 3 12 0 s8 3 12 0 s8 3 12 0 s4 3 6 0 M4 44 c4 -3 8 3 12 0 s8 3 12 0 s8 3 12 0 s4 3 6 0"/>',
+        sauna: '<path d="M18 8 a4 4 0 0 1 8 0 v19 a8 8 0 1 1 -8 0 z"/><path d="M22 30 V18"/><path d="M33 12 c-3 3 3 5 0 8 M40 12 c-3 3 3 5 0 8"/>',
         tv: '<rect x="5" y="9" width="38" height="25" rx="3"/><path d="M17 41 h14 M24 34 v7"/>',
         wash: '<rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="26" r="9"/><path d="M13 11 h6"/>',
-        balcony: '<path d="M6 24 h36 M6 24 v18 M42 24 v18 M6 42 h36 M14 24 v18 M22 24 v18 M30 24 v18 M38 24 v18 M12 24 V8 h24 v16"/>',
+        balcony: '<path d="M6 20 l9 -11 7 7 6 -7 14 11"/><path d="M5 27 h38 M5 42 h38 M9 27 v15 M17 27 v15 M25 27 v15 M33 27 v15 M41 27 v15"/>',
         clock: '<circle cx="24" cy="24" r="18"/><path d="M24 13 v12 l8 5"/>',
         door: '<path d="M10 42 V6 h22 v36 M32 24 h12 M38 18 l6 6 -6 6"/><circle cx="26" cy="25" r="1.6" fill="currentColor"/>',
         bolt: '<path d="M27 4 L10 27 h12 l-3 17 L38 20 H26 z"/>',
@@ -90,14 +89,17 @@
       };
       const ico = (name, x, y, s, id) => `<svg class="ico" ${id ? `id="${id}"` : ""} viewBox="0 0 48 48" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px">${ICONS[name]}</svg>`;
 
-      // ================= S1 · intro (ring + title) =================
-      const RING = "CHALET · COURCHEVEL MORIOND · 1650 M · ";
+      // ================= S1 · intro (letter reveal + window opening on the mountains) =================
       H("s1", `<div class="cone" id="s1-cone"></div><div class="full" id="s1-dots">${dots(60, 3)}</div>
-        <div class="ring-stage"><div class="ring" id="s1-ring">${RING.split("").map((c, i) => `<span data-layout-allow-overlap style="transform:rotateY(${(i * 360) / RING.length}deg) translateZ(640px)">${c === " " ? "&nbsp;" : c}</span>`).join("")}</div></div>
-        <div class="abs k glow" id="s1-t1" style="left:0;right:0;top:420px;text-align:center;font-size:190px;letter-spacing:0.12em">CHALET</div>
-        <div class="abs it amber" id="s1-t2" style="left:0;right:0;top:620px;text-align:center;font-size:86px">Courchevel Moriond</div>
-        <div class="abs kick" id="s1-t3" style="left:0;right:0;top:740px;text-align:center">Location de prestige · jusqu'à 12 voyageurs</div>
-        <div class="floor"></div>`);
+        ${photo("w14", "left:0;top:0;width:1920px;height:1080px", "object-position:50% 40%", "s1-win")}
+        <div class="full" id="s1-titles">
+          <div class="abs kick" id="s1-k" style="left:0;right:0;top:290px;text-align:center">Location de prestige</div>
+          <div class="abs k glow" id="s1-t1" style="left:0;right:0;top:350px;text-align:center;font-size:200px;letter-spacing:0.14em">${"CHALET".split("").map((c) => `<span style="display:inline-block">${c}</span>`).join("")}</div>
+          <svg class="abs" viewBox="0 0 1920 20" style="left:0;top:590px;width:1920px;height:20px"><line id="s1-line" x1="760" y1="10" x2="1160" y2="10" stroke="#FFC88E" stroke-width="3" /></svg>
+          <div class="abs it amber" id="s1-t2" style="left:0;right:0;top:625px;text-align:center;font-size:88px">Courchevel Moriond</div>
+          <div class="abs kick" id="s1-t3" style="left:0;right:0;top:760px;text-align:center;color:#fff">Jusqu'à 12 voyageurs · 4 suites · piscine &amp; sauna</div>
+        </div>
+        <div class="floor" id="s1-floor"></div>`);
 
       // ================= S2 · location =================
       H("s2", `${photo("w01", "left:0;top:0;width:1920px;height:1080px", "", "s2-ph")}<div class="shade-l"></div>
@@ -204,7 +206,10 @@
       H("s10", `<div class="cone" style="left:360px"></div><div class="full">${dots(40, 11)}</div>
         <div class="abs kick" id="s10-k" style="left:0;right:0;top:110px;text-align:center">Équipements</div>
         <div class="abs k glow" id="s10-t" style="left:0;right:0;top:160px;text-align:center;font-size:84px">TOUT LE CONFORT</div>
-        ${AM.map(([ic, l], i) => `<div class="glass" id="s10-a${i}" style="left:${150 + (i % 4) * 420}px;top:${330 + Math.floor(i / 4) * 330}px;width:380px;height:290px">${ico(ic, 40, 46, 76)}<div class="abs" style="left:40px;top:180px;font-weight:700;font-size:36px;white-space:nowrap">${l}</div></div>`).join("")}`);
+        ${AM.map(([ic, l], i) => `<div class="glass" id="s10-a${i}" style="left:${150 + (i % 4) * 420}px;top:${330 + Math.floor(i / 4) * 330}px;width:380px;height:290px">
+          <div class="badge" style="position:absolute;left:36px;top:34px;width:132px;height:132px;border-radius:66px;background:radial-gradient(circle at 50% 40%, rgba(255,200,142,0.30), rgba(255,200,142,0.06) 70%);border:1.5px solid rgba(255,200,142,0.55);box-shadow:0 0 40px rgba(255,180,110,0.25), inset 0 0 24px rgba(255,200,142,0.15)"></div>
+          <svg class="ico s10-ico" viewBox="0 0 48 48" style="left:62px;top:60px;width:80px;height:80px;color:#FFE6C8;stroke-width:2.4;filter:drop-shadow(0 0 8px rgba(255,190,120,0.6))">${ICONS[ic]}</svg>
+          <div class="abs" style="left:40px;top:196px;font-weight:700;font-size:36px;white-space:nowrap">${l}</div></div>`).join("")}`);
 
       // ================= S11 · infos pratiques =================
       const INFO = [["clock", "Arrivée", "16:00 – 21:00"], ["door", "Départ", "avant 10:00"], ["people", "Capacité", "12 voyageurs"], ["bolt", "Réservation", "instantanée"]];
@@ -270,15 +275,18 @@
 
       // S1 · intro 0–7
       breathe("#s1-cone", 0, 7); drift("#s1-dots", 0, 7.3);
-      tl.fromTo("#s1-ring", { rotationY: 0, rotationX: 12, y: 0, scale: 1.0, opacity: 0 }, { rotationY: -200, duration: 7, ease: "none" }, 0);
-      tl.to("#s1-ring", { opacity: 1, duration: 0.8 }, 0.1);
-      tl.to("#s1-ring", { scale: 0.5, y: -345, rotationX: 24, duration: 1.2, ease: "power3.inOut" }, 2.4);
-      tl.fromTo("#s1-t1", { opacity: 0, scale: 0.86, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.0, ease: "power3.out" }, 3.0);
-      rise("#s1-t2", 3.6, 0.8); rise("#s1-t3", 4.2, 0.8);
-      flash(6.9, 0.9);
-      exitScene(["#s1-t1", "#s1-t2", "#s1-t3", "#s1-ring"], 6.75, "zoom");
+      rise("#s1-k", 0.5, 0.8);
+      tl.fromTo("#s1-t1 span", { opacity: 0, y: 90, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power4.out", stagger: 0.1 }, 0.9);
+      tl.fromTo("#s1-line", { strokeDasharray: 400, strokeDashoffset: 400 }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 1.9);
+      rise("#s1-t2", 2.2, 0.8); rise("#s1-t3", 2.8, 0.8);
+      // a window opens in the dark onto the mountains, then fills the frame
+      tl.fromTo("#s1-win", { clipPath: "inset(50% 50% 50% 50% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 2.3, ease: "expo.inOut" }, 4.5);
+      kb("#s1-win img", 4.5, 2.8, { scale: 1.25 }, { scale: 1.0 });
+      tl.to("#s1-titles", { opacity: 0, scale: 1.08, filter: "blur(10px)", duration: 0.8, ease: "power2.in" }, 4.6);
+      tl.to("#s1-floor", { opacity: 0, duration: 0.6 }, 5.2);
 
       // S2 · location 7–15
+      enterScene("#s2", 7, "right");
       kb("#s2-ph", 7, 8.3, { scale: 1.12, x: 30 }, { scale: 1.0, x: -30 });
       rise("#s2-k", 7.5); rise("#s2-t1", 7.7, 0.7); rise("#s2-t2", 8.1, 0.7);
       tl.fromTo("#s2-map", { opacity: 0, x: 120, rotationY: -25, transformPerspective: 1600 }, { opacity: 1, x: 0, rotationY: 0, duration: 0.8, ease: "power4.out" }, 8.6);
@@ -368,6 +376,11 @@
       enterScene("#s10", 75, "right");
       rise("#s10-k", 75.3); rise("#s10-t", 75.5);
       AM.forEach((_, i) => tl.fromTo("#s10-a" + i, { opacity: 0, y: 60, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power4.out" }, 76.0 + i * 0.2));
+      document.querySelectorAll(".s10-ico").forEach((svg) => svg.querySelectorAll("path,rect,circle").forEach((el) => el.setAttribute("pathLength", "1")));
+      AM.forEach((_, i) => {
+        tl.fromTo("#s10-a" + i + " .s10-ico path, #s10-a" + i + " .s10-ico rect, #s10-a" + i + " .s10-ico circle", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 76.2 + i * 0.2);
+        tl.fromTo("#s10-a" + i + " .badge", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.8)" }, 76.1 + i * 0.2);
+      });
       exitScene("#s10", 81.7, "up");
 
       // S11 · infos pratiques 82–88
