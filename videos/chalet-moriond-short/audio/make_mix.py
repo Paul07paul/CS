@@ -170,59 +170,67 @@ def water(t, d, gain=0.04):
 
 
 S = T["scenes"]
-# 1 icon morph
-glass(0.35, 1568, 0.05)
-for k in range(7):
-    tick(0.85 + k * 0.075, 0.03, 1200 + 90 * k)
+# shutter transitions (same sound every chapter change)
+for t in T["shutters"]:
+    whoosh(t, 0.8, 2600, 0.2, -0.7, 0.7)
+    pop(t + 0.02, 0.04, 520, 330)
+# 1 wireframe plan + title pill
+shimmer(0.1, 1.4, 0.03)
+riser(1.3, 1.1, 0.025)
+glass(0.7, 1568, 0.05)
+for k in range(6):
+    tick(0.9 + k * 0.075, 0.03, 1200 + 90 * k)
 chime(1.55, 2093, 0.035)
-whoosh(S["s2"], 0.9, 2600, 0.2, -0.5, 0.5)
-bloom(S["s2"] - 0.05, 0.12)
-# 2 search + cards
-for k in range(22):
-    tick(S["s2"] + 0.55 + k * 0.055, 0.022, 1500 + 40 * (k % 5), 0.2 * ((k % 3) - 1))
-for i in range(4):
-    whoosh(S["s2"] + 1.55 + i * 0.16, 0.32, 3000, 0.07, 0.4, -0.2)
-    pop(S["s2"] + 1.6 + i * 0.16, 0.06, 700 + 50 * i, 460)
-glass(S["s2"] + 3.95, 1976, 0.05)
-whoosh(S["s3"], 0.7, 2400, 0.2, 0.7, -0.7)
-# 3 wireframe
-shimmer(S["s3"] + 0.1, 1.6, 0.03)
-riser(S["s3"] + 1.4, 1.2, 0.03)
-for i, t in enumerate(T["chips3"]):
-    pop(t, 0.075, 820 + 60 * i, 500, (i % 2) * 0.6 - 0.3)
-    glass(t + 0.02, 2349 + 150 * i, 0.02)
-riser(S["s4"], 1.4, 0.07)
-# 4 salon card (music drop)
-whoosh(S["s4"], 0.9, 2600, 0.22, -0.7, 0.7)
+# 2 balcony -> photo wall -> dive
+for t in T["chips2"]:
+    pop(t, 0.07, 780, 470)
+whoosh(6.4, 1.6, 2200, 0.16, 0.6, -0.6)
+riser(9.15, 1.2, 0.05)
+whoosh(9.1, 0.7, 2600, 0.18, -0.5, 0.5)
+bloom(9.2, 0.12)
+# 3 suites / dortoir / bathrooms
+for k in range(4):
+    whoosh(9.5 + k * 0.08, 0.3, 3200, 0.05, -0.6 + 0.4 * k, -0.6 + 0.4 * k)
+    tick(10.0 + k * 0.08, 0.03, 1700 + 120 * k, -0.45 + 0.3 * k)
+pop(9.7, 0.08, 820, 500)
+for k in range(4):
+    whoosh(10.75 + k * 0.06, 0.32, 2800, 0.06, -0.5 + 0.33 * k, 0.5)
+pop(10.9, 0.08, 860, 520)
+for k in range(4):
+    whoosh(11.8 + k * 0.09, 0.35, 3000, 0.06, 0.6, -0.2)
+    pop(11.85 + k * 0.09, 0.05, 700 + 60 * k, 460)
+glass(12.0, 2349, 0.03)
+# 4 living spaces (music drop)
 bloom(S["s4"], 0.22)
+whoosh(15.45, 0.5, 3000, 0.08, -0.6, 0.2)
+whoosh(15.95, 0.5, 3000, 0.08, 0.6, -0.2)
+whoosh(17.45, 0.6, 2800, 0.1, 0.4, -0.4)
 for k in range(14):
-    tick(S["s4"] + 3.8 + 1.5 * (1 - (1 - (k + 1) / 14) ** 0.6), 0.03, 2000)
+    tick(18.0 + 1.5 * (1 - (1 - (k + 1) / 14) ** 0.6), 0.03, 2000)
 for k, f in enumerate([1568, 1976, 2349, 2637, 3136]):
-    chime(S["s4"] + 5.4 + k * 0.09, f, 0.03, (k - 2) * 0.2)
-whoosh(S["s4"] + 3.0, 0.5, 3000, 0.08, 0.5, -0.5)
-# 5 pool
-whoosh(S["s5"], 0.9, 2200, 0.2, 0.7, -0.7)
-water(S["s5"], 5.0, 0.04)
+    chime(19.6 + k * 0.09, f, 0.03, (k - 2) * 0.2)
+# 5 pool + sauna
+water(S["s5"], 5.0, 0.045)
 for k in range(15):
-    tick(S["s5"] + 0.5 + k * 0.045, 0.018, 1700 + 30 * k)
-glass(S["s5"] + 1.3, 1568, 0.04)
-pop(S["s5"] + 1.7, 0.06); pop(S["s5"] + 2.9, 0.06)
+    tick(22.0 + k * 0.045, 0.018, 1700 + 30 * k)
+pop(23.2, 0.07)
+for t in (22.4, 23.0, 23.6):
+    glass(t, 1318, 0.025, 0.3)
+whoosh(24.45, 0.6, 2800, 0.1, 0.7, -0.2)
+pop(24.6, 0.07, 820, 500)
 # 6 phone
-whoosh(S["s6"], 0.9, 2600, 0.2, -0.6, 0.6)
 bloom(S["s6"], 0.1)
 for i, t in enumerate(T["chips6"]):
     pop(t, 0.07, 760 + 50 * i, 480, 0.4 * (1 if i % 2 else -1))
 for t in T["notifs6"]:
     chime(t, 1760, 0.035); chime(t + 0.11, 2637, 0.03)
 # 7 cta
-whoosh(S["s7"], 0.9, 2400, 0.2, 0.6, -0.6)
 for i in range(5):
     whoosh(S["s7"] + 0.4 + i * 0.22, 0.3, 3200, 0.05, -0.4, 0.4)
 x = np.arange(int(0.08 * SR)) / SR
 place(fx, T["click"], st((lp(rng.standard_normal(len(x)), 3000) * np.exp(-x * 90) + np.sin(2 * np.pi * 900 * x) * np.exp(-x * 60) * 0.5) * 0.09))
 chime(T["click"] + 0.1, 2637, 0.04)
 # 8 logo
-whoosh(S["s8"], 1.0, 2200, 0.18, 0.0, 0.0)
 bloom(S["s8"] + 0.1, 0.16)
 for k, f in enumerate([1568, 2093, 2349, 2637, 3136]):
     chime(S["s8"] + 0.45 + k * 0.07, f, 0.045 * (1 - 0.12 * k), (k - 2) * 0.25)

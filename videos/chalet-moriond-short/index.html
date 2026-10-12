@@ -5,58 +5,54 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
-      @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400 600; src: url("assets/fonts/cormorant-italic.woff2") format("woff2"); }
       @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0B0F18; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0B0F18; font-family: "Montserrat", sans-serif; color: #0F1A2B; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #F3F6FD; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #F3F6FD; font-family: "Montserrat", sans-serif; color: #0F1A2B; }
       .scene { position: absolute; inset: 0; overflow: hidden; }
       .abs { position: absolute; }
       .stage { position: absolute; inset: 0; perspective: 1600px; }
       .p3 { transform-style: preserve-3d; }
-      .glass { position: absolute; border-radius: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42)); backdrop-filter: blur(22px) saturate(1.4); border: 1.5px solid rgba(255,255,255,0.9); box-shadow: 0 24px 60px rgba(30,60,120,0.16), inset 0 1px 0 #fff; }
-      .chip { position: absolute; height: 76px; border-radius: 38px; padding: 0 30px 0 22px; display: flex; align-items: center; gap: 14px; white-space: nowrap; font-weight: 700; font-size: 28px; color: #0F1A2B; background: linear-gradient(135deg, rgba(255,255,255,0.86), rgba(255,255,255,0.5)); backdrop-filter: blur(18px); border: 1.5px solid #fff; box-shadow: 0 16px 40px rgba(30,60,120,0.18); }
-      .chip b { color: #1E6BFF; font-weight: 800; }
-      .chip svg { width: 34px; height: 34px; flex: none; fill: none; stroke: #1E6BFF; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-      .kicker { position: absolute; left: 72px; top: 60px; height: 56px; border-radius: 28px; padding: 0 26px 0 20px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 22px; letter-spacing: 0.22em; text-transform: uppercase; white-space: nowrap; color: #0F1A2B; background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); border: 1.5px solid #fff; box-shadow: 0 10px 30px rgba(30,60,120,0.12); }
-      .kicker i { width: 12px; height: 12px; border-radius: 6px; background: #1E6BFF; box-shadow: 0 0 12px #1E6BFF; }
+      .glass { position: absolute; border-radius: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.45)); backdrop-filter: blur(22px) saturate(1.5); border: 1.5px solid rgba(255,255,255,0.95); box-shadow: 0 24px 60px rgba(30,40,110,0.18), inset 0 1px 0 #fff; }
+      .chip { position: absolute; height: 80px; border-radius: 40px; padding: 0 32px 0 12px; display: flex; align-items: center; gap: 16px; white-space: nowrap; font-weight: 700; font-size: 29px; color: #0F1A2B; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); backdrop-filter: blur(18px); border: 1.5px solid #fff; box-shadow: 0 16px 40px rgba(30,40,110,0.22); }
+      .chip b { font-weight: 800; }
+      .chip .ic { width: 56px; height: 56px; border-radius: 28px; display: flex; align-items: center; justify-content: center; flex: none; }
+      .chip svg { width: 32px; height: 32px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+      .big-chip { height: 104px; border-radius: 52px; font-size: 42px; padding: 0 40px 0 16px; }
+      .big-chip .ic { width: 74px; height: 74px; border-radius: 37px; }
+      .big-chip svg { width: 42px; height: 42px; }
       .photo { position: absolute; overflow: hidden; }
       .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .blob { position: absolute; border-radius: 50%; }
-      #flash { position: absolute; inset: 0; background: #FFFFFF; pointer-events: none; opacity: 0; }
-      /* s2 */
-      .row { position: absolute; left: 0; width: 1000px; height: 118px; border-radius: 28px; display: flex; align-items: center; padding: 0 28px 0 14px; gap: 24px; }
-      .row .th { width: 90px; height: 90px; border-radius: 20px; overflow: hidden; position: relative; flex: none; }
-      .row .th img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .row .tx { flex: 1; }
-      .row .t1 { font-weight: 800; font-size: 32px; line-height: 1.15; }
-      .row .t2 { font-weight: 500; font-size: 23px; color: #4A5875; line-height: 1.3; }
+      .card { position: absolute; overflow: hidden; border-radius: 30px; box-shadow: 0 30px 70px rgba(15,26,43,0.3); border: 6px solid rgba(255,255,255,0.92); }
+      .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .tag { position: absolute; left: 20px; bottom: 20px; height: 54px; padding: 0 22px; border-radius: 27px; font-weight: 800; font-size: 24px; line-height: 54px; white-space: nowrap; color: #fff; }
+      .blob { position: absolute; border-radius: 50%; filter: blur(110px); }
       .tagp { height: 50px; border-radius: 25px; padding: 0 22px; font-weight: 700; font-size: 22px; line-height: 50px; white-space: nowrap; background: rgba(30,107,255,0.1); color: #1E6BFF; }
-      /* s3 wireframe */
-      .wf { position: absolute; border: 2.5px solid rgba(30,107,255,0.95); background: rgba(30,107,255,0.06); box-shadow: 0 0 18px rgba(30,107,255,0.25), inset 0 0 18px rgba(30,107,255,0.12); backface-visibility: visible; }
-      .wf .win { position: absolute; border: 2px solid rgba(30,107,255,0.8); background: rgba(160,200,255,0.18); }
+      #hud .lbl { position: absolute; left: 0; top: 0; white-space: nowrap; }
+      .seg { position: absolute; top: 0; width: 64px; height: 8px; border-radius: 4px; background: rgba(15,26,43,0.14); overflow: hidden; }
+      .seg i { position: absolute; inset: 0; border-radius: 4px; transform-origin: 0 50%; }
+      .wf { position: absolute; border: 2.5px solid rgba(30,107,255,0.95); background: rgba(30,107,255,0.07); box-shadow: 0 0 18px rgba(30,107,255,0.25), inset 0 0 18px rgba(30,107,255,0.12); }
+      .wf .win { position: absolute; border: 2px solid rgba(139,92,246,0.85); background: rgba(196,178,255,0.25); }
       .grid { position: absolute; background-image: linear-gradient(rgba(30,107,255,0.22) 2px, transparent 2px), linear-gradient(90deg, rgba(30,107,255,0.22) 2px, transparent 2px); background-size: 80px 80px; -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 35%, transparent 68%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 35%, transparent 68%); }
-      .big { font-weight: 800; font-size: 44px; color: #1E6BFF; }
-      /* s5 */
-      .curve span { position: absolute; top: 0; display: block; font-weight: 800; font-size: 128px; line-height: 1; color: #0F1A2B; white-space: pre; transform-origin: 50% 100%; }
-      .curve span.acc { color: #1E6BFF; }
-      /* s6 phone */
+      .curve span { position: absolute; top: 0; display: block; font-weight: 800; font-size: 128px; line-height: 1; color: #fff; white-space: pre; text-shadow: 0 8px 30px rgba(0,0,0,0.45); }
+      .curve span.acc { color: #5EE7FF; }
+      .ring { position: absolute; width: 300px; height: 120px; margin: -60px 0 0 -150px; border-radius: 50%; border: 3px solid rgba(140,235,255,0.9); box-shadow: 0 0 24px rgba(94,231,255,0.6); }
       .phone { position: absolute; width: 430px; height: 880px; border-radius: 66px; background: linear-gradient(145deg, #2A3242, #0E1422 40%, #1B2232); padding: 14px; box-shadow: 0 60px 120px rgba(15,26,43,0.35), inset 0 0 0 2px rgba(255,255,255,0.12); }
       .screen { position: absolute; inset: 14px; border-radius: 54px; overflow: hidden; background: #0E1422; }
-      .notif { position: absolute; left: 22px; right: 22px; height: 104px; border-radius: 28px; padding: 16px 20px; background: rgba(255,255,255,0.78); backdrop-filter: blur(18px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+      .notif { position: absolute; left: 22px; right: 22px; height: 104px; border-radius: 28px; padding: 16px 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(18px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
       .notif .a { font-weight: 800; font-size: 23px; color: #0F1A2B; white-space: nowrap; }
       .notif .b { font-weight: 500; font-size: 21px; color: #3E4C66; white-space: nowrap; margin-top: 6px; }
-      /* s7 */
       .cf { position: absolute; width: 520px; height: 360px; border-radius: 30px; overflow: hidden; box-shadow: 0 30px 70px rgba(15,26,43,0.25); }
       .cf img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .bar { position: absolute; top: -40px; height: 1160px; transform: skewX(-12deg); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="41" data-width="1920" data-height="1080">
-      <div id="bg" class="clip" data-start="3.3" data-duration="37.7" data-track-index="0" style="position:absolute;inset:0;background:linear-gradient(160deg,#F6F8FD 0%,#E6EDF9 55%,#EEE9FB 100%)">
-        <div id="b1" class="blob" style="left:-260px;top:-300px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(120,165,255,0.55) 0%,rgba(120,165,255,0) 65%)"></div>
-        <div id="b2" class="blob" style="left:1100px;top:380px;width:1200px;height:1200px;background:radial-gradient(circle,rgba(196,178,255,0.5) 0%,rgba(196,178,255,0) 65%)"></div>
-        <div id="b3" class="blob" style="left:640px;top:-520px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,214,190,0.55) 0%,rgba(255,214,190,0) 65%)"></div>
+      <div id="bg" class="clip" data-start="0" data-duration="41" data-track-index="0" style="position:absolute;inset:0;background:#F3F6FD">
+        <div id="b1" class="blob" style="left:-300px;top:-320px;width:1100px;height:1000px;background:#1E6BFF;opacity:0.55"></div>
+        <div id="b2" class="blob" style="left:1150px;top:420px;width:1100px;height:1000px;background:#8B5CF6;opacity:0.5"></div>
+        <div id="b3" class="blob" style="left:700px;top:-560px;width:900px;height:800px;background:#FF7A59;opacity:0.45"></div>
       </div>
       <div id="s1" class="scene clip" data-start="0" data-duration="3.6" data-track-index="1"></div>
       <div id="s2" class="scene clip" data-start="3.6" data-duration="5.6" data-track-index="2"></div>
@@ -66,16 +62,23 @@
       <div id="s6" class="scene clip" data-start="26.5" data-duration="5.7" data-track-index="2"></div>
       <div id="s7" class="scene clip" data-start="32.2" data-duration="4.6" data-track-index="1"></div>
       <div id="s8" class="scene clip" data-start="36.8" data-duration="4.2" data-track-index="2"></div>
-      <div id="flash" class="clip" data-start="0" data-duration="41" data-track-index="3"></div>
+      <div id="hud" class="clip" data-start="3.6" data-duration="33.2" data-track-index="4" style="position:absolute;left:0;top:0;width:1920px;height:160px;pointer-events:none"></div>
+      <div id="shut" class="clip" data-start="3" data-duration="34.3" data-track-index="5" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+        <div id="shut-g" class="abs" style="left:0;top:0;width:0;height:1080px">
+          <div class="bar" style="left:0;width:3000px;background:linear-gradient(100deg,#1E6BFF 0%,#5B7CFF 45%,#8B5CF6 100%)"></div>
+          <div class="bar" style="left:3040px;width:520px;background:#8B5CF6"></div>
+          <div class="bar" style="left:3600px;width:260px;background:#FF7A59"></div>
+        </div>
+      </div>
       <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="41" data-track-index="10" data-volume="1"></audio>
     </div>
 
     <script>
       const $ = (id) => document.getElementById(id);
       const H = (id, html) => ($(id).innerHTML = html);
-      const img = (src) => `<img src="assets/photos/${src}.jpg" alt="" />`;
+      const img = (src, st) => `<img src="assets/photos/${src}.jpg" alt="" style="${st || ""}" />`;
       const ICONS = {
-        wifi: '<path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0"/><circle cx="24" cy="39" r="2.4" fill="#1E6BFF"/>',
+        wifi: '<path d="M6 19 a26 26 0 0 1 36 0 M12 26 a17 17 0 0 1 24 0 M18 33 a8 8 0 0 1 12 0"/><circle cx="24" cy="39" r="2.4" fill="#fff"/>',
         park: '<rect x="9" y="7" width="30" height="34" rx="6"/><path d="M19 33 V16 h7 a6 6 0 0 1 0 12 h-7"/>',
         bolt: '<path d="M27 4 L10 27 h12 l-3 17 L38 20 H26 z"/>',
         wash: '<rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="26" r="9"/><path d="M13 11 h6"/>',
@@ -86,103 +89,105 @@
         people: '<circle cx="17" cy="16" r="6"/><circle cx="33" cy="18" r="5"/><path d="M5 40 c0 -8 6 -13 12 -13 s12 5 12 13 M29 40 c0 -6 4 -10 9 -10 s7 4 7 10"/>',
         pool: '<path d="M16 32 V11 a4 4 0 0 1 8 0 M28 32 V11 a4 4 0 0 1 8 0 M16 18 h12 M16 25 h12"/><path d="M4 39 c4 -3 8 3 12 0 s8 3 12 0 s8 3 12 0 s4 3 6 0"/>',
         sauna: '<path d="M18 8 a4 4 0 0 1 8 0 v19 a8 8 0 1 1 -8 0 z"/><path d="M22 30 V18"/><path d="M33 12 c-3 3 3 5 0 8 M40 12 c-3 3 3 5 0 8"/>',
-        search: '<circle cx="20" cy="20" r="12"/><path d="M29 29 l12 12"/>',
-        check: '<path d="M10 25 l9 9 l19 -20"/>',
+        crown: '<path d="M6 36 L9 14 L18 24 L24 10 L30 24 L39 14 L42 36 Z"/><path d="M8 42 h32"/>',
+        ski: '<path d="M6 40 L42 14"/><path d="M14 44 L44 22"/><circle cx="30" cy="9" r="4"/>',
       };
-      const svg = (n) => `<svg viewBox="0 0 48 48">${ICONS[n]}</svg>`;
-      const chip = (id, x, y, icon, html) => `<div class="chip" id="${id}" style="left:${x}px;top:${y}px">${svg(icon)}<span>${html}</span></div>`;
-      const kicker = (id, txt) => `<div class="kicker" id="${id}"><i></i>${txt}</div>`;
+      const COL = { blue: "linear-gradient(135deg,#3B82FF,#1E5BFF)", violet: "linear-gradient(135deg,#A78BFA,#7C3AED)", coral: "linear-gradient(135deg,#FF9A6B,#FF5A5F)", pink: "linear-gradient(135deg,#F472B6,#DB2777)", cyan: "linear-gradient(135deg,#22D3EE,#0EA5E9)", mint: "linear-gradient(135deg,#34D399,#059669)", amber: "linear-gradient(135deg,#FBBF24,#F97316)" };
+      const chip = (id, x, y, icon, html, col, big) => `<div class="chip ${big ? "big-chip" : ""}" id="${id}" style="left:${x}px;top:${y}px"><div class="ic" style="background:${COL[col || "blue"]}"><svg viewBox="0 0 48 48">${ICONS[icon]}</svg></div><span>${html}</span></div>`;
 
-      // ---------- S1: glass icon morph ----------
-      H("s1", `<div class="abs" style="inset:0;background:radial-gradient(circle at 50% 50%,#17223A 0%,#0B0F18 60%)"></div>
-        <div id="s1-ic" class="abs" style="left:960px;top:540px;width:220px;height:220px;border-radius:56px;background:linear-gradient(145deg,rgba(255,255,255,0.16),rgba(255,255,255,0.04));border:2px solid rgba(255,255,255,0.35);box-shadow:0 0 0 6px rgba(30,107,255,0.18),0 0 80px rgba(30,107,255,0.35),inset 0 1px 0 rgba(255,255,255,0.5);overflow:hidden">
-          <div id="s1-word" class="abs" style="left:50%;top:50%;font-weight:800;font-size:76px;letter-spacing:0.04em;color:#fff;white-space:nowrap">${"MORIOND".split("").map((c, k) => `<span id="s1-l${k}" style="display:inline-block;overflow:hidden;vertical-align:top">${c}</span>`).join("")}</div>
-          <div id="s1-sub" class="abs" style="left:50%;top:50%;font-weight:700;font-size:24px;letter-spacing:0.5em;color:#6FA0FF;white-space:nowrap">COURCHEVEL</div>
+      // ---------- HUD: chapter label + progress ----------
+      const CH = [["Le chalet", "#1E6BFF"], ["Les chambres", "#8B5CF6"], ["Pièces de vie", "#F97316"], ["Bien-être", "#0EA5E9"], ["Équipements", "#059669"], ["Réservation", "#FF385C"]];
+      H("hud", `<div class="glass" style="left:64px;top:52px;width:430px;height:64px;border-radius:32px">
+          <div class="abs" style="left:22px;top:20px;width:24px;height:24px;border-radius:12px;overflow:hidden">${CH.map((c, k) => `<div id="hud-d${k}" class="abs" style="inset:0;background:${c[1]}"></div>`).join("")}</div>
+          <div class="abs" style="left:62px;top:0;height:64px;width:340px;overflow:hidden">${CH.map((c, k) => `<div id="hud-l${k}" class="lbl" style="top:0;line-height:64px;font-weight:800;font-size:22px;letter-spacing:0.2em;text-transform:uppercase"><span style="color:${c[1]}">0${k + 1}</span>&nbsp;&nbsp;${c[0]}</div>`).join("")}</div>
+        </div>
+        <div class="glass" style="left:1400px;top:64px;width:456px;height:40px;border-radius:20px">${CH.map((c, k) => `<div class="seg" style="left:${20 + k * 72}px;top:16px"><i id="hud-s${k}" style="background:${c[1]}"></i></div>`).join("")}</div>`);
+
+      // ---------- S1: wireframe plan + glass title ----------
+      const W = 560, D = 420, HW = 230, R = 170, L = Math.hypot(W / 2, R) + 26, A = (Math.atan2(R, W / 2) * 180) / Math.PI;
+      const gable = (z, id) => `<svg id="${id}" class="abs" style="left:${-W / 2}px;top:${-HW - R}px;width:${W}px;height:${R + 2}px;overflow:visible;transform:translateZ(${z}px)" viewBox="0 0 ${W} ${R + 2}"><polygon points="0,${R} ${W / 2},2 ${W},${R}" fill="rgba(30,107,255,0.1)" stroke="rgba(30,107,255,0.95)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${W / 2}" cy="${R * 0.6}" r="26" fill="rgba(196,178,255,0.3)" stroke="rgba(139,92,246,0.9)" stroke-width="2"/></svg>`;
+      const wins = (n, w, top, h, door) => Array.from({ length: n }, (_, k) => `<div class="win" style="left:${((k + 0.5) * w) / n - 34}px;top:${top}px;width:68px;height:${h}px"></div>`).join("") + (door ? `<div class="win" style="left:${w / 2 - 40}px;top:${HW - 140}px;width:80px;height:137px;border-bottom:none"></div>` : "");
+      const roof = (id, sx) => `<div class="wf" id="${id}" style="left:${-L / 2}px;top:${-(D + 60) / 2}px;width:${L}px;height:${D + 60}px;transform:translate3d(${(sx * W) / 4}px,${-(HW + R / 2)}px,0) rotateZ(${sx * A}deg) rotateX(90deg);background:repeating-linear-gradient(90deg,rgba(30,107,255,0.3) 0 2px,rgba(30,107,255,0.1) 2px 46px)"></div>`;
+      H("s1", `<div class="stage" style="perspective:1500px"><div id="s1-cam" class="abs p3" style="left:960px;top:600px;width:0;height:0"><div id="s1-house" class="abs p3" style="left:0;top:0;width:0;height:0">
+          <div class="grid" id="s1-grid" style="left:-800px;top:-800px;width:1600px;height:1600px;transform:rotateX(90deg)"></div>
+          <div class="wf" id="s1-f0" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${D / 2}px)">${wins(3, W, 40, 70, true)}</div>
+          <div class="wf" id="s1-f1" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${-D / 2}px) rotateY(180deg)">${wins(3, W, 40, 70)}</div>
+          <div class="wf" id="s1-f2" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(-90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
+          <div class="wf" id="s1-f3" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
+          ${gable(D / 2, "s1-g0")}${gable(-D / 2, "s1-g1")}${roof("s1-r0", 1)}${roof("s1-r1", -1)}
+          <div class="wf" id="s1-ch" style="left:-30px;top:-60px;width:60px;height:120px;transform:translate3d(160px,-350px,60px)"></div>
+        </div></div></div>
+        <div id="s1-ic" class="glass" style="left:960px;top:880px;width:150px;height:150px;border-radius:44px;overflow:hidden">
+          <div id="s1-word" class="abs" style="left:50%;top:50%;font-weight:800;font-size:70px;letter-spacing:0.05em;color:#0F1A2B;white-space:nowrap">${"MORIOND".split("").map((c, k) => `<span id="s1-l${k}" style="display:inline-block;overflow:hidden;vertical-align:top">${c}</span>`).join("")}</div>
+          <div id="s1-sub" class="abs" style="left:50%;top:50%;font-weight:800;font-size:22px;letter-spacing:0.55em;white-space:nowrap;background:linear-gradient(90deg,#1E6BFF,#8B5CF6,#FF7A59);-webkit-background-clip:text;background-clip:text;color:transparent">COURCHEVEL</div>
         </div>`);
 
-      // ---------- S2: search + result cards ----------
-      const rows = [
-        ["w03", "Chalet Moriond", "Courchevel · 12 voyageurs", "Coup de cœur"],
-        ["w01", "Salon panoramique", "Vue sur les sommets", "★ 4,74"],
-        ["w05", "4 suites", "Chacune avec sa salle d'eau", "Confort"],
-        ["w15", "Piscine &amp; sauna", "Espace bien-être privé", "Privé"],
-      ];
-      H("s2", `<div class="stage"><div id="s2-ui" class="abs p3" style="left:460px;top:150px;width:1000px;height:820px">
-          <div class="glass" id="s2-bar" style="left:0;top:0;width:1000px;height:96px;border-radius:48px;display:flex;align-items:center;padding:0 16px 0 30px;gap:18px">
-            <svg viewBox="0 0 48 48" style="width:36px;height:36px;fill:none;stroke:#0F1A2B;stroke-width:3.4;stroke-linecap:round">${ICONS.search}</svg>
-            <div style="flex:1;font-weight:600;font-size:30px;white-space:nowrap;overflow:hidden"><span id="s2-type"></span><span id="s2-caret" style="display:inline-block;width:3px;height:34px;background:#1E6BFF;vertical-align:-6px;margin-left:3px"></span></div>
-            <div style="height:64px;border-radius:32px;padding:0 28px;background:#0F1A2B;color:#fff;font-weight:700;font-size:23px;line-height:64px;white-space:nowrap">Rechercher</div>
-          </div>
-          ${rows.map((r, i) => `<div class="row glass" id="s2-r${i}" style="top:${130 + i * 136}px;${i === 0 ? "border:2.5px solid #1E6BFF;box-shadow:0 24px 60px rgba(30,107,255,0.28),inset 0 1px 0 #fff" : ""}"><div class="th">${img(r[0])}</div><div class="tx"><div class="t1">${r[1]}</div><div class="t2">${r[2]}</div></div><div class="tagp" style="${i === 0 ? "background:#1E6BFF;color:#fff" : ""}">${r[3]}</div></div>`).join("")}
-          <div id="s2-btn" class="abs" style="left:340px;top:690px;width:320px;height:80px;border-radius:40px;background:#0F1A2B;color:#fff;font-weight:700;font-size:27px;line-height:80px;text-align:center;box-shadow:0 18px 40px rgba(15,26,43,0.3)">Voir le chalet →</div>
-        </div></div>`);
+      // ---------- S2: balcony -> wall of every room -> dive ----------
+      const G = 60, TW = 1920, TH = 1080;
+      const WALL = [["w01", "w03", "w02", "w15"], ["w04", "w14", "w05", "w09"], ["w06", "w08", "w07", "x16"], ["w10", "w11", "w12", "w13"]];
+      H("s2", `<div class="abs" style="inset:0;background:linear-gradient(135deg,#1E3A8A,#5B21B6 55%,#BE185D)"></div>
+        <div id="s2-tilt" class="stage p3" style="perspective:2200px"><div id="s2-wall" class="abs" style="left:0;top:0;width:${4 * TW + 3 * G}px;height:${4 * TH + 3 * G}px;transform-origin:0 0">
+          ${WALL.map((r, i) => r.map((s, j) => `<div class="photo" style="left:${j * (TW + G)}px;top:${i * (TH + G)}px;width:${TW}px;height:${TH}px;border-radius:${s === "w14" || s === "w04" ? 0 : 40}px">${img(s)}</div>`).join("")).join("")}
+        </div></div>
+        ${chip("s2-c0", 110, 700, "crown", "Chalet de <b>prestige</b>", "amber")}
+        ${chip("s2-c1", 110, 800, "people", "<b>12</b> voyageurs", "violet")}
+        ${chip("s2-c2", 110, 900, "ski", "Au pied des <b>pistes</b>", "cyan")}`);
 
-      // ---------- S3: 3D wireframe chalet ----------
-      const W = 560, D = 420, HW = 230, R = 170, L = Math.hypot(W / 2, R) + 26, A = (Math.atan2(R, W / 2) * 180) / Math.PI;
-      const gable = (z, id) => `<svg id="${id}" class="abs" style="left:${-W / 2}px;top:${-HW - R}px;width:${W}px;height:${R + 2}px;overflow:visible;transform:translateZ(${z}px)" viewBox="0 0 ${W} ${R + 2}"><polygon points="0,${R} ${W / 2},2 ${W},${R}" fill="rgba(30,107,255,0.1)" stroke="rgba(30,107,255,0.95)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${W / 2}" cy="${R * 0.6}" r="26" fill="rgba(160,200,255,0.2)" stroke="rgba(30,107,255,0.8)" stroke-width="2"/></svg>`;
-      const wins = (n, w, top, h, door) => Array.from({ length: n }, (_, k) => `<div class="win" style="left:${((k + 0.5) * w) / n - 34}px;top:${top}px;width:68px;height:${h}px"></div>`).join("") + (door ? `<div class="win" style="left:${w / 2 - 40}px;top:${HW - 140}px;width:80px;height:137px;border-bottom:none"></div>` : "");
-      H("s3", `${kicker("s3-k", "Le chalet · plan 3D")}
-        <div class="stage" style="perspective:1500px"><div id="s3-cam" class="abs p3" style="left:960px;top:640px;width:0;height:0"><div id="s3-house" class="abs p3" style="left:0;top:0;width:0;height:0">
-          <div class="grid" id="s3-grid" style="left:-800px;top:-800px;width:1600px;height:1600px;transform:rotateX(90deg)"></div>
-          <div class="wf" id="s3-f0" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${D / 2}px)">${wins(3, W, 40, 70, true)}</div>
-          <div class="wf" id="s3-f1" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${-D / 2}px) rotateY(180deg)">${wins(3, W, 40, 70)}</div>
-          <div class="wf" id="s3-f2" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(-90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
-          <div class="wf" id="s3-f3" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
-          ${gable(D / 2, "s3-g0")}
-          ${gable(-D / 2, "s3-g1")}
-          <div class="wf" id="s3-r0" style="left:${-L / 2}px;top:${-(D + 60) / 2}px;width:${L}px;height:${D + 60}px;transform:translate3d(${W / 4}px,${-(HW + R / 2)}px,0) rotateZ(${A}deg) rotateX(90deg);background:repeating-linear-gradient(90deg,rgba(30,107,255,0.3) 0 2px,rgba(30,107,255,0.1) 2px 46px)"></div>
-          <div class="wf" id="s3-r1" style="left:${-L / 2}px;top:${-(D + 60) / 2}px;width:${L}px;height:${D + 60}px;transform:translate3d(${-W / 4}px,${-(HW + R / 2)}px,0) rotateZ(${-A}deg) rotateX(90deg);background:repeating-linear-gradient(90deg,rgba(30,107,255,0.3) 0 2px,rgba(30,107,255,0.1) 2px 46px)"></div>
-          <div class="wf" id="s3-ch" style="left:-30px;top:-60px;width:60px;height:120px;transform:translate3d(160px,-350px,60px)"></div>
-        </div></div></div>
-        ${chip("s3-c0", 150, 270, "bed", "<b>4</b> suites")}
-        ${chip("s3-c1", 1440, 250, "bunk", "<b>1</b> dortoir")}
-        ${chip("s3-c2", 120, 760, "drop", "<b>4</b> salles d'eau")}
-        ${chip("s3-c3", 1400, 780, "people", "<b>12</b> voyageurs")}`);
+      // ---------- S3: 4 suites -> dortoir -> bathrooms ----------
+      const SUITES = ["w04", "w05", "w06", "w07"], SCOL = ["violet", "pink", "blue", "coral"];
+      const BATH = ["w09", "w11", "w12", "w13"];
+      H("s3", `<div id="s3-dorm" class="photo" style="inset:0">${img("w08").replace("<img", '<img id="s3-dimg"')}</div>
+        <div class="stage" style="perspective:2000px">${SUITES.map((s, k) => `<div id="s3-p${k}" class="photo" style="left:${k * 480}px;top:0;width:480px;height:1080px;transform-origin:0% 50%">${img(s).replace("<img", `<img id="s3-pi${k}"`)}<div class="abs" style="left:0;right:0;bottom:0;height:300px;background:linear-gradient(180deg,rgba(15,26,43,0),rgba(15,26,43,0.55))"></div><div id="s3-t${k}" class="tag" style="left:150px;bottom:44px;background:${COL[SCOL[k]]}">Suite ${k + 1}</div></div>`).join("")}</div>
+        <div id="s3-full" class="photo" style="inset:0">${img("w04")}</div>
+        <div id="s3-fan" class="stage p3" style="perspective:1800px">${BATH.map((s, k) => `<div id="s3-b${k}" class="card" style="left:${190 + k * 340}px;top:300px;width:520px;height:680px">${img(s)}</div>`).join("")}</div>
+        ${chip("s3-c0", 760, 150, "bed", "<b>4</b> suites", "violet", true)}
+        ${chip("s3-c1", 740, 150, "bunk", "<b>1</b> dortoir", "pink", true)}
+        ${chip("s3-c2", 640, 96, "drop", "<b>4</b> salles d'eau", "cyan", true)}`);
 
-      // ---------- S4: salon card 3D + rating ----------
-      H("s4", `<div class="photo" style="inset:0;opacity:0.55" id="s4-bgp"><img src="assets/photos/w01.jpg" alt="" style="filter:blur(40px) saturate(1.2);transform:scale(1.2)" /></div>
-        <div class="abs" style="inset:0;background:linear-gradient(160deg,rgba(246,248,253,0.65),rgba(230,237,249,0.55))"></div>
-        ${kicker("s4-k", "Le salon")}
+      // ---------- S4: living spaces + rating ----------
+      H("s4", `<div class="photo" style="inset:0;opacity:0.5" id="s4-bgp"><img src="assets/photos/w01.jpg" alt="" style="filter:blur(40px) saturate(1.3);transform:scale(1.2)" /></div>
         <div class="stage" style="perspective:1700px">
-          <div id="s4-card" class="abs p3" style="left:150px;top:170px;width:1080px;height:700px">
-            <div class="glass" style="inset:0;border-radius:40px;overflow:hidden;padding:18px">
+          <div id="s4-k" class="card p3" style="left:30px;top:600px;width:640px;height:400px">${img("w02")}<div class="tag" style="background:${COL.amber}">Cuisine équipée</div></div>
+          <div id="s4-d" class="card p3" style="left:1210px;top:180px;width:640px;height:400px">${img("w03")}<div class="tag" style="background:${COL.coral}">Salle à manger</div></div>
+          <div id="s4-card" class="abs p3" style="left:420px;top:190px;width:1080px;height:700px">
+            <div class="glass" style="inset:0;border-radius:40px;overflow:hidden">
               <div class="photo" style="left:18px;top:18px;right:18px;height:520px;border-radius:28px"><img id="s4-img" src="assets/photos/w01.jpg" alt="" /></div>
               <div class="abs" style="left:44px;top:566px;font-weight:800;font-size:44px;white-space:nowrap">Salon panoramique</div>
               <div class="abs" style="left:44px;top:625px;font-weight:500;font-size:25px;color:#4A5875;white-space:nowrap">Baigné de lumière · face aux sommets</div>
-              <div class="tagp abs" style="right:40px;top:590px;background:#1E6BFF;color:#fff">Vue sommets</div>
+              <div class="tagp abs" style="right:40px;top:590px;background:linear-gradient(135deg,#FBBF24,#F97316);color:#fff">Vue sommets</div>
             </div>
           </div>
           <div id="s4-rate" class="abs p3" style="left:1300px;top:250px;width:480px;height:540px">
             <div class="glass" style="inset:0;border-radius:40px">
               <div class="abs" style="left:46px;top:46px;font-weight:700;font-size:22px;letter-spacing:0.22em;color:#4A5875">NOTE VOYAGEURS</div>
-              <div class="abs" style="left:40px;top:96px;font-weight:800;font-size:170px;line-height:1;letter-spacing:-0.04em;color:#0F1A2B;font-variant-numeric:tabular-nums" id="s4-num">0,00</div>
-              <div class="abs" style="left:46px;top:300px;display:flex;gap:12px">${[0, 1, 2, 3, 4].map((k) => `<svg id="s4-s${k}" viewBox="0 0 48 48" style="width:62px;height:62px;fill:#1E6BFF;stroke:#1E6BFF;stroke-width:2;stroke-linejoin:round">${ICONS.star}</svg>`).join("")}</div>
-              <div class="abs" style="left:46px;top:400px;font-weight:700;font-size:32px;white-space:nowrap"><span style="color:#1E6BFF">168</span> évaluations</div>
+              <div class="abs" style="left:40px;top:96px;font-weight:800;font-size:170px;line-height:1;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;color:#F2562E" id="s4-num">0,00</div>
+              <div class="abs" style="left:46px;top:300px;display:flex;gap:12px">${[0, 1, 2, 3, 4].map((k) => `<svg id="s4-s${k}" viewBox="0 0 48 48" style="width:62px;height:62px;fill:#FBBF24;stroke:#F97316;stroke-width:2;stroke-linejoin:round">${ICONS.star}</svg>`).join("")}</div>
+              <div class="abs" style="left:46px;top:400px;font-weight:700;font-size:32px;white-space:nowrap"><span style="color:#F97316">168</span> évaluations</div>
               <div class="abs" style="left:46px;top:448px;font-weight:500;font-size:24px;color:#4A5875;white-space:nowrap">sur 5 · Airbnb</div>
             </div>
           </div>
         </div>`);
 
-      // ---------- S5: pool, lateral tracking + curved title ----------
+      // ---------- S5: pool (fully visible) + sauna ----------
       const word = "piscine & sauna".split("");
-      const cw = word.map((c) => (c === " " ? 40 : c === "&" ? 96 : c === "i" ? 40 : c === "m" ? 116 : 80));
+      const cw = word.map((c) => (c === " " ? 40 : c === "&" ? 96 : c === "i" ? 40 : 80));
       const tot = cw.reduce((a, b) => a + b, 0);
       let acc = 0;
       const letters = word.map((c, k) => {
         const x = acc + cw[k] / 2; acc += cw[k];
-        const u = x / tot, y = -70 * Math.sin(Math.PI * u), rot = (-Math.atan((70 * Math.PI * Math.cos(Math.PI * u)) / tot) * 180) / Math.PI;
+        const u = x / tot, y = -60 * Math.sin(Math.PI * u), rot = (-Math.atan((60 * Math.PI * Math.cos(Math.PI * u)) / tot) * 180) / Math.PI;
         return `<span id="s5-l${k}" class="${k >= 10 ? "acc" : ""}" style="left:${x - cw[k] / 2}px;width:${cw[k]}px;text-align:center"><span style="position:relative;display:block;transform:translateY(${y}px) rotate(${rot}deg)">${c}</span></span>`;
       }).join("");
-      H("s5", `<div id="s5-ph" class="photo" style="inset:0">${img("w15").replace("<img", '<img id="s5-img"')}</div>
-        <div class="abs" style="left:0;right:0;bottom:0;height:560px;background:linear-gradient(180deg,rgba(240,244,251,0) 0%,rgba(240,244,251,0.82) 55%,rgba(240,244,251,0.96) 100%)"></div>
-        ${kicker("s5-k", "Bien-être")}
-        <div id="s5-curve" class="curve abs" style="left:${960 - tot / 2}px;top:820px;width:${tot}px;height:140px">${letters}</div>
-        ${chip("s5-c0", 1290, 150, "pool", "Piscine <b>intérieure</b>")}
-        ${chip("s5-c1", 1360, 250, "sauna", "Sauna <b>privé</b>")}`);
+      H("s5", `<div id="s5-ph" class="photo" style="inset:0">${img("w15", "object-position:50% 100%;transform-origin:72% 88%").replace("<img", '<img id="s5-img"')}</div>
+        <div class="abs" style="left:0;right:0;top:0;height:420px;background:linear-gradient(180deg,rgba(8,20,40,0.55),rgba(8,20,40,0))"></div>
+        ${[0, 1, 2].map((k) => `<div id="s5-ring${k}" class="ring" style="left:1180px;top:930px"></div>`).join("")}
+        <div id="s5-curve" class="curve abs" style="left:${960 - tot / 2}px;top:230px;width:${tot}px;height:140px">${letters}</div>
+        ${chip("s5-c0", 90, 880, "pool", "Piscine <b>intérieure</b>", "cyan")}
+        <div id="s5-sauna" class="card" style="left:1130px;top:410px;width:690px;height:460px">${img("x16")}</div>
+        ${chip("s5-c1", 1190, 900, "sauna", "Sauna <b>privé</b>", "amber")}`);
 
       // ---------- S6: 3D phone + floating chips ----------
-      H("s6", `${kicker("s6-k", "Tout inclus")}
-        <div class="stage" style="perspective:1800px"><div id="s6-ph" class="phone p3" style="left:745px;top:100px">
+      H("s6", `<div class="stage" style="perspective:1800px"><div id="s6-ph" class="phone p3" style="left:745px;top:110px">
           <div class="screen">
             <div class="photo" style="inset:0">${img("w14")}</div>
             <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(8,14,28,0.55) 0%,rgba(8,14,28,0.1) 45%,rgba(8,14,28,0.5) 100%)"></div>
@@ -192,137 +197,157 @@
             <div class="notif" id="s6-n1" style="top:640px"><div class="a">Arrivée 16:00 – 21:00</div><div class="b">Départ avant 10:00</div></div>
           </div>
         </div></div>
-        ${chip("s6-c0", 380, 270, "wifi", "Wi-Fi")}
-        ${chip("s6-c1", 1260, 330, "park", "Parking <b>gratuit</b>")}
-        ${chip("s6-c2", 230, 560, "bolt", "Réservation <b>instantanée</b>")}
-        ${chip("s6-c3", 1300, 620, "wash", "Lave-linge")}
-        ${chip("s6-c4", 420, 820, "star", "<b>4,74</b> · 168 avis")}`);
+        ${chip("s6-c0", 400, 270, "wifi", "Wi-Fi", "blue")}
+        ${chip("s6-c1", 1250, 330, "park", "Parking <b>gratuit</b>", "violet")}
+        ${chip("s6-c2", 200, 560, "bolt", "Réservation <b>instantanée</b>", "amber")}
+        ${chip("s6-c3", 1290, 620, "wash", "Lave-linge", "cyan")}
+        ${chip("s6-c4", 400, 830, "star", "<b>4,74</b> · 168 avis", "coral")}`);
 
       // ---------- S7: CTA over 3D coverflow ----------
-      const cfs = ["w03", "w04", "w08", "w14", "w02", "w15"];
+      const cfs = ["w03", "w04", "w08", "w14", "w15", "w02", "w01"];
       H("s7", `<div class="stage" style="perspective:1400px"><div id="s7-row" class="abs p3" style="left:0;top:360px;width:0;height:0">
           ${cfs.map((s, k) => `<div class="cf" style="left:${k * 560 - 200}px;top:0;transform:rotateY(-32deg)">${img(s)}</div>`).join("")}
         </div></div>
-        <div class="abs" style="inset:0;background:rgba(240,244,251,0.45);backdrop-filter:blur(10px)"></div>
+        <div class="abs" style="inset:0;background:linear-gradient(135deg,rgba(255,240,245,0.5),rgba(240,236,255,0.4));backdrop-filter:blur(10px)"></div>
         <div class="stage"><div id="s7-card" class="glass p3" style="left:510px;top:250px;width:900px;height:580px;border-radius:48px">
           <img src="assets/logo/airbnb.png" alt="" class="abs" style="left:398px;top:44px;width:104px;height:auto" />
           <div class="abs" style="left:0;right:0;top:190px;text-align:center;font-weight:800;font-size:66px;white-space:nowrap">Réservez dès maintenant</div>
           <div class="abs" style="left:0;right:0;top:280px;text-align:center;font-weight:500;font-size:27px;color:#4A5875;white-space:nowrap">Chalet Courchevel Moriond · 12 voyageurs · ★ 4,74</div>
-          <div id="s7-btn" class="abs" style="left:190px;top:380px;width:520px;height:110px;border-radius:55px;background:#FF385C;color:#fff;font-weight:800;font-size:36px;line-height:110px;text-align:center;box-shadow:0 20px 50px rgba(255,56,92,0.4);overflow:hidden">Réserver sur Airbnb<div id="s7-rip" class="abs" style="left:300px;top:55px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:rgba(255,255,255,0.45)"></div></div>
+          <div id="s7-btn" class="abs" style="left:190px;top:380px;width:520px;height:110px;border-radius:55px;background:linear-gradient(135deg,#FF5A7A,#FF385C 50%,#E31C5F);color:#fff;font-weight:800;font-size:36px;line-height:110px;text-align:center;box-shadow:0 20px 50px rgba(255,56,92,0.4);overflow:hidden">Réserver sur Airbnb<div id="s7-rip" class="abs" style="left:300px;top:55px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:rgba(255,255,255,0.45)"></div></div>
         </div></div>
         <svg id="s7-cur" class="abs" viewBox="0 0 48 48" style="left:0;top:0;width:64px;height:64px"><path d="M10 4 L10 38 L19 30 L25 44 L31 41 L25 28 L37 28 Z" fill="#0F1A2B" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg>`);
 
       // ---------- S8: logo ----------
-      H("s8", `<div class="abs" style="inset:0;background:radial-gradient(circle at 50% 42%,#FFFFFF 0%,#EEF3FC 45%,#E3EAF8 100%)"></div>
-        <div id="s8-halo" class="abs" style="left:960px;top:400px;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;border:2px solid rgba(30,107,255,0.35);box-shadow:0 0 60px rgba(30,107,255,0.25),inset 0 0 60px rgba(30,107,255,0.15)"></div>
+      H("s8", `<div id="s8-halo" class="abs" style="left:960px;top:400px;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;background:rgba(255,255,255,0.55);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,0.95);box-shadow:0 0 0 14px rgba(30,107,255,0.1),0 30px 80px rgba(30,40,110,0.2)"></div>
         <div class="stage"><img id="s8-mark" src="assets/logo/mark.png" alt="" class="abs" style="left:810px;top:256px;width:300px;height:auto" /></div>
-        <img id="s8-w1" src="assets/logo/word-paul.png" alt="" class="abs" style="left:510px;top:620px;width:900px;height:auto" />
-        <img id="s8-w2" src="assets/logo/word-digital.png" alt="" class="abs" style="left:510px;top:620px;width:900px;height:auto" />`);
+        <img id="s8-w1" src="assets/logo/word-paul.png" alt="" class="abs" style="left:510px;top:640px;width:900px;height:auto" />
+        <img id="s8-w2" src="assets/logo/word-digital.png" alt="" class="abs" style="left:510px;top:640px;width:900px;height:auto" />`);
 
       // ================= timeline =================
       const tl = gsap.timeline({ paused: true });
       const S = { s1: 0, s2: 3.6, s3: 9.2, s4: 14.2, s5: 21.5, s6: 26.5, s7: 32.2, s8: 36.8 };
       const pop = (el, t, from) => tl.fromTo(el, { opacity: 0, scale: 0.6, y: 30, filter: "blur(10px)", ...(from || {}) }, { opacity: 1, scale: 1, y: 0, x: 0, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.8)" }, t);
-      const flash = (t) => tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.55, duration: 0.08, ease: "none", immediateRender: false }, t - 0.08).to("#flash", { opacity: 0, duration: 0.35, ease: "power2.out" }, t);
+      const out = (els, t, d) => tl.to(els, { opacity: 0, scale: 0.85, filter: "blur(10px)", duration: d || 0.3, ease: "power2.in" }, t);
+      // colour shutter: the wide gradient bar fully covers the frame at the cut time
+      tl.set("#shut-g", { x: -4140 }, 0);
+      [S.s2, S.s4, S.s5, S.s6, S.s7, S.s8].forEach((t) => tl.fromTo("#shut-g", { x: -4140 }, { x: 3060, duration: 0.8, ease: "none", immediateRender: false }, t - 0.4));
 
-      // background drift
-      tl.fromTo("#b1", { x: 0, y: 0 }, { x: 420, y: 160, duration: 37.7, ease: "sine.inOut" }, 3.3);
-      tl.fromTo("#b2", { x: 0, y: 0 }, { x: -520, y: -240, duration: 37.7, ease: "sine.inOut" }, 3.3);
-      tl.fromTo("#b3", { x: 0, y: 0 }, { x: -300, y: 260, duration: 37.7, ease: "sine.inOut" }, 3.3);
-      tl.fromTo("#bg", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 3.3);
+      // background mesh: colours per chapter
+      const MESH = [[S.s3, "#8B5CF6", "#EC4899", "#1E6BFF"], [S.s4, "#F97316", "#FF385C", "#FBBF24"], [S.s5, "#06B6D4", "#1E6BFF", "#22D3EE"], [S.s6, "#10B981", "#1E6BFF", "#A78BFA"], [S.s7, "#FF385C", "#FF9F43", "#8B5CF6"], [S.s8, "#1E6BFF", "#8B5CF6", "#FF7A59"]];
+      MESH.forEach(([t, a, b, c]) => {
+        tl.to("#b1", { backgroundColor: a, duration: 0.5 }, t - 0.25).to("#b2", { backgroundColor: b, duration: 0.5 }, t - 0.25).to("#b3", { backgroundColor: c, duration: 0.5 }, t - 0.25);
+      });
+      tl.fromTo("#b1", { x: 0, y: 0 }, { x: 460, y: 200, duration: 41, ease: "sine.inOut" }, 0);
+      tl.fromTo("#b2", { x: 0, y: 0 }, { x: -560, y: -260, duration: 41, ease: "sine.inOut" }, 0);
+      tl.fromTo("#b3", { x: 0, y: 0 }, { x: -320, y: 300, duration: 41, ease: "sine.inOut" }, 0);
 
-      // S1
+      // HUD: label swaps at each chapter, progress segments fill
+      const CHT = [S.s2, S.s3, S.s4, S.s5, S.s6, S.s7, S.s8];
+      for (let k = 0; k < 6; k++) {
+        tl.fromTo(`#hud-l${k}`, { y: 64, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, CHT[k]);
+        if (k < 5) tl.to(`#hud-l${k}`, { y: -64, opacity: 0, duration: 0.3, ease: "power2.in" }, CHT[k + 1] - 0.15);
+        tl.fromTo(`#hud-d${k}`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, CHT[k]);
+        tl.fromTo(`#hud-s${k}`, { scaleX: 0 }, { scaleX: 1, duration: CHT[k + 1] - CHT[k], ease: "none" }, CHT[k]);
+      }
+      tl.fromTo("#hud", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, S.s2 + 0.1);
+
+      // S1 wireframe + title
+      tl.fromTo("#s1-cam", { scale: 0.8, y: 60 }, { scale: 1.1, y: 0, duration: 3.2, ease: "sine.inOut" }, 0);
+      tl.fromTo("#s1-house", { rotationX: -22, rotationY: -60 }, { rotationX: -15, rotationY: 25, duration: 3.6, ease: "power1.inOut" }, 0);
+      tl.fromTo("#s1-grid", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
+      ["#s1-f0", "#s1-f3", "#s1-f1", "#s1-f2", "#s1-g0", "#s1-g1", "#s1-r0", "#s1-r1", "#s1-ch"].forEach((id, k) =>
+        tl.fromTo(id, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power2.out" }, 0.1 + k * 0.11));
       tl.set("#s1-ic", { xPercent: -50, yPercent: -50 }, 0);
       tl.set("#s1-word", { xPercent: -50, yPercent: -50 }, 0);
       tl.set("#s1-sub", { xPercent: -50, yPercent: 120, opacity: 0 }, 0);
-      tl.fromTo("#s1-ic", { scale: 0.55, opacity: 0, filter: "blur(12px)", width: 220 }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "back.out(1.6)" }, 0.15);
-      for (let k = 1; k < 7; k++) tl.fromTo(`#s1-l${k}`, { opacity: 0, y: 30, maxWidth: 0 }, { opacity: 1, y: 0, maxWidth: 90, duration: 0.22, ease: "power2.out" }, 0.85 + (k - 1) * 0.075);
-      tl.fromTo("#s1-l0", { opacity: 1 }, { opacity: 1, duration: 0.1 }, 0);
-      tl.to("#s1-ic", { width: 640, duration: 0.6, ease: "power3.inOut" }, 0.78);
-      tl.to("#s1-ic", { height: 260, duration: 0.4, ease: "power3.inOut" }, 1.4);
-      tl.to("#s1-word", { yPercent: -75, duration: 0.4, ease: "power3.inOut" }, 1.4);
-      tl.fromTo("#s1-sub", { opacity: 0, yPercent: 160 }, { opacity: 1, yPercent: 120, duration: 0.4, ease: "power2.out", immediateRender: false }, 1.55);
-      tl.to("#s1-ic", { scale: 1.12, duration: 1.1, ease: "sine.inOut" }, 1.9);
-      tl.to("#s1-ic", { scale: 7, opacity: 0, filter: "blur(24px)", duration: 0.6, ease: "power3.in" }, 3.0);
-      flash(S.s2);
+      tl.fromTo("#s1-ic", { scale: 0.4, opacity: 0, filter: "blur(12px)", width: 150 }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "back.out(1.8)" }, 0.6);
+      for (let k = 1; k < 7; k++) tl.fromTo(`#s1-l${k}`, { opacity: 0, y: 30, maxWidth: 0 }, { opacity: 1, y: 0, maxWidth: 90, duration: 0.22, ease: "power2.out" }, 0.9 + (k - 1) * 0.075);
+      tl.to("#s1-ic", { width: 600, duration: 0.6, ease: "power3.inOut" }, 0.82);
+      tl.to("#s1-ic", { height: 190, duration: 0.4, ease: "power3.inOut" }, 1.4);
+      tl.to("#s1-word", { yPercent: -72, duration: 0.4, ease: "power3.inOut" }, 1.4);
+      tl.fromTo("#s1-sub", { opacity: 0, yPercent: 180 }, { opacity: 1, yPercent: 120, duration: 0.4, ease: "power2.out", immediateRender: false }, 1.55);
 
-      // S2
-      tl.fromTo("#s2-ui", { rotationX: 16, rotationY: -20, x: 160, z: -200 }, { rotationX: 6, rotationY: 10, x: -100, z: 0, duration: 5.2, ease: "sine.inOut" }, S.s2);
-      tl.fromTo("#s2-bar", { opacity: 0, y: -40, scaleX: 0.4 }, { opacity: 1, y: 0, scaleX: 1, duration: 0.5, ease: "power3.out" }, S.s2);
-      const query = "chalet · Courchevel Moriond · 12 pers.";
-      const typer = { _p: 0, p(v) { if (v === undefined) return this._p; this._p = v; $("s2-type").textContent = query.slice(0, Math.round(v * query.length)); } };
-      tl.fromTo(typer, { p: 0 }, { p: 1, duration: 1.2, ease: "none" }, S.s2 + 0.55);
-      tl.fromTo("#s2-caret", { opacity: 1 }, { opacity: 0, duration: 0.25, repeat: 9, yoyo: true, ease: "steps(1)" }, S.s2 + 0.2);
-      for (let i = 0; i < 4; i++) tl.fromTo(`#s2-r${i}`, { opacity: 0, y: 90, z: -120, filter: "blur(14px)" }, { opacity: 1, y: 0, z: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, S.s2 + 1.6 + i * 0.16);
-      tl.to("#s2-r0", { z: 60, scale: 1.03, duration: 0.5, ease: "power2.out" }, S.s2 + 2.6);
-      pop("#s2-btn", S.s2 + 3.95);
-      tl.to("#s2-ui", { x: -1100, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power3.in" }, S.s3 - 0.4);
-      flash(S.s3);
+      // S2: camera over the wall of rooms
+      const cam = { px: 0, py: 0, s: 1 };
+      const applyCam = () => { $("s2-wall").style.transform = `translate(${960 - cam.s * cam.px}px, ${540 - cam.s * cam.py}px) scale(${cam.s})`; };
+      const camAt = (r, c) => ({ px: c * (TW + G) + TW / 2, py: r * (TH + G) + TH / 2 });
+      const camObj = { px(v) { if (v === undefined) return cam.px; cam.px = v; applyCam(); }, py(v) { if (v === undefined) return cam.py; cam.py = v; applyCam(); }, s(v) { if (v === undefined) return cam.s; cam.s = v; applyCam(); } };
+      const P14 = camAt(1, 1), P04 = camAt(1, 0), PC = { px: (4 * TW + 3 * G) / 2, py: (4 * TH + 3 * G) / 2 };
+      tl.fromTo(camObj, { px: P14.px, py: P14.py, s: 1 }, { px: P14.px, py: P14.py, s: 1.12, duration: 2.0, ease: "sine.out" }, S.s2);
+      tl.to(camObj, { px: PC.px, py: PC.py, s: 0.215, duration: 1.4, ease: "power3.inOut" }, S.s2 + 2.0);
+      tl.to(camObj, { px: PC.px - 500, s: 0.235, duration: 1.4, ease: "none" }, S.s2 + 3.4);
+      tl.to(camObj, { px: P04.px, py: P04.py, s: 1, duration: 0.8, ease: "power3.in" }, S.s2 + 4.8);
+      tl.fromTo("#s2-tilt", { rotationX: 0, rotationZ: 0 }, { rotationX: 20, rotationZ: -6, duration: 1.4, ease: "power3.inOut" }, S.s2 + 2.0);
+      tl.to("#s2-tilt", { rotationX: 0, rotationZ: 0, duration: 0.8, ease: "power3.in" }, S.s2 + 4.8);
+      [4.0, 5.65, 7.25].forEach((t, i) => pop(`#s2-c${i}`, t, { x: -80 }));
+      out(["#s2-c0", "#s2-c1", "#s2-c2"], S.s3 - 0.55);
 
-      // S3 wireframe
-      tl.fromTo("#s3-cam", { scale: 0.78, y: 40 }, { scale: 1.08, y: 0, duration: 4.55, ease: "sine.inOut" }, S.s3);
-      tl.fromTo("#s3-house", { rotationX: -22, rotationY: -55 }, { rotationX: -16, rotationY: 30, duration: 5, ease: "power1.inOut" }, S.s3);
-      tl.fromTo("#s3-grid", { opacity: 0 }, { opacity: 1, duration: 0.6 }, S.s3);
-      ["#s3-f0", "#s3-f3", "#s3-f1", "#s3-f2", "#s3-g0", "#s3-g1", "#s3-r0", "#s3-r1", "#s3-ch"].forEach((id, k) =>
-        tl.fromTo(id, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.out" }, S.s3 + 0.1 + k * 0.12));
-      pop("#s3-k", S.s3 + 0.2, { x: -40, scale: 0.9 });
-      [9.7, 10.75, 11.9, 12.9].forEach((t, i) => pop(`#s3-c${i}`, t, { x: i % 2 ? 60 : -60 }));
-      tl.to("#s3-cam", { scale: 3, opacity: 0, duration: 0.5, ease: "power3.in" }, S.s4 - 0.45);
-      tl.to(["#s3-c0", "#s3-c1", "#s3-c2", "#s3-c3", "#s3-k"], { opacity: 0, scale: 1.3, duration: 0.35, ease: "power2.in" }, S.s4 - 0.4);
-      flash(S.s4);
+      // S3: suites -> dortoir -> bathrooms
+      for (let k = 0; k < 4; k++) tl.fromTo(`#s3-p${k}`, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.out" }, S.s3 + 0.25 + k * 0.08);
+      tl.fromTo("#s3-full", { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "none" }, S.s3 + 0.3);
+      for (let k = 0; k < 4; k++) pop(`#s3-t${k}`, S.s3 + 0.8 + k * 0.08);
+      for (let k = 0; k < 4; k++) tl.fromTo(`#s3-pi${k}`, { scale: 1.15 }, { scale: 1.0, duration: 1.6, ease: "power2.out" }, S.s3 + 0.25);
+      pop("#s3-c0", 9.7);
+      out("#s3-c0", 10.6, 0.2);
+      for (let k = 0; k < 4; k++) tl.to(`#s3-p${k}`, { rotationY: -92, opacity: 0, duration: 0.45, ease: "power2.in" }, 10.7 + k * 0.06);
+      tl.fromTo("#s3-dimg", { scale: 1.2 }, { scale: 1.05, duration: 1.4, ease: "power2.out" }, 10.7);
+      pop("#s3-c1", 10.9);
+      out("#s3-c1", 11.65, 0.2);
+      tl.to("#s3-dorm", { scale: 0.4, x: -900, opacity: 0, duration: 0.55, ease: "power3.in" }, 11.6);
+      const FAN = [[-14, -40], [-5, 10], [5, 10], [14, -40]];
+      for (let k = 0; k < 4; k++) tl.fromTo(`#s3-b${k}`, { x: 1400, y: 0, rotationZ: 30, rotationY: -40, opacity: 0 }, { x: 0, y: FAN[k][1], rotationZ: FAN[k][0], rotationY: 0, opacity: 1, duration: 0.65, ease: "power3.out" }, 11.8 + k * 0.09);
+      for (let k = 0; k < 4; k++) tl.to(`#s3-b${k}`, { rotationZ: FAN[k][0] * 0.6, y: FAN[k][1] - 20, duration: 1.6, ease: "sine.inOut" }, 12.6);
+      pop("#s3-c2", 11.95);
+      tl.fromTo("#s3-fan", { scale: 1 }, { scale: 1.06, duration: 2.3, ease: "sine.inOut" }, 11.9);
 
-      // S4 salon
-      tl.fromTo("#s4-card", { x: 700, rotationY: -55, rotationX: 8, z: -300, opacity: 0, filter: "blur(16px)" }, { x: 0, rotationY: -14, rotationX: 4, z: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, S.s4);
-      tl.to("#s4-card", { rotationY: 9, rotationX: -3, x: -30, duration: 6.4, ease: "sine.inOut" }, S.s4 + 0.9);
+      // S4 living spaces
+      tl.fromTo("#s4-card", { x: 700, rotationY: -55, rotationX: 8, z: -300, opacity: 0, filter: "blur(16px)" }, { x: 0, rotationY: -10, rotationX: 4, z: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, S.s4);
       tl.fromTo("#s4-img", { scale: 1.02 }, { scale: 1.16, duration: 7.3, ease: "none" }, S.s4);
       tl.fromTo("#s4-bgp", { scale: 1.1 }, { scale: 1.0, duration: 7.3, ease: "none" }, S.s4);
-      pop("#s4-k", S.s4 + 0.3, { x: -40, scale: 0.9 });
-      tl.fromTo("#s4-rate", { x: 500, rotationY: 40, opacity: 0, filter: "blur(14px)" }, { x: 0, rotationY: -10, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, S.s4 + 3.0);
-      tl.to("#s4-rate", { rotationY: 6, duration: 4.3, ease: "sine.inOut" }, S.s4 + 3.8);
+      tl.fromTo("#s4-k", { x: -900, rotationY: 40, z: 0, opacity: 0 }, { x: 0, rotationY: 18, z: -200, opacity: 1, duration: 0.7, ease: "power3.out" }, 15.4);
+      tl.fromTo("#s4-d", { x: 900, rotationY: -40, z: 0, opacity: 0 }, { x: 0, rotationY: -18, z: -200, opacity: 1, duration: 0.7, ease: "power3.out" }, 15.9);
+      tl.to("#s4-card", { rotationY: 4, duration: 2.3, ease: "sine.inOut" }, S.s4 + 0.9);
+      tl.to("#s4-k", { x: -900, opacity: 0, duration: 0.5, ease: "power3.in" }, 17.3);
+      tl.to("#s4-d", { x: 900, opacity: 0, duration: 0.5, ease: "power3.in" }, 17.3);
+      tl.to("#s4-card", { x: -270, rotationY: 10, rotationX: -2, duration: 0.8, ease: "power3.inOut" }, 17.4);
+      tl.to("#s4-card", { rotationY: 16, duration: 3.2, ease: "sine.inOut" }, 18.2);
+      tl.fromTo("#s4-rate", { x: 500, rotationY: 40, opacity: 0, filter: "blur(14px)" }, { x: 0, rotationY: -10, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, 17.45);
+      tl.to("#s4-rate", { rotationY: 6, duration: 3.2, ease: "sine.inOut" }, 18.25);
       const rate = { _v: 0, v(x) { if (x === undefined) return this._v; this._v = x; $("s4-num").textContent = x.toFixed(2).replace(".", ","); } };
-      tl.fromTo(rate, { v: 0 }, { v: 4.74, duration: 1.5, ease: "power2.out" }, S.s4 + 3.8);
-      for (let k = 0; k < 5; k++) tl.fromTo(`#s4-s${k}`, { scale: 0, rotation: -60, opacity: 0.2 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, S.s4 + 5.4 + k * 0.09);
-      tl.to(["#s4-card", "#s4-rate"], { x: "+=-260", opacity: 0, filter: "blur(16px)", duration: 0.45, ease: "power3.in" }, S.s5 - 0.42);
-      flash(S.s5);
+      tl.fromTo(rate, { v: 0 }, { v: 4.74, duration: 1.5, ease: "power2.out" }, 18.0);
+      for (let k = 0; k < 5; k++) tl.fromTo(`#s4-s${k}`, { scale: 0, rotation: -60, opacity: 0.2 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 19.6 + k * 0.09);
 
-      // S5 pool
-      tl.fromTo("#s5-ph", { clipPath: "inset(0% 0% 0% 100% round 40px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 0.6, ease: "power3.out" }, S.s5);
-      tl.fromTo("#s5-img", { scale: 1.28, x: 140 }, { scale: 1.18, x: -140, duration: 5, ease: "none" }, S.s5);
-      pop("#s5-k", S.s5 + 0.35, { x: -40, scale: 0.9 });
-      word.forEach((c, k) => tl.fromTo(`#s5-l${k}`, { opacity: 0, y: 110, rotation: 18, filter: "blur(8px)" }, { opacity: 1, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.6)" }, S.s5 + 0.5 + k * 0.045));
-      tl.fromTo("#s5-curve", { scale: 1 }, { scale: 1.06, duration: 4, ease: "sine.inOut" }, S.s5 + 1);
-      pop("#s5-c0", S.s5 + 1.7, { x: 60 });
-      pop("#s5-c1", S.s5 + 2.9, { x: 60 });
-      tl.to("#s5-ph", { x: -300, filter: "blur(14px)", duration: 0.45, ease: "power3.in" }, S.s6 - 0.42);
-      flash(S.s6);
+      // S5 pool + sauna
+      tl.fromTo("#s5-img", { scale: 1.0 }, { scale: 1.12, duration: 5, ease: "sine.inOut" }, S.s5);
+      word.forEach((c, k) => tl.fromTo(`#s5-l${k}`, { opacity: 0, y: 110, rotation: 18, filter: "blur(8px)" }, { opacity: 1, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.6)" }, 22.0 + k * 0.045));
+      tl.fromTo("#s5-curve", { scale: 1 }, { scale: 1.05, duration: 3.6, ease: "sine.inOut" }, 22.6);
+      [22.4, 23.0, 23.6].forEach((t, k) => tl.fromTo(`#s5-ring${k}`, { scale: 0.2, opacity: 1 }, { scale: 3, opacity: 0, duration: 1.6, ease: "power2.out" }, t));
+      pop("#s5-c0", 23.2, { x: -80 });
+      tl.fromTo("#s5-sauna", { x: 900, rotationZ: 12, opacity: 0, filter: "blur(12px)" }, { x: 0, rotationZ: -3, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, 24.4);
+      tl.to("#s5-sauna", { rotationZ: 1, y: -14, duration: 1.4, ease: "sine.inOut" }, 25.1);
+      pop("#s5-c1", 24.6, { x: 80 });
 
       // S6 phone
       tl.fromTo("#s6-ph", { y: 700, rotationX: 45, rotationY: -30, rotationZ: -6, opacity: 0 }, { y: 0, rotationX: 8, rotationY: -26, rotationZ: -3, opacity: 1, duration: 0.85, ease: "power3.out" }, S.s6);
-      tl.to("#s6-ph", { rotationX: 3, rotationY: 14, rotationZ: 2, x: 20, duration: 4.43, ease: "sine.inOut" }, S.s6 + 0.85);
-      pop("#s6-k", S.s6 + 0.3, { x: -40, scale: 0.9 });
+      tl.to("#s6-ph", { rotationX: 3, rotationY: 14, rotationZ: 2, x: 20, duration: 4.85, ease: "sine.inOut" }, S.s6 + 0.85);
       [26.85, 27.85, 29.0, 29.5, 29.85].forEach((t, i) => pop(`#s6-c${i}`, t, { x: i % 2 ? 80 : -80 }));
       [30.3, 31.1].forEach((t, i) => tl.fromTo(`#s6-n${i}`, { opacity: 0, y: -60, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, t));
       tl.fromTo(["#s6-c0", "#s6-c2", "#s6-c4"], { y: 0 }, { y: -26, duration: 4, ease: "sine.inOut", immediateRender: false }, S.s6 + 1.6);
       tl.fromTo(["#s6-c1", "#s6-c3"], { y: 0 }, { y: 22, duration: 4, ease: "sine.inOut", immediateRender: false }, S.s6 + 1.6);
-      tl.to("#s6-ph", { y: -900, rotationX: -30, duration: 0.45, ease: "power3.in" }, S.s7 - 0.42);
-      tl.to(["#s6-c0", "#s6-c1", "#s6-c2", "#s6-c3", "#s6-c4", "#s6-k"], { opacity: 0, scale: 0.7, duration: 0.3, ease: "power2.in" }, S.s7 - 0.35);
-      flash(S.s7);
 
       // S7 CTA
-      tl.fromTo("#s7-row", { x: 300 }, { x: -700, duration: 4.6, ease: "power1.inOut" }, S.s7);
+      tl.fromTo("#s7-row", { x: 300 }, { x: -1100, duration: 4.6, ease: "power1.inOut" }, S.s7);
       tl.fromTo("#s7-card", { scale: 0.8, rotationX: 28, opacity: 0, filter: "blur(16px)" }, { scale: 1, rotationX: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, S.s7);
       tl.fromTo("#s7-cur", { x: 1500, y: 1000, opacity: 0 }, { x: 980, y: 700, opacity: 1, duration: 0.7, ease: "power2.out" }, 34.4);
       tl.to("#s7-btn", { scale: 0.93, duration: 0.1, ease: "power2.in" }, 35.15);
       tl.to("#s7-btn", { scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 35.25);
       tl.fromTo("#s7-rip", { scale: 0, opacity: 1 }, { scale: 60, opacity: 0, duration: 0.7, ease: "power2.out" }, 35.2);
       tl.to("#s7-cur", { scale: 0.85, duration: 0.1 }, 35.15).to("#s7-cur", { scale: 1, duration: 0.2 }, 35.25);
-      tl.to(["#s7-card", "#s7-cur"], { scale: 1.25, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power3.in" }, S.s8 - 0.42);
-      flash(S.s8);
 
       // S8 logo
       tl.fromTo("#s8-mark", { scale: 0.4, rotationY: 90, opacity: 0, filter: "blur(14px)" }, { scale: 1, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, S.s8 + 0.1);
       tl.fromTo("#s8-halo", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: "power2.out" }, S.s8 + 0.2);
-      tl.to("#s8-halo", { scale: 1.12, opacity: 0.5, duration: 2.8, ease: "sine.inOut" }, S.s8 + 1.2);
+      tl.to("#s8-halo", { scale: 1.08, duration: 2.8, ease: "sine.inOut" }, S.s8 + 1.2);
       tl.fromTo("#s8-w1", { x: -120, opacity: 0, filter: "blur(10px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, S.s8 + 0.55);
       tl.fromTo("#s8-w2", { x: 120, opacity: 0, filter: "blur(10px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, S.s8 + 0.65);
       tl.fromTo("#s8-mark", { y: 0 }, { y: -8, duration: 2.6, ease: "sine.inOut", immediateRender: false }, S.s8 + 1.1);
