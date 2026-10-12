@@ -1,0 +1,5 @@
+snapshots/
+.hyperframes/
+renders/.*-transaction-*/
+renders/work-*/
+renders/master.mp4
