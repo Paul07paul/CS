@@ -1,6 +1,6 @@
 """Full soundtrack for the short Courchevel Moriond cut (41 s).
 
-Voice: ElevenLabs (Eleven v4, voice "Daniel") generated in FLORA, one file per line in
+Voice: ElevenLabs (v3, voice "Sarah") generated in FLORA, one file per line in
 assets/audio/vo/l01..l08.mp3.  Music: ElevenLabs Music (assets/audio/music.mp3), trimmed
 so its drop lands on the salon reveal, ducked under the voice.  SFX: synthesized here.
     python3 audio/make_mix.py  ->  assets/audio/mix.wav
