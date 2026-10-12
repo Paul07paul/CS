@@ -1,0 +1,25 @@
+{
+  "_doc": "Voice-over script (French, Kokoro ff_siwis). Each line: start time (s), text. Numbers written as words for natural reading.",
+  "voice": "ff_siwis",
+  "speed": 0.95,
+  "lines": [
+    [1.2, "Bienvenue à Courchevel Moriond."],
+    [3.6, "Un chalet de prestige, jusqu'à douze voyageurs."],
+    [8.2, "Idéalement situé, à deux pas des pistes et des commerces."],
+    [16.0, "Quatre chambres en suite, un dortoir, quatre salles d'eau."],
+    [19.4, "Et une note de quatre virgule soixante-quatorze sur cinq, sur cent soixante-huit évaluations."],
+    [26.0, "Le salon, spacieux et chaleureux, offre des vues à couper le souffle sur les sommets."],
+    [36.0, "Il se prolonge par une belle cuisine ouverte, parfaitement équipée."],
+    [43.2, "Quatre chambres en suite, pour le calme et le confort de chacun."],
+    [49.2, "Et un dortoir mansardé, sous les poutres. Parfait pour accueillir famille et amis."],
+    [55.0, "Chaque suite dispose de sa propre salle d'eau."],
+    [61.4, "Côté bien-être : une piscine intérieure, rien que pour vous."],
+    [65.9, "Et un sauna, pour se détendre après une journée de ski."],
+    [70.8, "Un balcon privé, face aux sommets."],
+    [76.0, "Wi-Fi, parking gratuit, lave-linge : tout le confort est réuni."],
+    [83.0, "Arrivée de seize heures à vingt et une heures, et réservation instantanée."],
+    [88.6, "Une ambiance conviviale et confortable, en famille ou entre amis."],
+    [92.6, "Réservez dès maintenant sur Airbnb."],
+    [96.3, "Une vidéo Paul Digital."]
+  ]
+}
