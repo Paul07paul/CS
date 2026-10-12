@@ -1,5 +1,5 @@
 {
-  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]; voice ElevenLabs v3 'Sarah' via FLORA.",
+  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]; voice Gemini TTS fr-FR 'Sulafat' via FLORA.",
   "duration": 41.0,
   "music_offset": 2.8,
   "scenes": {
@@ -18,7 +18,7 @@
       "Courchevel Moriond."
     ],
     [
-      3.9,
+      3.7,
       "Un chalet de prestige, pour douze voyageurs… à deux pas des pistes."
     ],
     [
@@ -34,8 +34,8 @@
       "Côté bien-être : piscine intérieure… et sauna privé."
     ],
     [
-      26.8,
-      "Wi-Fi, parking gratuit, réservation instantanée. Tout est prêt."
+      26.6,
+      "Le wifi, le parking gratuit, la réservation instantanée. Tout est prêt."
     ],
     [
       32.6,

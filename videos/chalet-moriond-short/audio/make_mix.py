@@ -1,7 +1,7 @@
 """Full soundtrack for the short Courchevel Moriond cut (41 s).
 
-Voice: ElevenLabs (v3, voice "Sarah") generated in FLORA, one file per line in
-assets/audio/vo/l01..l08.mp3.  Music: ElevenLabs Music (assets/audio/music.mp3), trimmed
+Voice: Gemini 3.1 Flash TTS (fr-FR, voice "Sulafat") generated in FLORA, one file per line in
+assets/audio/vo/l01..l08.wav.  Music: ElevenLabs Music (assets/audio/music.mp3), trimmed
 so its drop lands on the salon reveal, ducked under the voice.  SFX: synthesized here.
     python3 audio/make_mix.py  ->  assets/audio/mix.wav
 """
@@ -55,7 +55,7 @@ def rms_db(x):
 voice = np.zeros((N + SR, 2))
 active = np.zeros(N + SR)
 for k, (t0, _txt) in enumerate(T["vo"]):
-    v = load(f"assets/audio/vo/l{k + 1:02d}.mp3")
+    v = load(f"assets/audio/vo/l{k + 1:02d}.wav")
     v = hp(v, 80)
     place(voice, t0, v)
     lvl = np.abs(v).max(1)
