@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
+      @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400 600; src: url("assets/fonts/cormorant.woff2") format("woff2"); }
       @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #F3F6FD; }
@@ -31,9 +32,6 @@
       #hud .lbl { position: absolute; left: 0; top: 0; white-space: nowrap; }
       .seg { position: absolute; top: 0; width: 64px; height: 8px; border-radius: 4px; background: rgba(15,26,43,0.14); overflow: hidden; }
       .seg i { position: absolute; inset: 0; border-radius: 4px; transform-origin: 0 50%; }
-      .wf { position: absolute; border: 2.5px solid rgba(30,107,255,0.95); background: rgba(30,107,255,0.07); box-shadow: 0 0 18px rgba(30,107,255,0.25), inset 0 0 18px rgba(30,107,255,0.12); }
-      .wf .win { position: absolute; border: 2px solid rgba(139,92,246,0.85); background: rgba(196,178,255,0.25); }
-      .grid { position: absolute; background-image: linear-gradient(rgba(30,107,255,0.22) 2px, transparent 2px), linear-gradient(90deg, rgba(30,107,255,0.22) 2px, transparent 2px); background-size: 80px 80px; -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 35%, transparent 68%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 35%, transparent 68%); }
       .curve span { position: absolute; top: 0; display: block; font-weight: 800; font-size: 128px; line-height: 1; color: #fff; white-space: pre; text-shadow: 0 8px 30px rgba(0,0,0,0.45); }
       .curve span.acc { color: #5EE7FF; }
       .ring { position: absolute; width: 300px; height: 120px; margin: -60px 0 0 -150px; border-radius: 50%; border: 3px solid rgba(140,235,255,0.9); box-shadow: 0 0 24px rgba(94,231,255,0.6); }
@@ -103,23 +101,17 @@
         </div>
         <div class="glass" style="left:1400px;top:64px;width:456px;height:40px;border-radius:20px">${CH.map((c, k) => `<div class="seg" style="left:${20 + k * 72}px;top:16px"><i id="hud-s${k}" style="background:${c[1]}"></i></div>`).join("")}</div>`);
 
-      // ---------- S1: wireframe plan + glass title ----------
-      const W = 560, D = 420, HW = 230, R = 170, L = Math.hypot(W / 2, R) + 26, A = (Math.atan2(R, W / 2) * 180) / Math.PI;
-      const gable = (z, id) => `<svg id="${id}" class="abs" style="left:${-W / 2}px;top:${-HW - R}px;width:${W}px;height:${R + 2}px;overflow:visible;transform:translateZ(${z}px)" viewBox="0 0 ${W} ${R + 2}"><polygon points="0,${R} ${W / 2},2 ${W},${R}" fill="rgba(30,107,255,0.1)" stroke="rgba(30,107,255,0.95)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${W / 2}" cy="${R * 0.6}" r="26" fill="rgba(196,178,255,0.3)" stroke="rgba(139,92,246,0.9)" stroke-width="2"/></svg>`;
-      const wins = (n, w, top, h, door) => Array.from({ length: n }, (_, k) => `<div class="win" style="left:${((k + 0.5) * w) / n - 34}px;top:${top}px;width:68px;height:${h}px"></div>`).join("") + (door ? `<div class="win" style="left:${w / 2 - 40}px;top:${HW - 140}px;width:80px;height:137px;border-bottom:none"></div>` : "");
-      const roof = (id, sx) => `<div class="wf" id="${id}" style="left:${-L / 2}px;top:${-(D + 60) / 2}px;width:${L}px;height:${D + 60}px;transform:translate3d(${(sx * W) / 4}px,${-(HW + R / 2)}px,0) rotateZ(${sx * A}deg) rotateX(90deg);background:repeating-linear-gradient(90deg,rgba(30,107,255,0.3) 0 2px,rgba(30,107,255,0.1) 2px 46px)"></div>`;
-      H("s1", `<div class="stage" style="perspective:1500px"><div id="s1-cam" class="abs p3" style="left:960px;top:600px;width:0;height:0"><div id="s1-house" class="abs p3" style="left:0;top:0;width:0;height:0">
-          <div class="grid" id="s1-grid" style="left:-800px;top:-800px;width:1600px;height:1600px;transform:rotateX(90deg)"></div>
-          <div class="wf" id="s1-f0" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${D / 2}px)">${wins(3, W, 40, 70, true)}</div>
-          <div class="wf" id="s1-f1" style="left:${-W / 2}px;top:${-HW}px;width:${W}px;height:${HW}px;transform:translateZ(${-D / 2}px) rotateY(180deg)">${wins(3, W, 40, 70)}</div>
-          <div class="wf" id="s1-f2" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(-90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
-          <div class="wf" id="s1-f3" style="left:${-D / 2}px;top:${-HW}px;width:${D}px;height:${HW}px;transform:rotateY(90deg) translateZ(${W / 2}px)">${wins(2, D, 50, 110)}</div>
-          ${gable(D / 2, "s1-g0")}${gable(-D / 2, "s1-g1")}${roof("s1-r0", 1)}${roof("s1-r1", -1)}
-          <div class="wf" id="s1-ch" style="left:-30px;top:-60px;width:60px;height:120px;transform:translate3d(160px,-350px,60px)"></div>
-        </div></div></div>
-        <div id="s1-ic" class="glass" style="left:960px;top:880px;width:150px;height:150px;border-radius:44px;overflow:hidden">
-          <div id="s1-word" class="abs" style="left:50%;top:50%;font-weight:800;font-size:70px;letter-spacing:0.05em;color:#0F1A2B;white-space:nowrap">${"MORIOND".split("").map((c, k) => `<span id="s1-l${k}" style="display:inline-block;overflow:hidden;vertical-align:top">${c}</span>`).join("")}</div>
-          <div id="s1-sub" class="abs" style="left:50%;top:50%;font-weight:800;font-size:22px;letter-spacing:0.55em;white-space:nowrap;background:linear-gradient(90deg,#1E6BFF,#8B5CF6,#FF7A59);-webkit-background-clip:text;background-clip:text;color:transparent">COURCHEVEL</div>
+      // ---------- S1: luxury line-art title ----------
+      H("s1", `<div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 45%,#FFFFFF 0%,#F6F3EC 60%,#EDE7DA 100%)"></div>
+        <div id="s1-all" class="abs" style="inset:0">
+          <svg class="abs" style="left:0;top:0;width:1920px;height:1080px" viewBox="0 0 1920 1080" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path id="s1-mt" pathLength="1" d="M 700 420 L 820 318 L 880 360 L 975 262 L 1080 372 L 1130 336 L 1220 420" stroke="#B89B5E" stroke-width="2" />
+            <path id="s1-ch" pathLength="1" d="M 870 430 L 960 356 L 1050 430 M 888 415 L 888 470 L 1032 470 L 1032 415 M 946 470 L 946 436 L 974 436 L 974 470" stroke="#0F1A2B" stroke-width="2.4" />
+          </svg>
+          <div id="s1-kick" class="abs" style="left:0;right:0;top:520px;text-align:center;font-weight:600;font-size:24px;letter-spacing:0.62em;padding-left:0.62em;color:#B89B5E">COURCHEVEL</div>
+          <div class="abs" style="left:0;right:0;top:560px;height:190px;overflow:hidden;text-align:center"><div id="s1-name" style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:176px;line-height:190px;color:#0F1A2B;white-space:nowrap">Moriond</div></div>
+          <div id="s1-rule" class="abs" style="left:780px;top:778px;width:360px;height:2px;background:linear-gradient(90deg,rgba(184,155,94,0),#B89B5E 20%,#B89B5E 80%,rgba(184,155,94,0))"></div>
+          <div id="s1-tag" class="abs" style="left:0;right:0;top:806px;text-align:center;font-weight:500;font-size:22px;letter-spacing:0.5em;padding-left:0.5em;color:#3A4558">CHALET D'EXCEPTION</div>
         </div>`);
 
       // ---------- S2: balcony -> wall of every room -> dive ----------
@@ -251,21 +243,14 @@
       }
       tl.fromTo("#hud", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, S.s2 + 0.1);
 
-      // S1 wireframe + title
-      tl.fromTo("#s1-cam", { scale: 0.8, y: 60 }, { scale: 1.1, y: 0, duration: 3.2, ease: "sine.inOut" }, 0);
-      tl.fromTo("#s1-house", { rotationX: -22, rotationY: -60 }, { rotationX: -15, rotationY: 25, duration: 3.6, ease: "power1.inOut" }, 0);
-      tl.fromTo("#s1-grid", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
-      ["#s1-f0", "#s1-f3", "#s1-f1", "#s1-f2", "#s1-g0", "#s1-g1", "#s1-r0", "#s1-r1", "#s1-ch"].forEach((id, k) =>
-        tl.fromTo(id, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power2.out" }, 0.1 + k * 0.11));
-      tl.set("#s1-ic", { xPercent: -50, yPercent: -50 }, 0);
-      tl.set("#s1-word", { xPercent: -50, yPercent: -50 }, 0);
-      tl.set("#s1-sub", { xPercent: -50, yPercent: 120, opacity: 0 }, 0);
-      tl.fromTo("#s1-ic", { scale: 0.4, opacity: 0, filter: "blur(12px)", width: 150 }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "back.out(1.8)" }, 0.6);
-      for (let k = 1; k < 7; k++) tl.fromTo(`#s1-l${k}`, { opacity: 0, y: 30, maxWidth: 0 }, { opacity: 1, y: 0, maxWidth: 90, duration: 0.22, ease: "power2.out" }, 0.9 + (k - 1) * 0.075);
-      tl.to("#s1-ic", { width: 600, duration: 0.6, ease: "power3.inOut" }, 0.82);
-      tl.to("#s1-ic", { height: 190, duration: 0.4, ease: "power3.inOut" }, 1.4);
-      tl.to("#s1-word", { yPercent: -72, duration: 0.4, ease: "power3.inOut" }, 1.4);
-      tl.fromTo("#s1-sub", { opacity: 0, yPercent: 180 }, { opacity: 1, yPercent: 120, duration: 0.4, ease: "power2.out", immediateRender: false }, 1.55);
+      // S1 luxury title
+      tl.fromTo("#s1-mt", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" }, 0.15);
+      tl.fromTo("#s1-ch", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 0.45);
+      tl.fromTo("#s1-kick", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.75);
+      tl.fromTo("#s1-name", { yPercent: 100 }, { yPercent: 0, duration: 1.0, ease: "expo.out" }, 0.95);
+      tl.fromTo("#s1-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.inOut" }, 1.6);
+      tl.fromTo("#s1-tag", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 1.9);
+      tl.fromTo("#s1-all", { scale: 1 }, { scale: 1.04, duration: 3.6, ease: "sine.inOut" }, 0);
 
       // S2: camera over the wall of rooms
       const cam = { px: 0, py: 0, s: 1 };

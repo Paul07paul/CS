@@ -174,13 +174,12 @@ S = T["scenes"]
 for t in T["shutters"]:
     whoosh(t, 0.8, 2600, 0.2, -0.7, 0.7)
     pop(t + 0.02, 0.04, 520, 330)
-# 1 wireframe plan + title pill
-shimmer(0.1, 1.4, 0.03)
-riser(1.3, 1.1, 0.025)
-glass(0.7, 1568, 0.05)
-for k in range(6):
-    tick(0.9 + k * 0.075, 0.03, 1200 + 90 * k)
-chime(1.55, 2093, 0.035)
+# 1 luxury title: soft and sparse
+bloom(0.1, 0.08)
+shimmer(0.2, 1.6, 0.012)
+chime(0.95, 1318, 0.03)
+chime(1.6, 1976, 0.025, 0.2)
+chime(1.75, 2637, 0.018, -0.2)
 # 2 balcony -> photo wall -> dive
 for t in T["chips2"]:
     pop(t, 0.07, 780, 470)
