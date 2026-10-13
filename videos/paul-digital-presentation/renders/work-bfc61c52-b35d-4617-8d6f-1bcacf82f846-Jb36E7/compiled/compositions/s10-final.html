@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s10-root { position: absolute; inset: 0; overflow: hidden; }
+        #s10-iris { position: absolute; left: 960px; top: 540px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%; background: #F3F6FD; overflow: hidden; }
+        #s10-light { position: absolute; left: 1200px; top: 1200px; width: 1920px; height: 1080px; margin: -540px 0 0 -960px; }
+        #s10-light .blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+        #s10-wire { position: absolute; inset: 0; opacity: 0.55; }
+        #s10-lock { position: absolute; left: 0; top: 250px; width: 1920px; height: 300px; display: flex; align-items: center; justify-content: center; gap: 48px; }
+        #s10-mark { position: relative; width: 290px; height: 280px; flex: none; }
+        #s10-mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+        #s10-word { position: relative; width: 940px; height: 180px; overflow: hidden; flex: none; }
+        #s10-word span { position: absolute; top: 0; font-weight: 800; font-size: 158px; line-height: 180px; letter-spacing: -0.035em; white-space: nowrap; }
+        #s10-paul { left: 0; color: #0C1929; }
+        #s10-dig { left: 410px; color: #1A69FA; font-weight: 600 !important; }
+        #s10-slogan { position: absolute; left: 0; top: 640px; width: 1920px; text-align: center; font-weight: 800; font-size: 70px; letter-spacing: -0.02em; color: #0C1929; }
+        #s10-slogan .w { display: inline-block; }
+        #s10-pill { position: absolute; left: 960px; top: 790px; width: 640px; height: 72px; margin-left: -320px; border-radius: 36px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 26px; letter-spacing: 0.1em; white-space: nowrap; }
+        #s10-line { position: absolute; left: 850px; top: 600px; width: 220px; height: 4px; border-radius: 2px; background: #1A69FA; }
+      </style>
+      <div id="s10-root" data-composition-id="s10-final" data-width="1920" data-height="1080">
+        <div id="s10-iris">
+          <div id="s10-light">
+            <div class="blob" id="s10-b1" style="left:-200px;top:-260px;width:900px;height:800px;background:#1A69FA;opacity:0.35"></div>
+            <div class="blob" id="s10-b2" style="left:1200px;top:500px;width:900px;height:800px;background:#7B5CFF;opacity:0.28"></div>
+            <div class="blob" id="s10-b3" style="left:700px;top:-500px;width:800px;height:700px;background:#5EE7FF;opacity:0.3"></div>
+            <canvas id="s10-wire" class="wire" width="1920" height="1080"></canvas>
+            <div id="s10-lock">
+              <div id="s10-mark"><img id="s10-d" src="assets/logo/mark-d.png" /><img id="s10-ar" src="assets/logo/mark-arrow.png" /></div>
+              <div id="s10-word"><span id="s10-paul">Paul</span><span id="s10-dig">Digital</span></div>
+            </div>
+            <div id="s10-line"></div>
+            <div id="s10-slogan"></div>
+            <div id="s10-pill" class="glass-light">VIDÉOS IMMOBILIÈRES · SITES DÉDIÉS</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const words = "Votre bien mérite mieux qu'une simple annonce.".split(" ");
+          const host = document.getElementById("s10-slogan");
+          const ws = words.map((w, i) => {
+            const s = document.createElement("span");
+            s.className = "w";
+            s.textContent = w;
+            if (w === "mieux") s.style.color = "#1A69FA";
+            host.appendChild(s);
+            if (i < words.length - 1) host.appendChild(document.createTextNode(" "));
+            return s;
+          });
+          const W = PDWire.create(document.getElementById("s10-wire"), { color: "#7FB0FF", core: "#9CC2FF", glowWidth: 4 });
+          W.cam.yaw = 20; W.cam.pitch = 14; W.cam.dist = 22; W.cam.ty = 4; W.cam.fov = 50;
+          const ch = W.add(PDWire.models.chalet(), { draw: 0, alpha: 0.5 });
+          W.start();
+          const tl = gsap.timeline({ paused: true });
+          // white iris opens from the centre
+          tl.fromTo("#s10-iris", { scale: 0 }, { scale: 1, duration: 0.7, ease: "expo.inOut" }, 0);
+          tl.to(ch, { draw: 1, duration: 3.0, ease: "power1.inOut" }, 0.3);
+          tl.fromTo(W.cam, { yaw: 20 }, { yaw: 75, duration: 6.4, ease: "none" }, 0);
+          // logo: D drops, arrow snaps, wordmark slides out
+          tl.from("#s10-mark", { scale: 0.3, rotation: -25, opacity: 0, duration: 0.8, ease: "back.out(1.8)" }, 0.35);
+          tl.from("#s10-ar", { x: -60, y: 60, opacity: 0, duration: 0.45, ease: "back.out(2.6)" }, 0.75);
+          tl.from("#s10-word", { width: 0, duration: 0.9, ease: "expo.out" }, 0.85);
+          tl.from("#s10-paul", { x: -170, duration: 0.9, ease: "expo.out" }, 0.85);
+          tl.from("#s10-dig", { x: -400, opacity: 0, duration: 1.0, ease: "expo.out" }, 1.0);
+          // slogan, word by word, on the voice
+          tl.fromTo("#s10-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 1.5);
+          ws.forEach((w, i) => {
+            tl.from(w, { y: 50, opacity: 0, rotationX: -70, duration: 0.55, ease: "back.out(2)" }, 1.75 + i * 0.22);
+          });
+          tl.from("#s10-pill", { opacity: 0, y: 24, scale: 0.85, duration: 0.6, ease: "back.out(2)" }, 3.8);
+          // ambient life on the hold
+          tl.fromTo("#s10-lock", { scale: 1 }, { scale: 1.035, duration: 5.4, ease: "sine.inOut" }, 1.0);
+          tl.fromTo("#s10-b1", { x: 0 }, { x: 260, duration: 6.4, ease: "sine.inOut" }, 0);
+          tl.fromTo("#s10-b2", { x: 0 }, { x: -260, duration: 6.4, ease: "sine.inOut" }, 0);
+          window.__timelines["s10-final"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

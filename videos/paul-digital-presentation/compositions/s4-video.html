@@ -108,7 +108,7 @@
           tl.from("#s4-ch1", { opacity: 0, scale: 0.4, x: -40, duration: 0.55, ease: "back.out(2.2)" }, 7.4);
           // camera pans to the side: everything slides out left in depth
           tl.to("#s4-all", { x: -1700, rotationY: 0, filter: "blur(24px)", opacity: 0, duration: 0.5, ease: "power3.in" }, 8.5);
-          window.__timelines["s4-video"] = tl;
+          window.__timelines["s4-video"] = PDScale(tl, 0.778);
         })();
       </script>
     </template>

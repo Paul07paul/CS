@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #bg-root { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, #0E1D3A 0%, #070D1A 60%, #050913 100%); }
+        #bg-root .blob { position: absolute; border-radius: 50%; filter: blur(140px); }
+        #bg-grid { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.9; }
+        #bg-vig { position: absolute; inset: 0; background: radial-gradient(100% 80% at 50% 50%, rgba(5,9,19,0) 55%, rgba(5,9,19,0.75) 100%); }
+      </style>
+      <div id="bg-root" data-composition-id="bg" data-width="1920" data-height="1080">
+        <div id="bg-b1" class="blob" style="left:-260px;top:-300px;width:1100px;height:900px;background:#1A69FA;opacity:0.42"></div>
+        <div id="bg-b2" class="blob" style="left:1100px;top:380px;width:1100px;height:900px;background:#5B3BFF;opacity:0.32"></div>
+        <div id="bg-b3" class="blob" style="left:600px;top:700px;width:900px;height:700px;background:#14C3FF;opacity:0.18"></div>
+        <canvas id="bg-grid" width="1920" height="1080"></canvas>
+        <div id="bg-vig"></div>
+      </div>
+      <script>
+        (function () {
+          const W = PDWire.create(document.getElementById("bg-grid"), { grid: true, gridSize: 60, color: "#5EB0FF" });
+          W.cam.yaw = 0; W.cam.pitch = 9; W.cam.dist = 30; W.cam.ty = 5; W.cam.fov = 55;
+          W.grid.gridStep = 3;
+          W.start();
+          const tl = gsap.timeline({ paused: true });
+          // slow drift so the floor always breathes; each scene change nudges the world
+          tl.fromTo(W.cam, { yaw: -8, tz: 0 }, { yaw: 8, tz: -30, duration: 46.5, ease: "none" }, 0);
+          const cuts = [5.8, 10.0, 12.5, 19.4, 23.4, 27.3, 31.2, 36.2];
+          cuts.forEach((t, i) => {
+            tl.to(W.cam, { ox: i % 2 ? 260 : -260, duration: 0.5, ease: "power3.in" }, t - 0.45);
+            tl.to(W.cam, { ox: 0, duration: 0.9, ease: "power3.out" }, t + 0.05);
+          });
+          tl.to(W.grid, { grid: 0, duration: 0.8, ease: "power2.inOut" }, 39.5);
+          tl.fromTo("#bg-b1", { x: 0, y: 0 }, { x: 380, y: 160, duration: 16, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0);
+          tl.fromTo("#bg-b2", { x: 0, y: 0 }, { x: -420, y: -200, duration: 13, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+          tl.fromTo("#bg-b3", { x: 0, scale: 1 }, { x: -300, scale: 1.3, duration: 11, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+          window.__timelines["bg"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

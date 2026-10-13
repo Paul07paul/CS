@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s9-root { position: absolute; inset: 0; overflow: hidden; }
+        #s9-all { position: absolute; inset: 0; perspective: 1800px; }
+        #s9-copy { position: absolute; left: 0; top: 100px; width: 1920px; text-align: center; }
+        #s9-k { margin-bottom: 20px; }
+        #s9-copy .title { font-size: 84px; position: relative; height: 96px; }
+        #s9-ta, #s9-tb { position: absolute; left: 0; top: 0; width: 1920px; }
+        #s9-p1 { left: 200px; top: 340px; width: 740px; height: 560px; padding: 36px 40px; }
+        #s9-p2 { left: 980px; top: 340px; width: 740px; height: 560px; padding: 36px 40px; }
+        .s9-h { display: flex; align-items: center; gap: 16px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+        .s9-h .ic { width: 58px; height: 58px; border-radius: 18px; background: #1A69FA; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 24px rgba(26,105,250,0.8); }
+        .s9-h svg { width: 32px; height: 32px; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+        #s9-chart { position: absolute; left: 40px; top: 130px; width: 660px; height: 380px; }
+        #s9-chart .gl { stroke: rgba(255,255,255,0.1); stroke-width: 1.5; }
+        #s9-line { fill: none; stroke: #5EB0FF; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px rgba(61,134,255,0.9)); }
+        #s9-area { fill: url(#s9-grad); }
+        #s9-dot { fill: #fff; filter: drop-shadow(0 0 12px #5EB0FF); }
+        #s9-card { position: absolute; left: 110px; top: 130px; width: 520px; height: 380px; border-radius: 26px; overflow: hidden; }
+        #s9-card img { position: absolute; left: 0; top: 0; width: 520px; height: 270px; object-fit: cover; }
+        #s9-cardb { position: absolute; left: 0; top: 270px; width: 520px; height: 110px; padding: 20px 24px; }
+        #s9-grey { position: absolute; inset: 0; background: #CDD2DA; }
+        #s9-grey img { filter: grayscale(1) contrast(0.8); opacity: 0.8; }
+        #s9-grey .l { position: absolute; left: 24px; height: 16px; border-radius: 8px; background: #9AA0A8; }
+        #s9-prem { position: absolute; inset: 0; background: linear-gradient(140deg, #2A4A8C, #16285A); }
+        #s9-prem .n { font-weight: 800; font-size: 30px; white-space: nowrap; }
+        #s9-prem .s { font-weight: 600; font-size: 20px; color: #A9C1EA; margin-top: 6px; white-space: nowrap; }
+        #s9-badge { position: absolute; right: 18px; top: 18px; height: 46px; padding: 0 18px; border-radius: 23px; background: #1A69FA; font-weight: 800; font-size: 20px; line-height: 46px; color: #fff; box-shadow: 0 0 24px rgba(26,105,250,0.9); }
+        #s9-sheen { position: absolute; top: -40%; left: 0; width: 140px; height: 180%; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.5), rgba(255,255,255,0)); transform: rotate(18deg); }
+      </style>
+      <div id="s9-root" data-composition-id="s9-objectif" data-width="1920" data-height="1080">
+        <div id="s9-all">
+          <div id="s9-copy">
+            <div id="s9-k" class="kicker">Résultat</div>
+            <div class="title">
+              <div id="s9-ta"><span class="ln"><span id="s9-a">Plus <span class="blue">d'attention.</span></span></span></div>
+              <div id="s9-tb" data-layout-allow-overlap><span class="ln"><span id="s9-b">Une image plus <span class="blue">pro.</span></span></span></div>
+            </div>
+          </div>
+          <div id="s9-p1" class="glass">
+            <div class="s9-h"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>Attention captée</div>
+            <svg id="s9-chart" viewBox="0 0 660 380">
+              <defs><linearGradient id="s9-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3D86FF" stop-opacity="0.55"/><stop offset="1" stop-color="#3D86FF" stop-opacity="0"/></linearGradient>
+                <clipPath id="s9-clip"><rect id="s9-clipr" x="0" y="0" width="660" height="380"/></clipPath></defs>
+              <line class="gl" x1="0" y1="95" x2="660" y2="95"/><line class="gl" x1="0" y1="190" x2="660" y2="190"/><line class="gl" x1="0" y1="285" x2="660" y2="285"/><line class="gl" x1="0" y1="378" x2="660" y2="378"/>
+              <g clip-path="url(#s9-clip)">
+                <path id="s9-area" d="M10 340 C 90 335, 150 320, 220 300 S 330 250, 400 200 S 520 90, 650 40 L 650 380 L 10 380 Z"/>
+              </g>
+              <path id="s9-line" d="M10 340 C 90 335, 150 320, 220 300 S 330 250, 400 200 S 520 90, 650 40"/>
+              <circle id="s9-dot" r="11" cx="0" cy="0"/>
+            </svg>
+          </div>
+          <div id="s9-p2" class="glass">
+            <div class="s9-h"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.5 6 .8-4.4 4.1 1.1 6L12 15.6 6.7 18.4l1.1-6L3.4 8.3l6-.8z"/></svg></span>Image professionnelle</div>
+            <div id="s9-card">
+              <div id="s9-grey"><img src="assets/photos/c18g.jpg" /><div class="l" style="top:296px;width:300px"></div><div class="l" style="top:328px;width:420px"></div><div class="l" style="top:356px;width:220px"></div></div>
+              <div id="s9-prem"><img src="assets/photos/c17.jpg" /><div id="s9-cardb"><div class="n">Salon panoramique</div><div class="s">Face aux sommets · baigné de lumière</div></div><div id="s9-badge">Premium</div><div id="s9-sheen"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          tl.from("#s9-all", { scale: 0.6, opacity: 0, filter: "blur(20px)", duration: 0.5, ease: "power3.out" }, 0);
+          tl.from("#s9-k", { opacity: 0, y: 16, duration: 0.5 }, 0.1);
+          tl.from("#s9-p1", { y: 200, rotationX: -40, opacity: 0, duration: 0.8, ease: "expo.out" }, 0.3);
+          tl.from("#s9-p2", { y: 200, rotationX: -40, opacity: 0, duration: 0.8, ease: "expo.out" }, 0.45);
+          tl.from("#s9-a", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.1);
+          // attention curve climbs
+          const line = document.getElementById("s9-line");
+          const L = line.getTotalLength();
+          const dot = document.getElementById("s9-dot");
+          const prog = { p: 0 };
+          const placeDot = () => { const pt = line.getPointAtLength(L * prog.p); dot.setAttribute("cx", pt.x); dot.setAttribute("cy", pt.y); };
+          tl.fromTo(line, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.8, ease: "power2.inOut" }, 1.2);
+          tl.fromTo("#s9-clipr", { attr: { width: 0 } }, { attr: { width: 660 }, duration: 1.8, ease: "power2.inOut" }, 1.2);
+          tl.fromTo(prog, { p: 0 }, { p: 1, duration: 1.8, ease: "power2.inOut", onUpdate: placeDot }, 1.2);
+          placeDot();
+          tl.from("#s9-dot", { scale: 0, transformOrigin: "50% 50%", duration: 0.3 }, 1.2);
+          // swap the headline
+          tl.to("#s9-a", { yPercent: -110, duration: 0.45, ease: "power3.in" }, 3.0);
+          tl.from("#s9-b", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 3.3);
+          // grey listing turns premium
+          tl.fromTo("#s9-prem", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.8, ease: "power2.inOut" }, 3.4);
+          tl.from("#s9-badge", { scale: 0, duration: 0.5, ease: "back.out(2.6)" }, 4.0);
+          tl.fromTo("#s9-sheen", { x: -200 }, { x: 700, duration: 0.8, ease: "power2.inOut" }, 4.2);
+          tl.fromTo("#s9-card", { rotationY: 0 }, { rotationY: -8, duration: 2, ease: "sine.inOut" }, 3.4);
+          // exit to white for the brand close
+          tl.to("#s9-all", { scale: 1.6, opacity: 0, filter: "blur(16px)", duration: 0.45, ease: "power3.in" }, 5.4);
+          window.__timelines["s9-objectif"] = PDScale(tl, 0.62);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

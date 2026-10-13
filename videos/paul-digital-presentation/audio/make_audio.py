@@ -283,9 +283,9 @@ BANK = {
 
 sfx = np.zeros((N + SR * 2, 2))
 for scene, cues in T["sfx"].items():
-    t0 = T["scenes"][scene][0]
+    t0, _, k = T["scenes"][scene]
     for name, dt in cues:
-        place(sfx, t0 + dt, BANK[name]())
+        place(sfx, t0 + dt * k, BANK[name]())
 sfx = sfx[:N]
 
 # ---------------- voice ----------------
@@ -310,10 +310,12 @@ act = np.clip(act * 1.6, 0, 1)
 # ---------------- music ----------------
 music = np.zeros((N, 2))
 mu_src = path("assets/audio/src/music.mp3")
+if not os.path.exists(mu_src):
+    mu_src = path("assets/audio/src/music_synth.wav")
 if os.path.exists(mu_src):
     m = load(mu_src)
     m = m[: N]
-    m *= 10 ** ((-20.0 - lufs_ish(m)) / 20)
+    m *= 10 ** ((-19.0 - lufs_ish(m)) / 20)
     music[: len(m)] = m
     # fades: in, and out under the final logo
     fi = int(0.6 * SR)

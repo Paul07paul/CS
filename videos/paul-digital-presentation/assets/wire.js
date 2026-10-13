@@ -333,3 +333,15 @@
 
   window.PDWire = { create, models };
 })();
+
+/* Retime a finished scene timeline by factor K (0.5 = twice as fast) without touching its
+   tween positions: an outer paused timeline scrubs the inner one, so every seek stays exact. */
+window.PDScale = function (tl, K) {
+  if (K === 1) return tl;
+  const d = tl.duration();
+  const outer = gsap.timeline({ paused: true });
+  const state = { t: 0 };
+  outer.fromTo(state, { t: 0 }, { t: d, duration: d * K, ease: "none", onUpdate: () => tl.time(state.t, false) }, 0);
+  tl.time(0, false);
+  return outer;
+};

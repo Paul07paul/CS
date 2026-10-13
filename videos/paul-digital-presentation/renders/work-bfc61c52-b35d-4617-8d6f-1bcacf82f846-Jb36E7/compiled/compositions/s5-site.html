@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s5-root { position: absolute; inset: 0; overflow: hidden; }
+        #s5-all { position: absolute; inset: 0; }
+        #s5-stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 60% 50%; }
+        #s5-br { left: 720px; top: 230px; width: 1180px; height: 640px; padding: 0; transform-style: preserve-3d; overflow: hidden; }
+        #s5-bar { position: absolute; left: 0; top: 0; width: 1180px; height: 58px; display: flex; align-items: center; gap: 10px; padding: 0 22px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        #s5-bar i { display: block; width: 14px; height: 14px; border-radius: 7px; }
+        #s5-url { margin-left: 26px; height: 34px; width: 520px; border-radius: 17px; background: rgba(255,255,255,0.12); display: flex; align-items: center; padding: 0 18px; gap: 10px; font-weight: 600; font-size: 18px; color: #DCE8FF; white-space: nowrap; }
+        #s5-url svg { width: 16px; height: 16px; fill: none; stroke: #8FD18B; stroke-width: 2.6; }
+        #s5-view { position: absolute; left: 10px; top: 68px; width: 1160px; height: 562px; border-radius: 14px; overflow: hidden; background: #0B1424; }
+        #s5-shot { position: absolute; left: 0; top: 0; width: 1160px; height: 571px; }
+        #s5-svg { position: absolute; left: 0; top: 0; width: 1160px; height: 562px; }
+        #s5-svg rect, #s5-svg line { fill: none; stroke: #6FB5FF; stroke-width: 2.2; filter: drop-shadow(0 0 6px rgba(61,134,255,0.9)); }
+        #s5-cursor { position: absolute; left: 0; top: 0; width: 34px; height: 40px; }
+        #s5-ripple { position: absolute; left: 806px; top: 418px; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 3px solid #fff; }
+        #s5-copy { position: absolute; left: 150px; top: 250px; width: 560px; }
+        #s5-copy .title { font-size: 66px; }
+        #s5-k { margin-bottom: 22px; }
+        #s5-sub { margin-top: 28px; font-weight: 600; font-size: 30px; line-height: 1.35; color: #B8CBEB; width: 480px; }
+        #s5-c1 { left: 1500px; top: 150px; }
+        #s5-c2 { left: 640px; top: 830px; }
+        #s5-c3 { left: 1480px; top: 880px; }
+      </style>
+      <div id="s5-root" data-composition-id="s5-site" data-width="1920" data-height="1080">
+        <div id="s5-all">
+          <div id="s5-copy">
+            <div id="s5-k" class="kicker">Et pour aller plus loin</div>
+            <div class="title">
+              <span class="ln"><span id="s5-t1">Un site</span></span>
+              <span class="ln"><span id="s5-t2"><span class="blue">dédié</span> au bien.</span></span>
+            </div>
+            <div id="s5-sub"><span id="s5-s1">Plus complet.</span> <span id="s5-s2">Plus premium.</span></div>
+          </div>
+          <div id="s5-stage">
+            <div id="s5-br" class="glass">
+              <div id="s5-bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
+                <div id="s5-url"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>votre-bien.fr</div>
+              </div>
+              <div id="s5-view">
+                <img id="s5-shot" src="assets/img/site-escapade.jpg" />
+                <svg id="s5-svg" viewBox="0 0 1160 562">
+                  <rect x="250" y="8" width="660" height="34" rx="17" />
+                  <rect x="248" y="80" width="185" height="24" rx="12" />
+                  <rect x="248" y="118" width="360" height="56" rx="8" />
+                  <rect x="248" y="178" width="360" height="56" rx="8" />
+                  <rect x="248" y="238" width="160" height="56" rx="8" />
+                  <rect x="248" y="302" width="320" height="34" rx="6" />
+                  <rect x="248" y="418" width="140" height="30" rx="15" />
+                  <rect x="398" y="418" width="96" height="30" rx="15" />
+                  <rect x="703" y="254" width="210" height="194" rx="16" />
+                  <line x1="703" y1="254" x2="913" y2="448" />
+                  <line x1="913" y1="254" x2="703" y2="448" />
+                  <rect x="0" y="486" width="1160" height="36" rx="0" />
+                </svg>
+                <div id="s5-ripple"></div>
+                <svg id="s5-cursor" viewBox="0 0 34 40"><path d="M3 2l26 17-11 2 7 14-5 2.5-7-14L5 30z" fill="#fff" stroke="#0C1929" stroke-width="2.4" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+          </div>
+          <div id="s5-c1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 15l5-5 5 5 3-3 5 5"/></svg></span>Galerie photos</div>
+          <div id="s5-c2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/></svg></span>Réservation en ligne</div>
+          <div id="s5-c3" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>Localisation</div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // arrival: camera pans in from the right, browser seen from the side
+          tl.from("#s5-all", { x: 1700, filter: "blur(24px)", opacity: 0, duration: 0.55, ease: "power3.out" }, 0);
+          tl.fromTo("#s5-br", { rotationY: -48, rotationX: 8, z: -200 }, { rotationY: -8, rotationX: 2, z: 0, duration: 3.6, ease: "power2.inOut" }, 0);
+          tl.to("#s5-br", { rotationY: 6, duration: 4.4, ease: "sine.inOut" }, 3.6);
+          tl.from("#s5-k", { opacity: 0, x: -30, duration: 0.5 }, 0.2);
+          tl.from("#s5-t1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.6);
+          tl.from("#s5-t2", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.8);
+          // wireframe of the page draws itself, then the real design fills in
+          const shapes = document.querySelectorAll("#s5-svg rect, #s5-svg line");
+          shapes.forEach((el, i) => {
+            const len = el.getTotalLength ? el.getTotalLength() : 1500;
+            tl.fromTo(el, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 0.4 + i * 0.12);
+          });
+                    tl.fromTo("#s5-shot", { clipPath: "inset(0px 0px 571px 0px)" }, { clipPath: "inset(0px 0px 0px 0px)", duration: 1.0, ease: "power2.inOut" }, 2.9);
+          tl.to("#s5-svg", { opacity: 0, duration: 0.6 }, 3.5);
+          tl.fromTo("#s5-shot", { scale: 1.06 }, { scale: 1, duration: 4.5, ease: "power1.out", immediateRender: false }, 2.9);
+          // plus complet · plus premium
+          tl.from("#s5-s1", { opacity: 0, y: 16, duration: 0.5 }, 5.3);
+          tl.from("#s5-s2", { opacity: 0, y: 16, duration: 0.5 }, 6.7);
+          tl.from("#s5-c1", { opacity: 0, scale: 0.4, y: 30, duration: 0.55, ease: "back.out(2.2)" }, 4.4);
+          tl.from("#s5-c2", { opacity: 0, scale: 0.4, x: -40, duration: 0.55, ease: "back.out(2.2)" }, 4.8);
+          tl.from("#s5-c3", { opacity: 0, scale: 0.4, y: -30, duration: 0.55, ease: "back.out(2.2)" }, 5.2);
+          // cursor travels to the booking button and clicks
+          tl.fromTo("#s5-cursor", { x: 1180, y: 600 }, { x: 800, y: 412, duration: 1.1, ease: "power3.inOut" }, 5.4);
+          tl.to("#s5-cursor", { scale: 0.82, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "0 0" }, 6.55);
+          tl.fromTo("#s5-ripple", { scale: 0.2, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.6, ease: "expo.out" }, 6.58);
+          tl.set("#s5-ripple", { opacity: 0 }, 0);
+          // exit: tilt the camera down and push through
+          tl.to("#s5-all", { y: -1100, rotationX: 0, filter: "blur(20px)", opacity: 0, duration: 0.5, ease: "power3.in" }, 8.1);
+          window.__timelines["s5-site"] = PDScale(tl, 0.477);
+        })();
+      </script>
+    </template>
+  </body>
+</html>
