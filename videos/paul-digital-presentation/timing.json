@@ -438,5 +438,55 @@
    39.52,
    "Paul Digital. Votre bien mérite mieux…"
   ]
+ ],
+ "global_sfx": [
+  [
+   "impact",
+   5.85
+  ],
+  [
+   "impact",
+   10.2
+  ],
+  [
+   "impact",
+   12.7
+  ],
+  [
+   "impact",
+   19.15
+  ],
+  [
+   "impact",
+   23.15
+  ],
+  [
+   "impact",
+   26.85
+  ],
+  [
+   "impact",
+   31.0
+  ],
+  [
+   "impact",
+   35.7
+  ],
+  [
+   "impact_big",
+   39.3
+  ],
+  [
+   "snap",
+   11.45
+  ],
+  [
+   "impact",
+   16.6
+  ],
+  [
+   "impact_big",
+   25.65
+  ]
  ]
 }

@@ -17,7 +17,7 @@
         #s4-info .r i { display: block; width: 12px; height: 12px; border-radius: 6px; background: #3D86FF; box-shadow: 0 0 12px #3D86FF; }
         #s4-kin { position: absolute; left: 150px; top: 160px; }
         #s4-wire { position: absolute; inset: 0; }
-        #s4-copy { position: absolute; left: 0; top: 70px; width: 1920px; text-align: center; }
+        #s4-copy { position: absolute; left: 0; top: 128px; width: 1920px; text-align: center; }
         #s4-copy .title { font-size: 78px; }
         #s4-player-stage { position: absolute; inset: 0; perspective: 1800px; }
         #s4-player { left: 410px; top: 230px; width: 1100px; height: 700px; padding: 18px; transform-style: preserve-3d; }
@@ -35,6 +35,11 @@
         #s4-ch2 { left: 1380px; top: 420px; }
         #s4-ch3 { left: 260px; top: 720px; }
         #s4-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(140,200,255,0.9), rgba(140,200,255,0) 60%); opacity: 0; }
+        .trk { position: absolute; width: 46px; height: 46px; border: 0 solid #8EC5FF; filter: drop-shadow(0 0 8px #3D86FF); }
+        .trk.tl { left: -26px; top: -26px; border-left-width: 5px; border-top-width: 5px; border-top-left-radius: 14px; }
+        .trk.tr { right: -26px; top: -26px; border-right-width: 5px; border-top-width: 5px; border-top-right-radius: 14px; }
+        .trk.bl { left: -26px; bottom: -26px; border-left-width: 5px; border-bottom-width: 5px; border-bottom-left-radius: 14px; }
+        .trk.br { right: -26px; bottom: -26px; border-right-width: 5px; border-bottom-width: 5px; border-bottom-right-radius: 14px; }
       </style>
       <div id="s4-root" data-composition-id="s4-video" data-width="1920" data-height="1080">
         <div id="s4-all">
@@ -52,7 +57,7 @@
           <canvas id="s4-wire" class="wire" width="1920" height="1080"></canvas>
           <div id="s4-player-stage">
             <div id="s4-player" class="glass">
-              <div id="s4-screen" class="photo"><img id="s4-img" src="assets/photos/p01.jpg" /></div>
+              <i class="trk tl"></i><i class="trk tr"></i><i class="trk bl"></i><i class="trk br"></i><div id="s4-screen" class="photo"><img id="s4-img" src="assets/photos/p01.jpg" /></div>
               <div id="s4-scanline"></div>
               <div id="s4-ui">
                 <div id="s4-play"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></div>
@@ -108,6 +113,8 @@
           tl.from("#s4-ch1", { opacity: 0, scale: 0.4, x: -40, duration: 0.55, ease: "back.out(2.2)" }, 7.4);
           // camera pans to the side: everything slides out left in depth
           tl.to("#s4-all", { x: -1700, rotationY: 0, filter: "blur(24px)", opacity: 0, duration: 0.5, ease: "power3.in" }, 8.5);
+          tl.fromTo("#s4-player .trk", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out", stagger: 0.04 }, 5.1);
+          tl.to("#s4-player .trk", { scale: 1.12, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 5.6);
           window.__timelines["s4-video"] = PDScale(tl, 0.739);
         })();
       </script>

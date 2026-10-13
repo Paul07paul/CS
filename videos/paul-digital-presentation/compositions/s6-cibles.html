@@ -14,11 +14,14 @@
         .s6-card .h { margin-top: 46px; font-weight: 800; font-size: 44px; line-height: 1.08; letter-spacing: -0.02em; }
         .s6-card .s { margin-top: 18px; font-weight: 600; font-size: 25px; line-height: 1.35; color: #A9C1EA; }
         #s6-k { position: absolute; left: 0; top: 120px; width: 1920px; text-align: center; }
-        #s6-pill { position: absolute; left: 960px; top: 540px; width: 900px; height: 170px; margin: -85px 0 0 -450px; border-radius: 85px; display: flex; align-items: center; justify-content: center; gap: 34px; font-weight: 800; font-size: 74px; letter-spacing: -0.02em; white-space: nowrap; background: linear-gradient(140deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06)); backdrop-filter: blur(26px); border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 40px 100px rgba(0,4,20,0.6), 0 0 90px rgba(26,105,250,0.45), inset 0 2px 0 rgba(255,255,255,0.5); }
-        #s6-chk { width: 110px; height: 110px; border-radius: 55px; background: #1A69FA; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(26,105,250,0.9); flex: none; }
-        #s6-chk svg { width: 64px; height: 64px; fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
-        #s6-chk path { stroke-dasharray: 40; }
-        #s6-under { position: absolute; left: 0; top: 680px; width: 1920px; text-align: center; font-weight: 600; font-size: 32px; color: #B8CBEB; }
+        #s6-x { position: absolute; inset: 0; perspective: 1400px; }
+        #s6-xr { position: absolute; left: 960px; top: 520px; width: 0; height: 0; transform-style: preserve-3d; }
+        .s6-xl { position: absolute; left: -900px; top: -210px; width: 1800px; text-align: center; font-weight: 900; font-size: 210px; line-height: 0.92; letter-spacing: -0.05em; white-space: pre; }
+        .s6-xl.front { color: #FFFFFF; text-shadow: 0 0 40px rgba(61,134,255,0.9); }
+        #s6-rings { position: absolute; left: 960px; top: 520px; width: 1600px; height: 1600px; margin: -800px 0 0 -800px; overflow: visible; }
+        #s6-rings ellipse { fill: none; stroke: #5EB0FF; stroke-width: 6; filter: drop-shadow(0 0 12px #3D86FF); }
+        .s6-pt { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 6px; background: #9FD0FF; box-shadow: 0 0 14px #3D86FF; }
+        #s6-under { position: absolute; left: 0; top: 860px; width: 1920px; text-align: center; font-weight: 700; font-size: 36px; color: #DCE8FF; }
       </style>
       <div id="s6-root" data-composition-id="s6-cibles" data-width="1920" data-height="1080">
         <div id="s6-all">
@@ -42,8 +45,10 @@
               </div>
             </div>
           </div>
-          <div id="s6-pill"><div id="s6-chk"><svg viewBox="0 0 48 48"><path id="s6-ck" d="M12 25l8 8 16-17"/></svg></div><span>Clé en main</span></div>
-          <div id="s6-under">De la création à la diffusion, je m'occupe de tout.</div>
+          <svg id="s6-rings" viewBox="-800 -800 1600 1600"><ellipse id="s6-r1" cx="0" cy="0" rx="760" ry="230"/><ellipse id="s6-r2" cx="0" cy="0" rx="640" ry="300"/></svg>
+          <div id="s6-x"><div id="s6-xr"></div></div>
+          <div id="s6-pts"></div>
+          <div id="s6-under">De la création à la diffusion.</div>
         </div>
       </div>
       <script>
@@ -67,10 +72,34 @@
             tl.to(s, { x: 0, z: -400, rotationY: 0, scale: 0.4, opacity: 0, duration: 0.6, ease: "power3.in" }, 5.0 + i * 0.06);
           });
           tl.to("#s6-k", { opacity: 0, duration: 0.3 }, 5.0);
-          tl.from("#s6-pill", { scale: 0.3, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, 5.45);
-          tl.fromTo("#s6-ck", { strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, 5.85);
-          tl.from("#s6-under", { opacity: 0, y: 20, duration: 0.5 }, 6.3);
-          tl.to("#s6-pill", { scale: 1.04, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 6.3);
+          // giant extruded "CLÉ EN MAIN": real 3D layers, flies in and swings, rings orbit, particles burst
+          const xr = document.getElementById("s6-xr");
+          for (let i = 13; i >= 0; i--) {
+            const d = document.createElement("div");
+            d.className = "s6-xl" + (i === 0 ? " front" : "");
+            d.textContent = "CLÉ EN\nMAIN";
+            const c = Math.round(255 - i * 14), b = Math.round(255 - i * 6);
+            if (i) d.style.color = "rgb(" + Math.round(c * 0.35) + "," + Math.round(c * 0.55) + "," + b + ")";
+            d.style.transform = "translateZ(" + (-i * 7) + "px)";
+            xr.appendChild(d);
+          }
+          tl.fromTo(xr, { z: -2600, rotationX: 40, rotationY: -70, scale: 0.6 }, { z: 0, rotationX: 8, rotationY: -22, scale: 1, duration: 0.7, ease: "expo.out" }, 5.2);
+          tl.to(xr, { rotationY: 18, rotationX: -4, duration: 2.2, ease: "sine.inOut" }, 5.9);
+          tl.fromTo("#s6-rings", { scale: 0.2, opacity: 0, rotationX: 62 }, { scale: 1, opacity: 1, rotationX: 62, duration: 0.6, ease: "expo.out" }, 5.35);
+          tl.fromTo("#s6-r1", { rotation: 0, transformOrigin: "50% 50%" }, { rotation: 140, duration: 2.6, ease: "none" }, 5.35);
+          tl.fromTo("#s6-r2", { rotation: 30, transformOrigin: "50% 50%" }, { rotation: -110, duration: 2.6, ease: "none" }, 5.35);
+          const pts = document.getElementById("s6-pts");
+          let seed = 7;
+          const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+          for (let i = 0; i < 34; i++) {
+            const p = document.createElement("div");
+            p.className = "s6-pt";
+            p.style.left = "960px"; p.style.top = "520px";
+            pts.appendChild(p);
+            const a = rnd() * Math.PI * 2, r = 380 + rnd() * 620;
+            tl.fromTo(p, { x: 0, y: 0, scale: 0.4 + rnd(), opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.6, opacity: 0, duration: 1.4 + rnd(), ease: "expo.out" }, 5.4 + rnd() * 0.15);
+          }
+          tl.from("#s6-under", { opacity: 0, y: 20, duration: 0.5 }, 6.0);
           // exit: zoom through
           tl.to("#s6-all", { scale: 2.6, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power3.in" }, 7.6);
           window.__timelines["s6-cibles"] = PDScale(tl, 0.4875);

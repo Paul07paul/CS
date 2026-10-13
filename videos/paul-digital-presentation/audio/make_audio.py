@@ -286,6 +286,8 @@ for scene, cues in T["sfx"].items():
     t0, _, k = T["scenes"][scene]
     for name, dt in cues:
         place(sfx, t0 + dt * k, BANK[name]())
+for name, t in T.get("global_sfx", []):
+    place(sfx, t - 0.02, BANK[name]() * 0.8)
 sfx = sfx[:N]
 
 # ---------------- voice ----------------
