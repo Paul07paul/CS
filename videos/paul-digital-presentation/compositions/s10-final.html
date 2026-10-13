@@ -67,9 +67,9 @@
           tl.from("#s10-paul", { x: -170, duration: 0.9, ease: "expo.out" }, 0.85);
           tl.from("#s10-dig", { x: -400, opacity: 0, duration: 1.0, ease: "expo.out" }, 1.0);
           // slogan, word by word, on the voice
-          tl.fromTo("#s10-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 1.5);
+          tl.fromTo("#s10-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 1.1);
           ws.forEach((w, i) => {
-            tl.from(w, { y: 50, opacity: 0, rotationX: -70, duration: 0.55, ease: "back.out(2)" }, 1.75 + i * 0.22);
+            tl.from(w, { y: 50, opacity: 0, rotationX: -70, duration: 0.55, ease: "back.out(2)" }, 1.3 + i * 0.2);
           });
           tl.from("#s10-pill", { opacity: 0, y: 24, scale: 0.85, duration: 0.6, ease: "back.out(2)" }, 3.8);
           // ambient life on the hold
