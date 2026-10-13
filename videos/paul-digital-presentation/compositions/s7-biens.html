@@ -17,7 +17,8 @@
       <div id="s7-root" data-composition-id="s7-biens" data-width="1920" data-height="1080">
         <div id="s7-all">
           <canvas id="s7-wire" class="wire" width="1920" height="1080"></canvas>
-          <div id="s7-copy"><div class="title" style="-webkit-box-reflect:below -6px linear-gradient(transparent 50%, rgba(255,255,255,0.2))"><span class="ln"><span id="s7-t">Je m'occupe <span class="blue">de tout.</span></span></span></div></div>
+          <div id="s7-copy"><div class="title" style="font-size:52px"><span class="ln"><span id="s7-t">Je m'occupe</span></span></div></div>
+          <div id="s7-x3" style="position:absolute;inset:0;perspective:1400px"></div>
           <div id="s7-slot" class="glass">
             <div id="s7-w0" class="w">Appartement</div>
             <div id="s7-w1" class="w">Maison</div>
@@ -55,7 +56,11 @@
             tl.to("#s7-i" + i, { background: "#3D86FF", width: 36, duration: 0.2 }, T[i]);
           });
           tl.set(["#s7-w1", "#s7-w2", "#s7-w3"], { yPercent: 100 }, 0);
-          tl.from("#s7-t", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 2.6);
+          tl.from("#s7-t", { yPercent: 110, duration: 0.5, ease: "expo.out" }, 2.5);
+          const x3 = PDExtrude(document.getElementById("s7-x3"), "DE TOUT.", { size: 170, x: 960, y: 250 });
+          tl.fromTo(x3, { z: -2400, rotationX: 50, rotationY: 40, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 8, rotationY: -12, scale: 1, opacity: 1, duration: 0.6, ease: "expo.out" }, 2.65);
+          tl.to(x3, { rotationY: 14, duration: 1.2, ease: "sine.inOut" }, 3.25);
+          PDBurst(tl, document.getElementById("s7-x3"), 960, 250, 2.75, { r: 560, seed: 5, n: 24, dur: 1.6 });
           tl.to(W.scene, { glow: 1.8, duration: 0.3, yoyo: true, repeat: 1 }, 2.9);
           // whip right
           tl.to("#s7-all", { x: 1600, filter: "blur(26px)", opacity: 0, duration: 0.4, ease: "power3.in" }, 3.9);

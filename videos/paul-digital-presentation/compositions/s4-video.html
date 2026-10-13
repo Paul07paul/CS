@@ -55,6 +55,7 @@
             </div>
           </div>
           <canvas id="s4-wire" class="wire" width="1920" height="1080"></canvas>
+          <div id="s4-x3" style="position:absolute;inset:0;perspective:1400px"></div>
           <div id="s4-player-stage">
             <div id="s4-player" class="glass">
               <i class="trk tl"></i><i class="trk tr"></i><i class="trk bl"></i><i class="trk br"></i><div id="s4-screen" class="photo"><img id="s4-img" src="assets/photos/p01.jpg" /></div>
@@ -96,7 +97,12 @@
           tl.to(house, { draw: 1, duration: 2.4, ease: "power1.inOut" }, 1.8);
           tl.fromTo(W.cam, { yaw: -8, pitch: 6, dist: 40 }, { yaw: 52, pitch: 20, dist: 30, duration: 3.2, ease: "power2.inOut" }, 1.6);
           tl.to(W.cam, { yaw: 0, pitch: 4, dist: 26, duration: 0.8, ease: "power3.inOut" }, 4.8);
-          tl.from("#s4-t1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 4.2);
+          tl.from("#s4-t1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 5.05);
+          const x3 = PDExtrude(document.getElementById("s4-x3"), "VIDÉO\nANIMÉE", { size: 210, x: 960, y: 560 });
+          tl.fromTo(x3, { z: -2600, rotationX: -40, rotationY: -60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: -6, rotationY: -16, scale: 1, opacity: 1, duration: 0.6, ease: "expo.out" }, 3.9);
+          tl.to(x3, { rotationY: 12, duration: 0.5, ease: "sine.inOut" }, 4.5);
+          tl.to(x3, { z: 1500, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "power3.in" }, 4.85);
+          PDBurst(tl, document.getElementById("s4-x3"), 960, 560, 4.0, { r: 800, seed: 11, dur: 1.4 });
           // the player materialises around the wireframe; a scan line reveals the real property
           tl.from("#s4-player", { opacity: 0, scale: 0.92, rotationX: 18, duration: 0.6, ease: "expo.out" }, 5.0);
           tl.fromTo("#s4-screen", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.9, ease: "power2.inOut" }, 5.25);

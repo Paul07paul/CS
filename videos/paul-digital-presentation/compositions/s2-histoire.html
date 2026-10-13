@@ -44,11 +44,9 @@
               <span class="ln"><span id="s2-a1">Chaque bien a</span></span>
               <span class="ln"><span id="s2-a2"><span class="blue">son histoire.</span></span></span>
             </div>
-            <div id="s2-b" class="title" data-layout-allow-overlap>
-              <span class="ln"><span id="s2-b1">Il mérite de</span></span>
-              <span class="ln" style="overflow:visible"><span id="s2-b2" class="blue"></span></span>
-            </div>
           </div>
+          <div id="s2-x3" style="position:absolute;inset:0;perspective:1400px"></div>
+          <div id="s2-pre" style="position:absolute;left:0;top:300px;width:1920px;text-align:center;font-weight:800;font-size:46px;color:#DCE8FF">Il mérite de</div>
           <div id="s2-ch1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 20l7-11 4 6 3-4 6 9z"/></svg></span>Vue sur les sommets</div>
           <div id="s2-ch2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M8 13V5a2 2 0 014 0M16 13V5"/></svg></span>Piscine &amp; sauna</div>
           <div id="s2-ch3" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.5 6 .8-4.4 4.1 1.1 6L12 16.6 6.7 19.4l1.1-6L3.4 9.3l6-.8z"/></svg></span>Au pied des pistes</div>
@@ -56,17 +54,6 @@
       </div>
       <script>
         (function () {
-          // per-letter word for the curved arrival
-          const word = "se démarquer.";
-          const host = document.getElementById("s2-b2");
-          const letters = [];
-          for (const ch of word) {
-            const s = document.createElement("span");
-            s.className = "s2-l";
-            s.textContent = ch === " " ? " " : ch;
-            host.appendChild(s);
-            letters.push(s);
-          }
           const tl = gsap.timeline({ paused: true });
           // the card rises out of the crowd and turns to face us
           tl.fromTo("#s2-card", { rotationY: -38, rotationX: 22, z: -700, x: -300, y: 120 }, { rotationY: -14, rotationX: 4, z: 0, x: 0, y: 0, duration: 1.4, ease: "expo.out" }, 0);
@@ -86,12 +73,13 @@
           tl.fromTo(["#s2-ch1", "#s2-ch2", "#s2-ch3"], { y: 0 }, { y: -14, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.1 }, 3.4);
           // swap A → B
           tl.to(["#s2-a1", "#s2-a2"], { yPercent: -110, duration: 0.45, ease: "power3.in", stagger: 0.06 }, 3.85);
-          tl.from("#s2-b1", { yPercent: 110, duration: 0.6, ease: "expo.out" }, 4.15);
-          // curved / wavy arrival of "se démarquer."
-          letters.forEach((el, i) => {
-            const k = i - letters.length / 2;
-            tl.fromTo(el, { y: 70 + k * k * 4, rotation: k * 7, opacity: 0, scale: 0.6 }, { y: 0, rotation: 0, opacity: 1, scale: 1, duration: 0.75, ease: "back.out(1.8)" }, 4.35 + i * 0.03);
-          });
+          // everything recedes, the big 3D title flies in
+          tl.to(["#s2-card", "#s2-ch1", "#s2-ch2", "#s2-ch3", "#s2-copy"], { opacity: 0.12, filter: "blur(10px)", scale: 0.85, duration: 0.45, ease: "power2.in" }, 3.9);
+          tl.fromTo("#s2-pre", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 3.95);
+          const x3 = PDExtrude(document.getElementById("s2-x3"), "SE\nDÉMARQUER", { size: 190, x: 960, y: 610 });
+          tl.fromTo(x3, { z: -2600, rotationX: 45, rotationY: 60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 6, rotationY: 18, scale: 1, opacity: 1, duration: 0.65, ease: "expo.out" }, 4.05);
+          tl.to(x3, { rotationY: -14, rotationX: -2, duration: 1.6, ease: "sine.inOut" }, 4.7);
+          PDBurst(tl, document.getElementById("s2-x3"), 960, 610, 4.15, { r: 760, seed: 3 });
           // whip exit
           tl.to("#s2-whip", { x: -1500, filter: "blur(30px)", opacity: 0, duration: 0.45, ease: "power3.in" }, 5.6);
           window.__timelines["s2-histoire"] = PDScale(tl, 0.758);

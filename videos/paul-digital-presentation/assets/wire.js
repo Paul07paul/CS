@@ -345,3 +345,56 @@ window.PDScale = function (tl, K) {
   tl.time(0, false);
   return outer;
 };
+
+/* Big extruded 3D title (stacked layers in preserve-3d). Returns the rotating root:
+   tween it with x/y/z/rotationX/rotationY/scale. Text may contain "\n". */
+window.PDExtrude = function (host, text, o) {
+  o = o || {};
+  const size = o.size || 200, layers = o.layers || 13, step = o.step || 7;
+  const root = document.createElement("div");
+  root.style.cssText = "position:absolute;left:" + (o.x || 960) + "px;top:" + (o.y || 540) + "px;width:0;height:0;transform-style:preserve-3d;";
+  for (let i = layers; i >= 0; i--) {
+    const d = document.createElement("div");
+    d.textContent = text;
+    const c = 255 - i * 14, b = 255 - i * 6;
+    d.style.cssText = "position:absolute;left:-1000px;width:2000px;top:" + (-size * 0.48 * (text.split("\n").length)) + "px;text-align:center;font-family:Montserrat,sans-serif;font-weight:900;font-size:" + size + "px;line-height:0.92;letter-spacing:-0.05em;white-space:pre;" +
+      "transform:translateZ(" + (-i * step) + "px);color:" + (i ? "rgb(" + Math.round(c * 0.35) + "," + Math.round(c * 0.55) + "," + b + ")" : (o.color || "#FFFFFF")) + ";" +
+      (i ? "" : "text-shadow:0 0 40px rgba(61,134,255,0.9);");
+    root.appendChild(d);
+  }
+  host.appendChild(root);
+  return root;
+};
+
+/* Glowing orbit rings + particle burst around a point, all added to `tl` at time t. */
+window.PDBurst = function (tl, host, cx, cy, t, o) {
+  o = o || {};
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  const R = o.r || 700;
+  svg.setAttribute("viewBox", -R - 60 + " " + (-R - 60) + " " + (2 * R + 120) + " " + (2 * R + 120));
+  svg.style.cssText = "position:absolute;overflow:visible;left:" + (cx - R - 60) + "px;top:" + (cy - R - 60) + "px;width:" + (2 * R + 120) + "px;height:" + (2 * R + 120) + "px;";
+  const rings = [[R, R * 0.3, 0], [R * 0.84, R * 0.4, 30]].map(([rx, ry, rot]) => {
+    const e = document.createElementNS(ns, "ellipse");
+    e.setAttribute("rx", rx); e.setAttribute("ry", ry);
+    e.setAttribute("style", "fill:none;stroke:" + (o.color || "#5EB0FF") + ";stroke-width:6;filter:drop-shadow(0 0 12px #3D86FF)");
+    svg.appendChild(e);
+    return [e, rot];
+  });
+  host.appendChild(svg);
+  const dur = o.dur || 2.4;
+  tl.fromTo(svg, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: "expo.out" }, t);
+  rings.forEach(([e, rot], i) => {
+    tl.fromTo(e, { rotation: rot, transformOrigin: "50% 50%" }, { rotation: rot + (i ? -120 : 140), duration: dur, ease: "none" }, t);
+  });
+  let seed = o.seed || 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  for (let i = 0; i < (o.n || 30); i++) {
+    const p = document.createElement("div");
+    p.style.cssText = "position:absolute;left:" + cx + "px;top:" + cy + "px;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:6px;background:#9FD0FF;box-shadow:0 0 14px #3D86FF;opacity:0;";
+    host.appendChild(p);
+    const a = rnd() * Math.PI * 2, r = R * (0.5 + rnd() * 0.9);
+    tl.fromTo(p, { x: 0, y: 0, scale: 0.4 + rnd(), opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.6, opacity: 0, duration: 1.3 + rnd(), ease: "expo.out", immediateRender: false }, t + rnd() * 0.12);
+  }
+  return svg;
+};
