@@ -9,7 +9,7 @@
         #s7-wire { position: absolute; inset: 0; }
         #s7-slot { position: absolute; left: 960px; top: 880px; width: 560px; height: 104px; margin-left: -280px; border-radius: 52px; overflow: hidden; }
         #s7-slot .w { position: absolute; left: 0; top: 0; width: 560px; height: 104px; line-height: 104px; text-align: center; font-weight: 800; font-size: 52px; letter-spacing: -0.01em; white-space: nowrap; }
-        #s7-copy { position: absolute; left: 0; top: 90px; width: 1920px; text-align: center; }
+        #s7-copy { position: absolute; left: 0; top: 46px; width: 1920px; text-align: center; }
         #s7-copy .title { font-size: 84px; }
         #s7-idx { position: absolute; left: 960px; top: 1004px; margin-left: -60px; width: 120px; display: flex; gap: 10px; justify-content: center; }
         #s7-idx i { display: block; width: 18px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.25); }
@@ -31,7 +31,7 @@
       <script>
         (function () {
           const W = PDWire.create(document.getElementById("s7-wire"), { color: "#4DA3FF" });
-          W.cam.yaw = -30; W.cam.pitch = 16; W.cam.dist = 36; W.cam.ty = 3.2; W.cam.fov = 40;
+          W.cam.yaw = -30; W.cam.pitch = 16; W.cam.dist = 41; W.cam.ty = 3.6; W.cam.fov = 40;
           const ms = [
             W.add(PDWire.models.apartment(), { s: 0.78, y: -0.5 }),
             W.add(PDWire.models.house(), { s: 1.15 }),
@@ -56,14 +56,14 @@
             tl.to("#s7-i" + i, { background: "#3D86FF", width: 36, duration: 0.2 }, T[i]);
           });
           tl.set(["#s7-w1", "#s7-w2", "#s7-w3"], { yPercent: 100 }, 0);
-          tl.from("#s7-t", { yPercent: 110, duration: 0.5, ease: "expo.out" }, 2.5);
-          const x3 = PDExtrude(document.getElementById("s7-x3"), "DE TOUT.", { size: 170, x: 960, y: 250 });
-          tl.fromTo(x3, { z: -2400, rotationX: 50, rotationY: 40, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 8, rotationY: -12, scale: 1, opacity: 1, duration: 0.6, ease: "expo.out" }, 2.65);
-          tl.to(x3, { rotationY: 14, duration: 1.2, ease: "sine.inOut" }, 3.25);
-          PDBurst(tl, document.getElementById("s7-x3"), 960, 250, 2.75, { r: 560, seed: 5, n: 24, dur: 1.6 });
-          tl.to(W.scene, { glow: 1.8, duration: 0.3, yoyo: true, repeat: 1 }, 2.9);
+          tl.from("#s7-t", { yPercent: 110, duration: 0.5, ease: "expo.out" }, 2.85);
+          const x3 = PDExtrude(document.getElementById("s7-x3"), "DE TOUT.", { size: 150, x: 960, y: 225 });
+          tl.fromTo(x3, { z: -2400, rotationX: 50, rotationY: 40, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 8, rotationY: -12, scale: 1, opacity: 1, duration: 0.55, ease: "expo.out" }, 3.1);
+          tl.to(x3, { rotationY: 14, duration: 1.0, ease: "sine.inOut" }, 3.65);
+          PDBurst(tl, document.getElementById("s7-x3"), 960, 225, 3.15, { r: 560, seed: 5, n: 24, dur: 1.2 });
+          tl.to(W.scene, { glow: 1.8, duration: 0.3, yoyo: true, repeat: 1 }, 3.2);
           // whip right
-          tl.to("#s7-all", { x: 1600, filter: "blur(26px)", opacity: 0, duration: 0.4, ease: "power3.in" }, 3.9);
+          tl.to("#s7-all", { x: 1600, filter: "blur(26px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 4.05);
           window.__timelines["s7-biens"] = PDScale(tl, 1.0);
         })();
       </script>

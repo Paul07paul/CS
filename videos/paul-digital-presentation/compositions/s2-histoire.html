@@ -77,9 +77,9 @@
           tl.to(["#s2-card", "#s2-ch1", "#s2-ch2", "#s2-ch3", "#s2-copy"], { opacity: 0.12, filter: "blur(10px)", scale: 0.85, duration: 0.45, ease: "power2.in" }, 3.9);
           tl.fromTo("#s2-pre", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 3.95);
           const x3 = PDExtrude(document.getElementById("s2-x3"), "SE\nDÉMARQUER", { size: 190, x: 960, y: 610 });
-          tl.fromTo(x3, { z: -2600, rotationX: 45, rotationY: 60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 6, rotationY: 18, scale: 1, opacity: 1, duration: 0.65, ease: "expo.out" }, 4.05);
-          tl.to(x3, { rotationY: -14, rotationX: -2, duration: 1.6, ease: "sine.inOut" }, 4.7);
-          PDBurst(tl, document.getElementById("s2-x3"), 960, 610, 4.15, { r: 760, seed: 3 });
+          tl.fromTo(x3, { z: -2600, rotationX: 45, rotationY: 60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 6, rotationY: 18, scale: 1, opacity: 1, duration: 0.65, ease: "expo.out" }, 4.2);
+          tl.to(x3, { rotationY: -14, rotationX: -2, duration: 1.4, ease: "sine.inOut" }, 4.85);
+          PDBurst(tl, document.getElementById("s2-x3"), 960, 610, 4.3, { r: 760, seed: 3 });
           // whip exit
           tl.to("#s2-whip", { x: -1500, filter: "blur(30px)", opacity: 0, duration: 0.45, ease: "power3.in" }, 5.6);
           window.__timelines["s2-histoire"] = PDScale(tl, 0.758);

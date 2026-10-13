@@ -384,6 +384,8 @@ window.PDBurst = function (tl, host, cx, cy, t, o) {
   host.appendChild(svg);
   const dur = o.dur || 2.4;
   tl.fromTo(svg, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: "expo.out" }, t);
+  // rings leave once the title has landed so they never hide what comes next
+  tl.to(svg, { opacity: 0, scale: 1.3, duration: 0.4, ease: "power2.in" }, t + (o.hold || dur));
   rings.forEach(([e, rot], i) => {
     tl.fromTo(e, { rotation: rot, transformOrigin: "50% 50%" }, { rotation: rot + (i ? -120 : 140), duration: dur, ease: "none" }, t);
   });
