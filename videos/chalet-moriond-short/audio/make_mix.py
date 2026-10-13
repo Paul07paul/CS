@@ -1,6 +1,6 @@
 """Full soundtrack for the short Courchevel Moriond cut (41 s).
 
-Voice: Gemini 3.1 Flash TTS (fr-FR, voice "Sulafat") generated in FLORA, one file per line in
+Voice: Gemini 3.1 Flash TTS (fr-FR, voice "Gacrux", documentary direction) generated in FLORA, one file per line in
 assets/audio/vo/l01..l08.wav.  Music: ElevenLabs Music (assets/audio/music.mp3), trimmed
 so its drop lands on the salon reveal, ducked under the voice.  SFX: synthesized here.
     python3 audio/make_mix.py  ->  assets/audio/mix.wav

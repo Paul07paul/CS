@@ -1,5 +1,5 @@
 {
-  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]; voice Gemini TTS fr-FR 'Sulafat' via FLORA.",
+  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]; voice Gemini TTS fr-FR 'Gacrux', documentary direction, via FLORA.",
   "duration": 41.0,
   "music_offset": 2.8,
   "scenes": {
@@ -14,11 +14,11 @@
   },
   "vo": [
     [
-      0.8,
+      0.7,
       "Courchevel Moriond."
     ],
     [
-      3.7,
+      3.55,
       "Un chalet de prestige, pour douze voyageurs… à deux pas des pistes."
     ],
     [
@@ -26,15 +26,15 @@
       "Quatre suites, un dortoir, quatre salles d'eau."
     ],
     [
-      14.5,
+      14.3,
       "Un salon baigné de lumière, face aux sommets. Noté quatre virgule soixante-quatorze sur cinq."
     ],
     [
-      21.8,
+      21.55,
       "Côté bien-être : piscine intérieure… et sauna privé."
     ],
     [
-      26.6,
+      26.5,
       "Le wifi, le parking gratuit, la réservation instantanée. Tout est prêt."
     ],
     [
