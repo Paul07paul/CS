@@ -8,7 +8,7 @@
         #s9-all { position: absolute; inset: 0; perspective: 1800px; }
         #s9-copy { position: absolute; left: 0; top: 100px; width: 1920px; text-align: center; }
         #s9-k { margin-bottom: 20px; }
-        #s9-copy .title { font-size: 84px; position: relative; height: 96px; }
+        #s9-copy .title { display: none; }
         #s9-ta, #s9-tb { position: absolute; left: 0; top: 0; width: 1920px; }
         #s9-p1 { left: 200px; top: 340px; width: 740px; height: 560px; padding: 36px 40px; }
         #s9-p2 { left: 980px; top: 340px; width: 740px; height: 560px; padding: 36px 40px; }
@@ -37,10 +37,10 @@
           <div id="s9-copy">
             <div id="s9-k" class="kicker">Résultat</div>
             <div class="title">
-              <div id="s9-ta"><span class="ln"><span id="s9-a">Plus <span class="blue">d'attention.</span></span></span></div>
-              <div id="s9-tb" data-layout-allow-overlap><span class="ln"><span id="s9-b">Une image plus <span class="blue">pro.</span></span></span></div>
+
             </div>
           </div>
+<div id="s9-x3" style="position:absolute;inset:0;perspective:1400px"></div>
           <div id="s9-p1" class="glass">
             <div class="s9-h"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>Attention captée</div>
             <svg id="s9-chart" viewBox="0 0 660 380">
@@ -70,7 +70,15 @@
           tl.from("#s9-k", { opacity: 0, y: 16, duration: 0.5 }, 0.1);
           tl.from("#s9-p1", { y: 200, rotationX: -40, opacity: 0, duration: 0.8, ease: "expo.out" }, 0.3);
           tl.from("#s9-p2", { y: 200, rotationX: -40, opacity: 0, duration: 0.8, ease: "expo.out" }, 0.45);
-          tl.from("#s9-a", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.1);
+          const xa = PDExtrude(document.getElementById("s9-x3"), "PLUS D'ATTENTION", { size: 100, x: 960, y: 220, layers: 11, step: 6 });
+          const xb = PDExtrude(document.getElementById("s9-x3"), "PLUS PRO.", { size: 120, x: 960, y: 220, layers: 11, step: 6 });
+          tl.fromTo(xa, { z: 1300, rotationX: -30, opacity: 0, filter: "blur(14px)" }, { z: 0, rotationX: 6, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 1.6);
+          tl.to(xa, { rotationY: -10, duration: 1.4, ease: "sine.inOut" }, 2.15);
+          tl.to(xa, { x: -1700, rotationY: 70, opacity: 0, duration: 0.35, ease: "power3.in" }, 3.2);
+          tl.fromTo(xb, { x: 1700, rotationY: -80, opacity: 0 }, { x: 0, rotationY: -6, opacity: 1, duration: 0.55, ease: "back.out(1.4)" }, 3.35);
+          tl.to(xb, { rotationY: 10, duration: 1.6, ease: "sine.inOut" }, 3.9);
+          PDBurst(tl, document.getElementById("s9-x3"), 960, 220, 1.7, { r: 600, seed: 17, n: 20, dur: 1.2, hold: 1.2 });
+          PDBurst(tl, document.getElementById("s9-x3"), 960, 220, 3.45, { r: 520, seed: 19, n: 20, dur: 1.4, hold: 1.4 });
           // attention curve climbs
           const line = document.getElementById("s9-line");
           const L = line.getTotalLength();
@@ -83,8 +91,6 @@
           placeDot();
           tl.from("#s9-dot", { scale: 0, transformOrigin: "50% 50%", duration: 0.3 }, 1.2);
           // swap the headline
-          tl.to("#s9-a", { yPercent: -110, duration: 0.45, ease: "power3.in" }, 3.0);
-          tl.from("#s9-b", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 3.3);
           // grey listing turns premium
           tl.fromTo("#s9-prem", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.8, ease: "power2.inOut" }, 3.4);
           tl.from("#s9-badge", { scale: 0, duration: 0.5, ease: "back.out(2.6)" }, 4.0);

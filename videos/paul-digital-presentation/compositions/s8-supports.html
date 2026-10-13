@@ -24,7 +24,7 @@
         .s8-tag { position: absolute; left: 14px; top: 14px; height: 40px; padding: 0 16px; border-radius: 20px; background: rgba(12,25,41,0.7); backdrop-filter: blur(10px); font-weight: 800; font-size: 20px; line-height: 40px; color: #fff; }
         #s8-f169 { left: 230px; top: 380px; width: 560px; height: 315px; }
         #s8-f11 { left: 1170px; top: 360px; width: 400px; height: 400px; }
-        #s8-copy { position: absolute; left: 0; top: 122px; width: 1920px; text-align: center; }
+        #s8-copy { position: absolute; left: 0; top: 36px; width: 1920px; text-align: center; }
         #s8-copy .title { font-size: 78px; }
         #s8-d1 { left: 200px; top: 800px; }
         #s8-d2 { left: 1350px; top: 820px; }
@@ -39,7 +39,8 @@
       </style>
       <div id="s8-root" data-composition-id="s8-supports" data-width="1920" data-height="1080">
         <div id="s8-all">
-          <div id="s8-copy"><div class="title"><span class="ln"><span id="s8-t">Des supports <span class="blue">prêts à publier.</span></span></span></div></div>
+          <div id="s8-copy"><div class="title" style="font-size:44px"><span class="ln"><span id="s8-t">Des supports</span></span></div></div>
+          <div id="s8-x3" style="position:absolute;inset:0;perspective:1400px"></div>
           <svg id="s8-lines" viewBox="0 0 1920 1080">
             <path id="s8-l1" d="M800 700 C 640 760, 520 780, 470 820" />
             <path id="s8-l2" d="M1120 720 C 1250 760, 1340 800, 1420 830" />
@@ -78,6 +79,10 @@
           tl.fromTo("#s8-pimg", { scale: 1.3, xPercent: 6 }, { scale: 1.05, xPercent: -6, duration: 7, ease: "none" }, 0);
           tl.fromTo("#s8-f11img", { scale: 1.2 }, { scale: 1.02, duration: 7, ease: "none" }, 0);
           tl.fromTo("#s8-pfill", { scaleX: 0 }, { scaleX: 1, duration: 6.5, ease: "none" }, 0.3);
+          const x3 = PDExtrude(document.getElementById("s8-x3"), "PRÊTS À PUBLIER", { size: 100, x: 960, y: 158, layers: 11, step: 6 });
+          tl.fromTo(x3, { x: 1700, rotationY: -85, z: -400, opacity: 0 }, { x: 0, rotationY: -8, z: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 1.95);
+          tl.to(x3, { rotationY: 8, duration: 2.2, ease: "sine.inOut" }, 2.55);
+          PDBurst(tl, document.getElementById("s8-x3"), 960, 158, 2.05, { r: 640, seed: 13, n: 22, dur: 1.2, hold: 0.8 });
           // notification drops in
           tl.from("#s8-notif", { y: -140, opacity: 0, duration: 0.6, ease: "back.out(1.8)" }, 1.1);
           // destinations, synced to the words

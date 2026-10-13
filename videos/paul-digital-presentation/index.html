@@ -88,7 +88,7 @@
         tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x, y: y, duration: 0.04 })), ease: "none" }, t);
       });
       // a few extra impacts on strong beats (logo lock, scan reveal, clé en main, final logo)
-      [9.1, 11.45, 14.25, 16.55, 25.85, 30.05, 39.75].forEach((t) => {
+      [5.0, 9.1, 11.45, 14.25, 16.55, 20.3, 25.85, 30.05, 32.45, 36.8, 37.95, 39.75].forEach((t) => {
         tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x * 0.7, y: y * 0.7, duration: 0.04 })), ease: "none" }, t);
       });
       window.__timelines["main"] = tl;

@@ -21,7 +21,7 @@
         #s5-copy { position: absolute; left: 150px; top: 250px; width: 560px; }
         #s5-copy .title { font-size: 66px; }
         #s5-k { margin-bottom: 22px; }
-        #s5-sub { margin-top: 28px; font-weight: 600; font-size: 30px; line-height: 1.35; color: #B8CBEB; width: 480px; }
+        #s5-sub { margin-top: 0px; font-weight: 600; font-size: 30px; line-height: 1.35; color: #B8CBEB; width: 480px; }
         #s5-c1 { left: 1500px; top: 150px; }
         #s5-c2 { left: 640px; top: 830px; }
         #s5-c3 { left: 1480px; top: 880px; }
@@ -30,12 +30,10 @@
         <div id="s5-all">
           <div id="s5-copy">
             <div id="s5-k" class="kicker">Et pour aller plus loin</div>
-            <div class="title">
-              <span class="ln"><span id="s5-t1">Un site</span></span>
-              <span class="ln"><span id="s5-t2"><span class="blue">dédié</span> au bien.</span></span>
-            </div>
+            <div style="height:250px"></div>
             <div id="s5-sub"><span id="s5-s1">Plus complet.</span> <span id="s5-s2">Plus premium.</span></div>
           </div>
+<div id="s5-x3" style="position:absolute;inset:0;perspective:1400px"></div>
           <div id="s5-stage">
             <div id="s5-br" class="glass">
               <div id="s5-bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
@@ -75,8 +73,10 @@
           tl.fromTo("#s5-br", { rotationY: -48, rotationX: 8, z: -200 }, { rotationY: -8, rotationX: 2, z: 0, duration: 3.6, ease: "power2.inOut" }, 0);
           tl.to("#s5-br", { rotationY: 6, duration: 4.4, ease: "sine.inOut" }, 3.6);
           tl.from("#s5-k", { opacity: 0, x: -30, duration: 0.5 }, 0.2);
-          tl.from("#s5-t1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.6);
-          tl.from("#s5-t2", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 1.8);
+          const x3 = PDExtrude(document.getElementById("s5-x3"), "SITE\nDÉDIÉ", { size: 120, x: 410, y: 440, layers: 11, step: 6 });
+          tl.fromTo(x3, { rotationX: -280, z: -900, opacity: 0 }, { rotationX: 8, z: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 2.15);
+          tl.to(x3, { rotationY: 16, rotationX: 2, duration: 2.0, ease: "sine.inOut" }, 2.95);
+          PDBurst(tl, document.getElementById("s5-x3"), 410, 440, 2.3, { r: 380, seed: 9, n: 18, dur: 1.6, hold: 1.4 });
           // wireframe of the page draws itself, then the real design fills in
           const shapes = document.querySelectorAll("#s5-svg rect, #s5-svg line");
           shapes.forEach((el, i) => {
