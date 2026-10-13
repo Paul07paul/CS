@@ -1,0 +1,29 @@
+{
+  "_doc": "Shared timing (seconds) for index.html scene hosts and audio/make_audio.py. Scene-relative SFX cues are offsets from each scene start.",
+  "duration": 65.0,
+  "scenes": {
+    "s1": [0.0, 8.4],
+    "s2": [8.2, 6.0],
+    "s3": [14.0, 3.2],
+    "s4": [17.0, 9.0],
+    "s5": [25.8, 8.6],
+    "s6": [34.2, 8.0],
+    "s7": [42.0, 4.3],
+    "s8": [46.1, 7.1],
+    "s9": [53.0, 5.8],
+    "s10": [58.6, 6.4]
+  },
+  "vo_offset": 0.35,
+  "sfx": {
+    "s1": [["pop", 4.15], ["pop", 5.7], ["riser", 6.9], ["whoosh", 7.55], ["flash", 8.0]],
+    "s2": [["shimmer", 1.5], ["pop", 2.15], ["pop", 2.45], ["pop", 2.75], ["tick", 4.35], ["whoosh", 5.55]],
+    "s3": [["whoosh_in", 0.0], ["glass", 0.45], ["snap", 0.95], ["swell", 1.45], ["pop", 2.0], ["whoosh", 2.75]],
+    "s4": [["pop", 0.3], ["pop", 0.45], ["pop", 0.6], ["pop", 0.75], ["suck", 2.0], ["wire", 1.8], ["scan", 5.25], ["impact", 6.1], ["pop", 5.9], ["pop", 6.5], ["pop", 7.4], ["whoosh", 8.45]],
+    "s5": [["whoosh_in", 0.0], ["wire", 0.4], ["scan", 2.9], ["pop", 4.4], ["pop", 4.8], ["pop", 5.2], ["click", 6.55], ["whoosh", 8.05]],
+    "s6": [["whoosh_in", 0.0], ["card", 0.15], ["card", 1.5], ["card", 2.75], ["suck", 5.0], ["impact", 5.45], ["ding", 5.85], ["whoosh", 7.55]],
+    "s7": [["whoosh_in", 0.0], ["wire_short", 0.05], ["tick", 0.85], ["wire_short", 0.85], ["tick", 1.45], ["wire_short", 1.45], ["tick", 2.05], ["wire", 2.05], ["swell", 2.6], ["whoosh", 3.85]],
+    "s8": [["whoosh_in", 0.0], ["card", 0.1], ["card", 0.35], ["card", 0.5], ["notif", 1.1], ["pop", 2.5], ["pop", 3.7], ["pop", 5.2], ["whoosh", 6.65]],
+    "s9": [["whoosh_in", 0.0], ["card", 0.3], ["card", 0.45], ["rise", 1.2], ["tick", 3.3], ["scan", 3.4], ["ding", 4.0], ["riser", 4.6], ["whoosh", 5.35]],
+    "s10": [["iris", 0.0], ["impact_big", 0.4], ["snap", 0.75], ["swell", 0.85], ["chime", 1.6], ["sparkle", 3.8]]
+  }
+}
