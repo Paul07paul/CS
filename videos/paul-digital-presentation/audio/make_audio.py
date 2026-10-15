@@ -292,7 +292,7 @@ sfx = sfx[:N]
 
 # ---------------- voice ----------------
 voice = np.zeros((N, 2))
-vo_src = path("assets/audio/src/vo.mp3")
+vo_src = path("assets/audio/src/vo-gemini-charon.wav")
 if os.path.exists(vo_src):
     v = load(vo_src)
     v = filt(v, "high", 70)

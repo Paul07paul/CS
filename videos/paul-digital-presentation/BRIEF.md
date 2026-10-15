@@ -25,7 +25,7 @@ par rapport à la voix. La voix je la veux plus naturelle, elle fait trop robot.
 ## Customizations
 
 - Format 16:9 (confirmé), ≈ 60 s texte condensé (confirmé), voix masculine naturelle (confirmé).
-- Voix : ElevenLabs v4 (FLORA), voix « Charlie », stabilité 0,35 (plus expressive) — remplace
+- Voix (v6) : Gemini 3.1 Flash TTS fr-FR, voix « Charon », direction documentaire énergique (accent de France, demandé par l'utilisateur après l'accent canadien d'ElevenLabs). Ancienne voix : ElevenLabs v4 « Charlie » — remplaçait
   Gemini TTS jugé robotique. Alternative générée : « Chris ».
 - Musique : ElevenLabs Music (FLORA), 118 BPM, ducking −9 dB + creux médium sous la voix.
 - SFX synthétisés localement (`audio/make_audio.py`) : whoosh, pops, clic, scan, ding, impacts.

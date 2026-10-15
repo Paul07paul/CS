@@ -27,14 +27,14 @@
         (function () {
           // cut time, focal point of the outgoing scene (where the camera dives), label of the new scene
           const CUTS = [
-            [5.85, 960, 560, "Votre bien."],
-            [10.2, 430, 330, "Paul Digital."],
-            [12.7, 640, 500, "Une vidéo."],
-            [19.15, 960, 560, "Un site."],
-            [23.15, 1450, 600, "Pour qui ?"],
-            [26.85, 960, 520, "Tous les biens."],
-            [31.0, 960, 560, "Prêt à publier."],
-            [35.7, 960, 560, "Résultat."],
+            [5.75, 960, 560, "Votre bien."],
+            [9.8, 430, 330, "Paul Digital."],
+            [12.35, 640, 500, "Une vidéo."],
+            [18.45, 960, 560, "Un site."],
+            [22.5, 1450, 600, "Pour qui ?"],
+            [26.05, 960, 520, "Tous les biens."],
+            [29.95, 960, 560, "Prêt à publier."],
+            [34.3, 960, 560, "Résultat."],
           ];
           const LABELS = ["Le constat."].concat(CUTS.map((c) => c[3]));
           const slot = document.getElementById("fx-slot");
@@ -67,12 +67,12 @@
             tl.fromTo(words[i + 1], { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, t + 0.05);
             tl.fromTo("#fx-dot", { scale: 1.8 }, { scale: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, t + 0.05);
           });
-          tl.to("#fx-label", { opacity: 0, x: -40, duration: 0.3, ease: "power2.in" }, 39.15);
+          tl.to("#fx-label", { opacity: 0, x: -40, duration: 0.3, ease: "power2.in" }, 37.55);
           // last cut into the white brand close
-          tl.fromTo("#fx-flash", { opacity: 0 }, { opacity: 1, duration: 0.08, immediateRender: false }, 39.25);
-          tl.to("#fx-flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, 39.35);
+          tl.fromTo("#fx-flash", { opacity: 0 }, { opacity: 1, duration: 0.08, immediateRender: false }, 37.65);
+          tl.to("#fx-flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, 37.75);
           // grain shimmer
-          tl.fromTo("#fx-grain", { x: 0, y: 0 }, { x: 3, y: 2, duration: 0.05, ease: "steps(1)", repeat: 900, yoyo: true }, 0);
+          tl.fromTo("#fx-grain", { x: 0, y: 0 }, { x: 3, y: 2, duration: 0.05, ease: "steps(1)", repeat: 880, yoyo: true }, 0);
           window.__timelines["fx"] = tl;
         })();
       </script>

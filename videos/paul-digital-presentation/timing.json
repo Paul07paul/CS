@@ -1,59 +1,59 @@
 {
  "_doc": "Shared timing (seconds) for index.html scene hosts and audio scripts. scenes = [start, duration, k]; k = playback scale applied to the scene timeline (PDScale), SFX cue offsets are authored in the scene's own (unscaled) time and multiplied by k.",
- "duration": 46.0,
+ "duration": 44.5,
  "scenes": {
   "s1": [
    0.0,
-   6.05,
-   0.72
+   5.95,
+   0.708
   ],
   "s2": [
-   5.85,
-   4.55,
-   0.758
+   5.75,
+   4.25,
+   0.708
   ],
   "s3": [
-   10.2,
-   2.7,
-   0.844
+   9.8,
+   2.75,
+   0.86
   ],
   "s4": [
-   12.7,
-   6.65,
-   0.739
+   12.35,
+   6.3,
+   0.7
   ],
   "s5": [
-   19.15,
-   4.2,
-   0.488
+   18.45,
+   4.25,
+   0.494
   ],
   "s6": [
-   23.15,
-   3.9,
-   0.4875
+   22.5,
+   3.75,
+   0.469
   ],
   "s7": [
-   26.85,
-   4.35,
-   1.0
+   26.05,
+   4.1,
+   0.953
   ],
   "s8": [
-   31.0,
-   4.9,
-   0.69
+   29.95,
+   4.55,
+   0.641
   ],
   "s9": [
-   35.7,
-   3.8,
-   0.655
+   34.3,
+   3.6,
+   0.62
   ],
   "s10": [
-   39.3,
-   6.7,
+   37.7,
+   6.8,
    1.0
   ]
  },
- "vo_offset": 0.3,
+ "vo_offset": 0.25,
  "sfx": {
   "s1": [
    [
@@ -360,7 +360,7 @@
    ],
    [
     "pop",
-    5.05
+    5.7
    ],
    [
     "whoosh",
@@ -450,99 +450,100 @@
  },
  "music": {
   "bpm": 128,
-  "drop": 10.2,
-  "end": 39.6
+  "drop": 9.8,
+  "end": 38.1
  },
  "vo_lines": [
   [
-   0.3,
-   "Aujourd'hui, toutes les annonces se ressemblent."
+   0.53,
+   "Aujourd'hui…"
   ],
   [
-   6.02,
-   "Pourtant, chaque bien a son histoire."
+   5.95,
+   "Pourtant…"
   ],
   [
-   10.42,
-   "C'est pour ça que j'ai créé Paul Digital."
+   9.95,
+   "C'est pour ça…"
   ],
   [
-   12.88,
-   "Je transforme vos photos…"
+   12.5,
+   "Je transforme…"
   ],
   [
-   19.32,
+   18.63,
    "Et je crée aussi un site dédié"
   ],
   [
-   23.34,
-   "Agences, conciergeries, propriétaires"
+   22.67,
+   "Agences…"
   ],
   [
-   27.04,
-   "Appartement, maison, villa ou chalet"
+   26.2,
+   "Appartement…"
   ],
   [
-   31.16,
-   "Vous recevez des supports prêts à publier"
+   30.08,
+   "Vous recevez…"
   ],
   [
-   35.9,
+   34.45,
    "Résultat ?"
   ],
   [
-   39.52,
-   "Paul Digital. Votre bien mérite mieux…"
+   37.91,
+   "Paul Digital…"
   ]
  ],
  "global_sfx": [
   [
    "impact",
-   5.85
+   5.75
   ],
   [
    "impact",
-   10.2
+   9.8
   ],
   [
    "impact",
-   12.7
+   12.35
   ],
   [
    "impact",
-   19.15
+   18.45
   ],
   [
    "impact",
-   23.15
+   22.5
   ],
   [
    "impact",
-   26.85
+   26.05
   ],
   [
    "impact",
-   31.0
+   29.95
   ],
   [
    "impact",
-   35.7
+   34.3
   ],
   [
    "impact_big",
-   39.3
+   37.7
   ],
   [
    "snap",
-   11.45
-  ],
-  [
-   "impact_big",
-   25.65
+   10.6
   ],
   [
    "impact",
-   16.55
+   16.6
+  ],
+  [
+   "impact_big",
+   24.95
   ]
- ]
+ ],
+ "_voice": "Gemini 3.1 Flash TTS fr-FR, voice Charon, energetic documentary direction (FLORA run_m1762aqfr2bz89scmqjt3e13wh8gahgg)"
 }

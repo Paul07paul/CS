@@ -86,7 +86,7 @@
           // notification drops in
           tl.from("#s8-notif", { y: -140, opacity: 0, duration: 0.6, ease: "back.out(1.8)" }, 1.1);
           // destinations, synced to the words
-          const D = [["#s8-d1", "#s8-l1", 3.5], ["#s8-d2", "#s8-l2", 4.4], ["#s8-d3", "#s8-l3", 5.05]];
+          const D = [["#s8-d1", "#s8-l1", 3.5], ["#s8-d2", "#s8-l2", 4.4], ["#s8-d3", "#s8-l3", 5.7]];
           D.forEach(([c, l, t]) => {
             tl.fromTo(l, { strokeDashoffset: 300, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, t - 0.2);
             tl.from(c, { opacity: 0, scale: 0.4, duration: 0.55, ease: "back.out(2.2)" }, t);
@@ -95,7 +95,7 @@
           tl.to("#s8-all", { scale: 2.4, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power3.in" }, 6.7);
           tl.fromTo("#s8-phone .trk", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out", stagger: 0.04 }, 0.6);
           tl.to("#s8-phone .trk", { scale: 1.12, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.1);
-          window.__timelines["s8-supports"] = PDScale(tl, 0.69);
+          window.__timelines["s8-supports"] = PDScale(tl, 0.641);
         })();
       </script>
     </template>

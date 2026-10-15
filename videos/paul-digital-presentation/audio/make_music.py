@@ -19,10 +19,10 @@ N = int(DUR * SR)
 BPM = 128
 BEAT = 60 / BPM
 BAR = 4 * BEAT
-DROP = 10.2
-END = 39.6
+DROP = 9.8
+END = 38.1
 OFF = DROP - 6 * BAR  # bar 0 starts here (negative = pre-roll)
-BRK0, BRK1 = 25.1, 25.1 + BAR  # one-bar breakdown
+BRK0, BRK1 = 23.7, 23.7 + BAR  # one-bar breakdown
 rng = np.random.default_rng(5)
 
 
