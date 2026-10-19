@@ -1,0 +1,74 @@
+{
+  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]; voice Gemini TTS fr-FR 'Gacrux', documentary direction, via FLORA.",
+  "duration": 41.0,
+  "music_offset": 2.8,
+  "scenes": {
+    "s1": 0,
+    "s2": 3.6,
+    "s3": 9.2,
+    "s4": 14.2,
+    "s5": 21.5,
+    "s6": 26.5,
+    "s7": 32.2,
+    "s8": 36.8
+  },
+  "vo": [
+    [
+      0.7,
+      "Courchevel Moriond."
+    ],
+    [
+      3.55,
+      "Un chalet de prestige, pour douze voyageurs… à deux pas des pistes."
+    ],
+    [
+      9.6,
+      "Quatre suites, un dortoir, quatre salles d'eau."
+    ],
+    [
+      14.3,
+      "Un salon baigné de lumière, face aux sommets. Noté quatre virgule soixante-quatorze sur cinq."
+    ],
+    [
+      21.55,
+      "Côté bien-être : piscine intérieure… et sauna privé."
+    ],
+    [
+      26.5,
+      "Le wifi, le parking gratuit, la réservation instantanée. Tout est prêt."
+    ],
+    [
+      32.6,
+      "Réservez dès maintenant sur Airbnb."
+    ],
+    [
+      37.4,
+      "Une vidéo Paul Digital."
+    ]
+  ],
+  "chips6": [
+    26.85,
+    27.85,
+    29.0,
+    29.5,
+    29.85
+  ],
+  "notifs6": [
+    30.3,
+    31.1
+  ],
+  "click": 35.2,
+  "shutters": [
+    3.6,
+    14.2,
+    21.5,
+    26.5,
+    32.2,
+    36.8
+  ],
+  "chips2": [
+    4.0,
+    5.65,
+    7.25
+  ]
+}
