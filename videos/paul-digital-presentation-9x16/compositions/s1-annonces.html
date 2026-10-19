@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s1-root { position: absolute; inset: 0; overflow: hidden; }
+        #s1-cam { position: absolute; inset: 0; }
+        #s1-plane { position: absolute; left: 50%; top: 50%; width: 2900px; height: 2200px; margin: -1100px 0 0 -1450px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; transform-style: preserve-3d; }
+        .s1-card { position: relative; border-radius: 22px; background: #CDD2DA; padding: 18px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .s1-card .ph { position: relative; height: 200px; border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 2fr 1fr; gap: 6px; }
+        .s1-card .ph div { position: relative; overflow: hidden; border-radius: 8px; background: #9AA0A8; }
+        .s1-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(0.8) brightness(1.05); opacity: 0.85; }
+        .s1-card .t { height: 20px; width: 72%; border-radius: 6px; background: #8E949D; margin-top: 18px; }
+        .s1-card .l { height: 12px; border-radius: 6px; background: #A9AFB8; margin-top: 12px; }
+        .s1-card .p { position: absolute; right: 18px; top: 236px; height: 20px; width: 70px; border-radius: 6px; background: #8E949D; }
+        #s1-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,13,26,0.95) 0%, rgba(7,13,26,0.75) 30%, rgba(7,13,26,0) 55%), radial-gradient(90% 70% at 50% 60%, rgba(7,13,26,0.1) 0%, rgba(7,13,26,0.85) 100%); }
+        #s1-copy { position: absolute; left: 70px; top: 300px; width: 940px; }
+        #s1-copy .title { font-size: 90px; }
+        #s1-k { margin-bottom: 26px; }
+        #s1-c1 { left: 70px; top: 610px; }
+        #s1-c2 { left: 70px; top: 706px; }
+        #s1-flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      </style>
+      <div id="s1-root" data-composition-id="s1-annonces" data-width="1080" data-height="1920">
+        <div id="s1-cam" class="stage3d">
+          <div id="s1-plane" data-layout-allow-overflow></div>
+        </div>
+        <div id="s1-shade"></div>
+        <div id="s1-copy">
+          <div id="s1-k" class="kicker">Aujourd'hui</div>
+          <div class="title">
+            <span class="ln"><span id="s1-t1">Toutes les annonces</span></span>
+            <span class="ln"><span id="s1-t2">se <span class="blue">ressemblent.</span></span></span>
+          </div>
+        </div>
+        <div id="s1-c1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2.5h5L16 6"/></svg></span>Quelques photos</div>
+        <div id="s1-c2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 6h14M5 11h14M5 16h9"/></svg></span>Une description classique</div>
+<div id="s1-x3" style="position:absolute;inset:0;perspective:1400px"></div>
+        <div id="s1-flash"></div>
+      </div>
+      <script>
+        (function () {
+          const photos = ["c01", "c02", "c05", "c14", "c15", "c16", "c17", "c09", "p01", "p02", "p08"];
+          const plane = document.getElementById("s1-plane");
+          for (let i = 0; i < 36; i++) {
+            const a = photos[(i * 7) % photos.length], b = photos[(i * 5 + 3) % photos.length], c = photos[(i * 3 + 1) % photos.length];
+            const card = document.createElement("div");
+            card.className = "s1-card";
+            card.id = "s1-card" + i;
+            card.innerHTML =
+              '<div class="ph"><div style="grid-row:span 2"><img src="assets/photos/' + a + '.jpg"></div><div><img src="assets/photos/' + b + '.jpg"></div><div><img src="assets/photos/' + c + '.jpg"></div></div>' +
+              '<div class="t"></div><div class="p"></div><div class="l" style="width:94%"></div><div class="l" style="width:86%"></div><div class="l" style="width:60%"></div>';
+            plane.appendChild(card);
+          }
+          const tl = gsap.timeline({ paused: true });
+          // camera: tilted wall of identical listings, slow dolly + scroll
+          tl.fromTo(plane, { rotationX: 48, rotationZ: -16, z: -900, y: 300, x: 120 }, { rotationX: 40, rotationZ: -10, z: -500, y: -200, x: -60, duration: 7.4, ease: "sine.inOut" }, 0);
+          // push into the centre card
+          tl.to(plane, { rotationX: 0, rotationZ: 0, z: 900, y: 0, x: 0, duration: 1.0, ease: "power3.in" }, 7.4);
+          tl.to("#s1-shade", { opacity: 0.4, duration: 1.0 }, 7.4);
+          // copy
+          tl.from("#s1-k", { opacity: 0, x: -30, duration: 0.6, ease: "power3.out" }, 0.2);
+          tl.from("#s1-t1", { yPercent: 110, duration: 0.8, ease: "expo.out" }, 0.45);
+          tl.from("#s1-t2", { yPercent: 110, duration: 0.8, ease: "expo.out" }, 0.62);
+          tl.from("#s1-c1", { opacity: 0, scale: 0.6, x: -40, duration: 0.6, ease: "back.out(2)" }, 4.15);
+          tl.from("#s1-c2", { opacity: 0, scale: 0.6, x: -40, duration: 0.6, ease: "back.out(2)" }, 5.7);
+          // exit: copy lifts and blurs while camera dives
+          tl.to(["#s1-copy", "#s1-c1", "#s1-c2"], { y: -80, opacity: 0, filter: "blur(14px)", duration: 0.6, ease: "power2.in", stagger: 0.05 }, 7.35);
+          tl.to(["#s1-copy", "#s1-c1", "#s1-c2"], { opacity: 0.15, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, 6.6);
+          const x3 = PDExtrude(document.getElementById("s1-x3"), "C'EST\nTOUT.", { size: 230, x: 540, y: 1020 });
+          tl.fromTo(x3, { y: -900, rotationX: 75, rotationZ: -8, opacity: 0 }, { y: 0, rotationX: 10, rotationZ: 0, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, 6.8);
+          tl.to(x3, { rotationY: 10, rotationX: 4, duration: 0.6, ease: "sine.inOut" }, 7.35);
+          PDBurst(tl, document.getElementById("s1-x3"), 540, 1020, 6.95, { r: 560, seed: 21, n: 26, dur: 1.2, hold: 0.9 });
+          tl.to("#s1-flash", { opacity: 0.85, duration: 0.25, ease: "power2.in" }, 8.0);
+          tl.to("#s1-flash", { opacity: 0, duration: 0.15 }, 8.25);
+          window.__timelines["s1-annonces"] = PDScale(tl, 0.708);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

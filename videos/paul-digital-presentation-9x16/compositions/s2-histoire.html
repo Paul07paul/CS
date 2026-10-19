@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s2-root { position: absolute; inset: 0; overflow: hidden; }
+        #s2-whip { position: absolute; inset: 0; }
+        #s2-card { left: 160px; top: 760px; width: 760px; height: 700px; transform-style: preserve-3d; }
+        #s2-card .face { position: absolute; inset: 0; border-radius: 34px; padding: 22px; background: linear-gradient(140deg, rgba(255,255,255,0.2), rgba(255,255,255,0.06)); backdrop-filter: blur(24px); border: 1.5px solid rgba(255,255,255,0.3); box-shadow: 0 50px 120px rgba(0,4,20,0.65), inset 0 1px 0 rgba(255,255,255,0.4); }
+        #s2-ph { left: 22px; top: 22px; width: 716px; height: 500px; border-radius: 22px; }
+        #s2-ph img { filter: grayscale(1) brightness(1.05) contrast(0.8); }
+        #s2-cap { position: absolute; left: 34px; top: 548px; font-weight: 800; font-size: 40px; letter-spacing: -0.01em; white-space: nowrap; }
+        #s2-sub { position: absolute; left: 34px; top: 604px; font-weight: 600; font-size: 24px; color: #9DB8E6; white-space: nowrap; }
+        #s2-dots { position: absolute; right: 34px; top: 560px; display: flex; gap: 10px; }
+        #s2-dots i { display: block; width: 14px; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.3); }
+        #s2-dots i:first-child { background: #3D86FF; width: 40px; }
+        #s2-sheen { position: absolute; left: 22px; top: 22px; width: 716px; height: 500px; border-radius: 22px; overflow: hidden; }
+        #s2-sheen i { position: absolute; top: -50%; left: 0; width: 160px; height: 200%; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.45), rgba(255,255,255,0)); transform: rotate(20deg); }
+        #s2-copy { position: absolute; left: 70px; top: 300px; width: 940px; }
+        #s2-copy .title { font-size: 88px; }
+        #s2-a, #s2-b { position: absolute; left: 0; top: 70px; width: 940px; }
+        #s2-ch1 { left: 90px; top: 700px; }
+        #s2-ch2 { left: 560px; top: 1500px; }
+        #s2-ch3 { left: 80px; top: 1500px; }
+        .s2-l { display: inline-block; }
+      </style>
+      <div id="s2-root" data-composition-id="s2-histoire" data-width="1080" data-height="1920">
+        <div id="s2-whip">
+          <div class="stage3d">
+            <div id="s2-card" class="p3">
+              <div class="face">
+                <div id="s2-ph" class="photo"><img id="s2-img" src="assets/photos/c01.jpg" /></div>
+                <div id="s2-sheen"><i id="s2-sh"></i></div>
+                <div id="s2-cap">Votre bien</div>
+                <div id="s2-sub">Unique. Comme son histoire.</div>
+                <div id="s2-dots"><i></i><i></i><i></i></div>
+              </div>
+            </div>
+          </div>
+          <div id="s2-copy">
+            <div id="s2-k" class="kicker">Pourtant</div>
+            <div id="s2-a" class="title">
+              <span class="ln"><span id="s2-a1">Chaque bien a</span></span>
+              <span class="ln"><span id="s2-a2"><span class="blue">son histoire.</span></span></span>
+            </div>
+          </div>
+          <div id="s2-x3" style="position:absolute;inset:0;perspective:1400px"></div>
+          <div id="s2-pre" style="position:absolute;left:0;top:700px;width:1080px;text-align:center;font-weight:800;font-size:50px;color:#DCE8FF">Il mérite de</div>
+          <div id="s2-ch1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 20l7-11 4 6 3-4 6 9z"/></svg></span>Vue sur les sommets</div>
+          <div id="s2-ch2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M8 13V5a2 2 0 014 0M16 13V5"/></svg></span>Piscine &amp; sauna</div>
+          <div id="s2-ch3" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.5 6 .8-4.4 4.1 1.1 6L12 16.6 6.7 19.4l1.1-6L3.4 9.3l6-.8z"/></svg></span>Au pied des pistes</div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // the card rises out of the crowd and turns to face us
+          tl.fromTo("#s2-card", { rotationY: -38, rotationX: 22, z: -700, x: -300, y: 120 }, { rotationY: -14, rotationX: 4, z: 0, x: 0, y: 0, duration: 1.4, ease: "expo.out" }, 0);
+          tl.to("#s2-card", { rotationY: 10, rotationX: -3, duration: 4.6, ease: "sine.inOut" }, 1.4);
+          // grey → colour: the bien comes alive
+          tl.to("#s2-img", { filter: "grayscale(0) brightness(1) contrast(1.05)", duration: 1.2, ease: "power2.inOut" }, 0.9);
+          tl.fromTo("#s2-img", { scale: 1.18 }, { scale: 1.0, duration: 6, ease: "none" }, 0);
+          tl.fromTo("#s2-sh", { x: -260 }, { x: 900, duration: 0.9, ease: "power2.inOut" }, 1.5);
+          // copy A
+          tl.from("#s2-k", { opacity: 0, x: -30, duration: 0.5, ease: "power3.out" }, 0.05);
+          tl.from("#s2-a1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 0.35);
+          tl.from("#s2-a2", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 0.8);
+          // particularités: chips spring in around the card
+          tl.from("#s2-ch1", { opacity: 0, scale: 0.4, y: 30, duration: 0.6, ease: "back.out(2.2)" }, 2.15);
+          tl.from("#s2-ch2", { opacity: 0, scale: 0.4, x: 40, duration: 0.6, ease: "back.out(2.2)" }, 2.45);
+          tl.from("#s2-ch3", { opacity: 0, scale: 0.4, y: -30, duration: 0.6, ease: "back.out(2.2)" }, 2.75);
+          tl.fromTo(["#s2-ch1", "#s2-ch2", "#s2-ch3"], { y: 0 }, { y: -14, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.1 }, 3.4);
+          // swap A → B
+          tl.to(["#s2-a1", "#s2-a2"], { yPercent: -110, duration: 0.45, ease: "power3.in", stagger: 0.06 }, 3.85);
+          // everything recedes, the big 3D title flies in
+          tl.to(["#s2-card", "#s2-ch1", "#s2-ch2", "#s2-ch3", "#s2-copy"], { opacity: 0.12, filter: "blur(10px)", scale: 0.85, duration: 0.45, ease: "power2.in" }, 3.9);
+          tl.fromTo("#s2-pre", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 3.95);
+          const x3 = PDExtrude(document.getElementById("s2-x3"), "SE\nDÉMARQUER", { size: 150, x: 540, y: 1000 });
+          tl.fromTo(x3, { z: -2600, rotationX: 45, rotationY: 60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 6, rotationY: 18, scale: 1, opacity: 1, duration: 0.65, ease: "expo.out" }, 4.2);
+          tl.to(x3, { rotationY: -14, rotationX: -2, duration: 1.4, ease: "sine.inOut" }, 4.85);
+          PDBurst(tl, document.getElementById("s2-x3"), 540, 1000, 4.3, { r: 560, seed: 3 });
+          // whip exit
+          tl.to("#s2-whip", { x: -1500, filter: "blur(30px)", opacity: 0, duration: 0.45, ease: "power3.in" }, 5.6);
+          window.__timelines["s2-histoire"] = PDScale(tl, 0.708);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

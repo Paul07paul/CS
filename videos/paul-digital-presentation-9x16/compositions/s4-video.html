@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s4-root { position: absolute; inset: 0; overflow: hidden; }
+        #s4-all { position: absolute; inset: 0; }
+        #s4-inputs { position: absolute; inset: 0; perspective: 1500px; }
+        .s4-in { position: absolute; border-radius: 22px; overflow: hidden; border: 5px solid rgba(255,255,255,0.85); box-shadow: 0 30px 70px rgba(0,4,20,0.6); }
+        .s4-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        #s4-i1 { left: 80px; top: 470px; width: 420px; height: 280px; }
+        #s4-i2 { left: 560px; top: 560px; width: 440px; height: 290px; }
+        #s4-i3 { left: 140px; top: 830px; width: 400px; height: 260px; }
+        #s4-info { left: 580px; top: 920px; width: 420px; height: 200px; padding: 26px 30px; }
+        #s4-info .r { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 25px; white-space: nowrap; margin-bottom: 14px; }
+        #s4-info .r i { display: block; width: 12px; height: 12px; border-radius: 6px; background: #3D86FF; box-shadow: 0 0 12px #3D86FF; }
+        #s4-kin { position: absolute; left: 80px; top: 390px; }
+        #s4-wire { position: absolute; inset: 0; }
+        #s4-copy { position: absolute; left: 70px; top: 330px; width: 940px; text-align: center; }
+        #s4-copy .title { font-size: 66px; }
+        #s4-player-stage { position: absolute; inset: 0; perspective: 1800px; }
+        #s4-player { zoom: 0.89; left: 57px; top: 900px; width: 1100px; height: 700px; padding: 18px; transform-style: preserve-3d; }
+        #s4-screen { left: 18px; top: 18px; width: 1064px; height: 598px; border-radius: 18px; }
+        #s4-screen img { transform-origin: 60% 40%; }
+        #s4-scanline { position: absolute; top: 0; width: 4px; height: 598px; margin-left: -2px; background: #BFE0FF; box-shadow: 0 0 30px 8px rgba(61,134,255,0.9); }
+        #s4-ui { position: absolute; left: 18px; top: 630px; width: 1064px; height: 52px; display: flex; align-items: center; gap: 22px; }
+        #s4-play { width: 52px; height: 52px; border-radius: 26px; background: #1A69FA; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(26,105,250,0.8); flex: none; }
+        #s4-play svg { width: 22px; height: 22px; fill: #fff; }
+        #s4-track { position: relative; flex: 1; height: 10px; border-radius: 5px; background: rgba(255,255,255,0.18); overflow: hidden; }
+        #s4-prog { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #1A69FA, #5EE7FF); transform-origin: 0 50%; }
+        #s4-time { font-weight: 700; font-size: 22px; color: #BFD3F5; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        #s4-hd { font-weight: 800; font-size: 18px; color: #fff; border: 2px solid rgba(255,255,255,0.6); border-radius: 8px; padding: 3px 8px; }
+        #s4-ch1 { left: 330px; top: 1540px; }
+        #s4-ch2 { left: 560px; top: 1420px; }
+        #s4-ch3 { left: 90px; top: 1420px; }
+        #s4-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(140,200,255,0.9), rgba(140,200,255,0) 60%); opacity: 0; }
+        .trk { position: absolute; width: 46px; height: 46px; border: 0 solid #8EC5FF; filter: drop-shadow(0 0 8px #3D86FF); }
+        .trk.tl { left: -26px; top: -26px; border-left-width: 5px; border-top-width: 5px; border-top-left-radius: 14px; }
+        .trk.tr { right: -26px; top: -26px; border-right-width: 5px; border-top-width: 5px; border-top-right-radius: 14px; }
+        .trk.bl { left: -26px; bottom: -26px; border-left-width: 5px; border-bottom-width: 5px; border-bottom-left-radius: 14px; }
+        .trk.br { right: -26px; bottom: -26px; border-right-width: 5px; border-bottom-width: 5px; border-bottom-right-radius: 14px; }
+      </style>
+      <div id="s4-root" data-composition-id="s4-video" data-width="1080" data-height="1920">
+        <div id="s4-all">
+          <div id="s4-inputs">
+            <div id="s4-kin" class="kicker">Vos photos · vos infos</div>
+            <div id="s4-i1" class="s4-in"><img src="assets/photos/c15.jpg" /></div>
+            <div id="s4-i2" class="s4-in"><img src="assets/photos/c14.jpg" /></div>
+            <div id="s4-i3" class="s4-in"><img src="assets/photos/c01.jpg" /></div>
+            <div id="s4-info" class="glass">
+              <div class="r"><i></i>Chalet · 12 voyageurs</div>
+              <div class="r"><i></i>4 suites · 4 salles d'eau</div>
+              <div class="r"><i></i>Piscine &amp; sauna</div>
+            </div>
+          </div>
+          <canvas id="s4-wire" class="wire" width="1080" height="1920"></canvas>
+          <div id="s4-x3" style="position:absolute;inset:0;perspective:1400px"></div>
+          <div id="s4-player-stage">
+            <div id="s4-player" class="glass">
+              <i class="trk tl"></i><i class="trk tr"></i><i class="trk bl"></i><i class="trk br"></i><div id="s4-screen" class="photo"><img id="s4-img" src="assets/photos/p01.jpg" /></div>
+              <div id="s4-scanline"></div>
+              <div id="s4-ui">
+                <div id="s4-play"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></div>
+                <div id="s4-track"><div id="s4-prog"></div></div>
+                <div id="s4-time">00:24</div>
+                <div id="s4-hd">4K</div>
+              </div>
+            </div>
+          </div>
+          <div id="s4-copy">
+            <div class="title"><span class="ln"><span id="s4-t1">Une <span class="blue">vidéo animée</span>, moderne et dynamique.</span></span></div>
+          </div>
+          <div id="s4-ch1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5L8 13.8 2 9.2h7.6z"/></svg></span>Tous ses atouts</div>
+          <div id="s4-ch2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span>Dynamique</div>
+          <div id="s4-ch3" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16v10H4zM10 10l4 2-4 2z"/></svg></span>Motion design</div>
+          <div id="s4-flash"></div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const W = PDWire.create(document.getElementById("s4-wire"), { color: "#4DA3FF" });
+          W.cam.yaw = 0; W.cam.pitch = 10; W.cam.dist = 34; W.cam.ty = 4; W.cam.fov = 46;
+          const house = W.add(PDWire.models.chalet(), { draw: 0 });
+          W.start();
+          const tl = gsap.timeline({ paused: true });
+          tl.from("#s4-all", { scale: 0.55, filter: "blur(20px)", opacity: 0, duration: 0.55, ease: "power3.out" }, 0);
+          // inputs float in from the left, in depth
+          tl.from("#s4-kin", { opacity: 0, x: -30, duration: 0.5 }, 0.15);
+          ["#s4-i1", "#s4-i2", "#s4-i3", "#s4-info"].forEach((s, i) => {
+            tl.from(s, { opacity: 0, x: -200, rotationY: 40, z: -300, duration: 0.6, ease: "expo.out" }, 0.15 + i * 0.12);
+            // then get pulled into the house (absorbed)
+            tl.to(s, { x: [250, -240, 200, -250][i], y: [350, 255, 0, -60][i], scale: 0.05, rotation: 20 - i * 15, opacity: 0, duration: 0.6, ease: "power3.in" }, 1.2 + i * 0.08);
+          });
+          tl.to("#s4-kin", { opacity: 0, duration: 0.3 }, 1.2);
+          // wireframe chalet builds itself while the camera swings from the front to the side
+          tl.to(house, { draw: 1, duration: 2.6, ease: "power1.inOut" }, 1.3);
+          tl.fromTo(W.cam, { yaw: -8, pitch: 6, dist: 40 }, { yaw: 52, pitch: 20, dist: 30, duration: 3.2, ease: "power2.inOut" }, 1.6);
+          tl.to(W.cam, { yaw: 0, pitch: 4, dist: 26, duration: 0.8, ease: "power3.inOut" }, 4.8);
+          tl.from("#s4-t1", { yPercent: 110, duration: 0.7, ease: "expo.out" }, 3.4);
+          const x3 = PDExtrude(document.getElementById("s4-x3"), "VIDÉO\nANIMÉE", { size: 200, x: 540, y: 1000 });
+          tl.fromTo(x3, { z: -2600, rotationX: -40, rotationY: -60, scale: 0.6, opacity: 0 }, { z: 0, rotationX: -6, rotationY: -16, scale: 1, opacity: 1, duration: 0.6, ease: "expo.out" }, 2.0);
+          tl.to(x3, { rotationY: 12, duration: 0.65, ease: "sine.inOut" }, 2.6);
+          tl.to(x3, { z: 1500, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "power3.in" }, 3.25);
+          PDBurst(tl, document.getElementById("s4-x3"), 540, 1000, 2.1, { r: 560, seed: 11, dur: 1.4, hold: 1.05 });
+          // the player materialises around the wireframe; a scan line reveals the real property
+          tl.from("#s4-player", { opacity: 0, scale: 0.92, rotationX: 18, duration: 0.6, ease: "expo.out" }, 5.0);
+          tl.fromTo("#s4-screen", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.9, ease: "power2.inOut" }, 5.25);
+          tl.fromTo("#s4-scanline", { x: 18, opacity: 1 }, { x: 1082, duration: 0.9, ease: "power2.inOut" }, 5.25);
+          tl.to("#s4-scanline", { opacity: 0, duration: 0.15 }, 6.15);
+          tl.to(house, { alpha: 0, duration: 0.6 }, 5.7);
+          tl.to("#s4-flash", { opacity: 0.6, duration: 0.15, yoyo: true, repeat: 1 }, 6.1);
+          // the "video" plays: ken burns + progress bar + 3D sway
+          tl.fromTo("#s4-img", { scale: 1.25, x: 40 }, { scale: 1.05, x: -30, duration: 3.6, ease: "none" }, 5.25);
+          tl.fromTo("#s4-prog", { scaleX: 0 }, { scaleX: 0.85, duration: 3.4, ease: "none" }, 5.4);
+          tl.fromTo("#s4-player", { rotationY: -10 }, { rotationY: 8, duration: 3.6, ease: "sine.inOut" }, 5.2);
+          tl.from("#s4-ch2", { opacity: 0, scale: 0.4, x: 40, duration: 0.55, ease: "back.out(2.2)" }, 5.9);
+          tl.from("#s4-ch3", { opacity: 0, scale: 0.4, y: -30, duration: 0.55, ease: "back.out(2.2)" }, 6.5);
+          tl.from("#s4-ch1", { opacity: 0, scale: 0.4, x: -40, duration: 0.55, ease: "back.out(2.2)" }, 7.4);
+          // camera pans to the side: everything slides out left in depth
+          tl.to("#s4-all", { x: -1700, rotationY: 0, filter: "blur(24px)", opacity: 0, duration: 0.5, ease: "power3.in" }, 8.5);
+          tl.fromTo("#s4-player .trk", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out", stagger: 0.04 }, 5.1);
+          tl.to("#s4-player .trk", { scale: 1.12, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 5.6);
+          window.__timelines["s4-video"] = PDScale(tl, 0.7);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

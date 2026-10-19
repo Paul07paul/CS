@@ -96,7 +96,7 @@
           tl.fromTo("#s5-cursor", { x: 1180, y: 600 }, { x: 800, y: 412, duration: 1.1, ease: "power3.inOut" }, 5.4);
           tl.to("#s5-cursor", { scale: 0.82, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "0 0" }, 6.55);
           tl.fromTo("#s5-ripple", { scale: 0.2, opacity: 1 }, { scale: 1.6, opacity: 0, duration: 0.6, ease: "expo.out" }, 6.58);
-          tl.set("#s5-ripple", { opacity: 0 }, 0);
+          gsap.set("#s5-ripple", { opacity: 0 });
           // exit: tilt the camera down and push through
           tl.to("#s5-all", { y: -1100, rotationX: 0, filter: "blur(20px)", opacity: 0, duration: 0.5, ease: "power3.in" }, 8.1);
           window.__timelines["s5-site"] = PDScale(tl, 0.494);

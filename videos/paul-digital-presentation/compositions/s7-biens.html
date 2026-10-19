@@ -55,7 +55,7 @@
             if (i < 3) tl.to("#s7-w" + i, { yPercent: -100, duration: 0.35, ease: "expo.out" }, T[i + 1]);
             tl.to("#s7-i" + i, { background: "#3D86FF", width: 36, duration: 0.2 }, T[i]);
           });
-          tl.set(["#s7-w1", "#s7-w2", "#s7-w3"], { yPercent: 100 }, 0);
+          gsap.set(["#s7-w1", "#s7-w2", "#s7-w3"], { yPercent: 100 });
           tl.from("#s7-t", { yPercent: 110, duration: 0.5, ease: "expo.out" }, 2.85);
           const x3 = PDExtrude(document.getElementById("s7-x3"), "DE TOUT.", { size: 150, x: 960, y: 225 });
           tl.fromTo(x3, { z: -2400, rotationX: 50, rotationY: 40, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 8, rotationY: -12, scale: 1, opacity: 1, duration: 0.55, ease: "expo.out" }, 3.1);

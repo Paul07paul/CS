@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/wire.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #070D1A; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #070D1A; font-family: "Montserrat", sans-serif; color: #F2F6FF; }
+
+      /* ---- shared design system (used by every scene) ---- */
+      .abs { position: absolute; }
+      .stage3d { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 45%; }
+      .p3 { position: absolute; transform-style: preserve-3d; }
+      .glass {
+        position: absolute; border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+        backdrop-filter: blur(24px) saturate(1.4);
+        border: 1.5px solid rgba(255,255,255,0.22);
+        box-shadow: 0 30px 80px rgba(0,6,24,0.55), inset 0 1px 0 rgba(255,255,255,0.35);
+      }
+      .glass-light {
+        position: absolute; border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255,255,255,0.86), rgba(255,255,255,0.55));
+        backdrop-filter: blur(22px) saturate(1.5);
+        border: 1.5px solid rgba(255,255,255,0.95);
+        box-shadow: 0 24px 60px rgba(12,25,41,0.22), inset 0 1px 0 #fff;
+        color: #0C1929;
+      }
+      .chip {
+        position: absolute; height: 72px; border-radius: 36px; padding: 0 30px 0 10px;
+        display: flex; align-items: center; gap: 14px; white-space: nowrap;
+        font-weight: 700; font-size: 27px; color: #F2F6FF;
+        background: linear-gradient(140deg, rgba(255,255,255,0.2), rgba(255,255,255,0.07));
+        backdrop-filter: blur(18px); border: 1.5px solid rgba(255,255,255,0.3);
+        box-shadow: 0 16px 40px rgba(0,6,24,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+      }
+      .chip .ic { width: 52px; height: 52px; border-radius: 26px; display: flex; align-items: center; justify-content: center; flex: none; background: #1A69FA; box-shadow: 0 0 22px rgba(26,105,250,0.7); }
+      .chip svg { width: 28px; height: 28px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .kicker { font-weight: 700; font-size: 24px; letter-spacing: 0.32em; text-transform: uppercase; color: #7FB6FF; white-space: nowrap; }
+      .title { font-weight: 800; font-size: 96px; line-height: 1.02; letter-spacing: -0.03em; color: #F2F6FF; }
+      .blue { color: #3D86FF; }
+      .ln { display: block; overflow: hidden; padding-bottom: 0.06em; }
+      .ln > span { display: block; }
+      .photo { position: absolute; overflow: hidden; }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      canvas.wire { position: absolute; inset: 0; width: 100%; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="44.5" data-width="1080" data-height="1920">
+      <!-- persistent world: dark navy, moving glows, wireframe floor -->
+      <div id="bg" data-composition-id="bg" data-composition-src="compositions/bg.html" data-start="0" data-duration="44.5" data-track-index="0" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+
+      <!-- scenes, inside a camera rig the root timeline dives / slams / shakes -->
+      <div id="cam" style="position:absolute;inset:0;transform-origin:50% 50%">
+      <div id="s1" data-composition-id="s1-annonces" data-composition-src="compositions/s1-annonces.html" data-start="0.0" data-duration="5.95" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s2" data-composition-id="s2-histoire" data-composition-src="compositions/s2-histoire.html" data-start="5.75" data-duration="4.25" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s3" data-composition-id="s3-logo" data-composition-src="compositions/s3-logo.html" data-start="9.8" data-duration="2.75" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s4" data-composition-id="s4-video" data-composition-src="compositions/s4-video.html" data-start="12.35" data-duration="6.3" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s5" data-composition-id="s5-site" data-composition-src="compositions/s5-site.html" data-start="18.45" data-duration="4.25" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s6" data-composition-id="s6-cibles" data-composition-src="compositions/s6-cibles.html" data-start="22.5" data-duration="3.75" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s7" data-composition-id="s7-biens" data-composition-src="compositions/s7-biens.html" data-start="26.05" data-duration="4.1" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s8" data-composition-id="s8-supports" data-composition-src="compositions/s8-supports.html" data-start="29.95" data-duration="4.55" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s9" data-composition-id="s9-objectif" data-composition-src="compositions/s9-objectif.html" data-start="34.3" data-duration="3.6" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s10" data-composition-id="s10-final" data-composition-src="compositions/s10-final.html" data-start="37.7" data-duration="6.8" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      </div>
+
+      <!-- light bursts, flash, scene label, grain -->
+      <div id="fx" data-composition-id="fx" data-composition-src="compositions/fx.html" data-start="0" data-duration="44.5" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+
+      <!-- audio -->
+      <audio id="vo" src="assets/audio/vo.wav" data-start="0" data-duration="44.5" data-track-index="10" data-volume="1"></audio>
+      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="44.5" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="44.5" data-track-index="12" data-volume="1"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // camera rig: dive into the focal point of the outgoing scene, slam back on the new one, shake on the hit
+      const CUTS = [[5.75, 540, 960], [9.8, 540, 1000], [12.35, 540, 900], [18.45, 540, 1080], [22.5, 540, 1100], [26.05, 540, 960], [29.95, 540, 1100], [34.3, 540, 1000], [37.7, 540, 480]];
+      const SHAKE = [[0, 0], [14, -9], [-12, 8], [9, -6], [-6, 4], [3, -2], [0, 0]];
+      CUTS.forEach(([t, fx, fy]) => {
+        tl.fromTo("#cam", { scale: 1, transformOrigin: fx + "px " + fy + "px" }, { scale: 2.4, duration: 0.32, ease: "power3.in", immediateRender: false }, t - 0.32);
+        tl.fromTo("#cam", { scale: 1.22, transformOrigin: "540px 960px" }, { scale: 1, duration: 0.55, ease: "expo.out", immediateRender: false }, t);
+        tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x, y: y, duration: 0.04 })), ease: "none" }, t);
+      });
+      // a few extra impacts on strong beats (logo lock, scan reveal, clé en main, final logo)
+      [5.2, 8.95, 10.6, 13.9, 16.6, 19.6, 25.2, 29.15, 31.35, 35.45, 36.5, 38.1].forEach((t) => {
+        tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x * 0.7, y: y * 0.7, duration: 0.04 })), ease: "none" }, t);
+      });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

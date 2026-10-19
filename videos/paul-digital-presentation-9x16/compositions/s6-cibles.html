@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s6-root { position: absolute; inset: 0; overflow: hidden; }
+        #s6-all { position: absolute; inset: 0; }
+        #s6-stage { position: absolute; inset: 0; perspective: 1800px; perspective-origin: 50% 40%; }
+        #s6-ring { position: absolute; left: 540px; top: 1000px; width: 0; height: 0; transform-style: preserve-3d; }
+        .s6-card { position: absolute; left: -430px; top: -150px; width: 860px; height: 300px; padding: 40px 44px; background: linear-gradient(150deg, #22386A, #121F40) !important; backface-visibility: hidden; display: grid; grid-template-columns: 150px 1fr; grid-template-rows: 1fr 1fr; column-gap: 40px; align-items: center; text-align: left; }
+        .s6-card .ico { width: 150px; height: 150px; border-radius: 44px; background: linear-gradient(145deg, #3D86FF, #1A4FD0); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 50px rgba(26,105,250,0.65), inset 0 2px 0 rgba(255,255,255,0.4); }
+        .s6-card .ico svg { width: 80px; height: 80px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s6-card .ico { grid-row: 1 / span 2; } .s6-card .h { align-self: end; margin-top: 0px; font-weight: 800; font-size: 44px; line-height: 1.08; letter-spacing: -0.02em; }
+        .s6-card .s { align-self: start; margin-top: 12px; font-weight: 600; font-size: 25px; line-height: 1.35; color: #A9C1EA; }
+        #s6-k { position: absolute; left: 0; top: 380px; width: 1080px; text-align: center; }
+        #s6-x { position: absolute; inset: 0; perspective: 1400px; }
+        #s6-xr { position: absolute; left: 540px; top: 1000px; width: 0; height: 0; transform-style: preserve-3d; }
+        .s6-xl { position: absolute; left: -900px; top: -190px; width: 1800px; text-align: center; font-weight: 900; font-size: 190px; line-height: 0.92; letter-spacing: -0.05em; white-space: pre; }
+        .s6-xl.front { color: #FFFFFF; text-shadow: 0 0 40px rgba(61,134,255,0.9); }
+        #s6-rings { position: absolute; left: 540px; top: 1000px; width: 1600px; height: 1600px; margin: -800px 0 0 -800px; overflow: visible; }
+        #s6-rings ellipse { fill: none; stroke: #5EB0FF; stroke-width: 6; filter: drop-shadow(0 0 12px #3D86FF); }
+        .s6-pt { position: absolute; opacity: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 6px; background: #9FD0FF; box-shadow: 0 0 14px #3D86FF; }
+        #s6-under { position: absolute; left: 0; top: 1330px; width: 1080px; text-align: center; font-weight: 700; font-size: 36px; color: #DCE8FF; }
+      </style>
+      <div id="s6-root" data-composition-id="s6-cibles" data-width="1080" data-height="1920">
+        <div id="s6-all">
+          <div id="s6-k" class="kicker">Pour qui ?</div>
+          <div id="s6-stage">
+            <div id="s6-ring">
+              <div id="s6-a" class="s6-card glass">
+                <div class="ico"><svg viewBox="0 0 48 48"><path d="M8 42V14l14-6v34M22 42V18l18 6v18M4 42h40M13 20h4M13 27h4M13 34h4M28 28h6M28 35h6"/></svg></div>
+                <div class="h">Agences immobilières</div>
+                <div class="s">Des annonces qui sortent du lot.</div>
+              </div>
+              <div id="s6-b" class="s6-card glass">
+                <div class="ico"><svg viewBox="0 0 48 48"><circle cx="16" cy="24" r="8"/><path d="M24 24h20M38 24v7M32 24v5"/></svg></div>
+                <div class="h">Conciergeries</div>
+                <div class="s">Des logements qui se louent mieux.</div>
+              </div>
+              <div id="s6-c" class="s6-card glass">
+                <div class="ico"><svg viewBox="0 0 48 48"><path d="M6 22L24 8l18 14M11 18v24h26V18"/><circle cx="24" cy="27" r="5"/><path d="M16 40c1.5-4.5 4.5-6.5 8-6.5s6.5 2 8 6.5"/></svg></div>
+                <div class="h">Propriétaires</div>
+                <div class="s">Vente ou location en direct.</div>
+              </div>
+            </div>
+          </div>
+          <svg id="s6-rings" viewBox="-800 -800 1600 1600"><ellipse id="s6-r1" cx="0" cy="0" rx="760" ry="230"/><ellipse id="s6-r2" cx="0" cy="0" rx="640" ry="300"/></svg>
+          <div id="s6-x"><div id="s6-xr"></div></div>
+          <div id="s6-pts"></div>
+          <div id="s6-under">De la création à la diffusion.</div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          tl.from("#s6-all", { y: 1000, filter: "blur(20px)", opacity: 0, duration: 0.55, ease: "power3.out" }, 0);
+          tl.from("#s6-k", { opacity: 0, y: 20, duration: 0.5 }, 0.15);
+          // three cards on an arc; the camera orbits as each one is named
+          const R = 900;
+          const ang = [-38, 0, 38];
+          ["#s6-a", "#s6-b", "#s6-c"].forEach((s, i) => {
+            const a = ang[i] * Math.PI / 180;
+            gsap.set(s, { y: (i - 1) * 360, z: -Math.abs(i - 1) * 120, rotationX: -ang[i] * 0.4 });
+          });
+          tl.fromTo("#s6-ring", { rotationY: 18, rotationX: 10 }, { rotationY: -18, rotationX: -6, duration: 5.2, ease: "power1.inOut" }, 0);
+          tl.from("#s6-a", { opacity: 0, x: -700, rotationY: 50, duration: 0.8, ease: "expo.out" }, 0.15);
+          tl.from("#s6-b", { opacity: 0, x: 700, rotationY: -50, duration: 0.8, ease: "expo.out" }, 1.5);
+          tl.from("#s6-c", { opacity: 0, x: -700, rotationY: 50, duration: 0.8, ease: "expo.out" }, 2.75);
+          // they converge into one "clé en main" answer
+          // cards fly apart (never stack) before the big title lands
+          ["#s6-a", "#s6-b", "#s6-c"].forEach((s, i) => {
+            tl.to(s, { x: [-1300, 1300, -1300][i], y: [-700, 0, 700][i], z: 300, rotationY: [-70, 70, -70][i], opacity: 0, filter: "blur(12px)", duration: 0.5, ease: "power3.in" }, 4.75 + i * 0.05);
+          });
+          tl.to("#s6-k", { opacity: 0, duration: 0.3 }, 5.0);
+          // giant extruded "CLÉ EN MAIN": real 3D layers, flies in and swings, rings orbit, particles burst
+          const xr = document.getElementById("s6-xr");
+          for (let i = 13; i >= 0; i--) {
+            const d = document.createElement("div");
+            d.className = "s6-xl" + (i === 0 ? " front" : "");
+            d.textContent = "CLÉ EN\nMAIN";
+            const c = Math.round(255 - i * 14), b = Math.round(255 - i * 6);
+            if (i) d.style.color = "rgb(" + Math.round(c * 0.35) + "," + Math.round(c * 0.55) + "," + b + ")";
+            d.style.transform = "translateZ(" + (-i * 7) + "px)";
+            xr.appendChild(d);
+          }
+          tl.fromTo(xr, { z: -2600, rotationX: 40, rotationY: -70, scale: 0.6, opacity: 0 }, { z: 0, rotationX: 8, rotationY: -22, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" }, 5.2);
+          tl.to(xr, { rotationY: 18, rotationX: -4, duration: 2.2, ease: "sine.inOut" }, 5.9);
+          tl.fromTo("#s6-rings", { scale: 0.2, opacity: 0, rotationX: 62 }, { scale: 1, opacity: 1, rotationX: 62, duration: 0.6, ease: "expo.out" }, 5.35);
+          tl.fromTo("#s6-r1", { rotation: 0, transformOrigin: "50% 50%" }, { rotation: 140, duration: 2.6, ease: "none" }, 5.35);
+          tl.fromTo("#s6-r2", { rotation: 30, transformOrigin: "50% 50%" }, { rotation: -110, duration: 2.6, ease: "none" }, 5.35);
+          const pts = document.getElementById("s6-pts");
+          let seed = 7;
+          const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+          for (let i = 0; i < 34; i++) {
+            const p = document.createElement("div");
+            p.className = "s6-pt";
+            p.style.left = "540px"; p.style.top = "1000px";
+            pts.appendChild(p);
+            const a = rnd() * Math.PI * 2, r = 380 + rnd() * 620;
+            tl.fromTo(p, { x: 0, y: 0, scale: 0.4 + rnd(), opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.6, opacity: 0, duration: 1.4 + rnd(), ease: "expo.out", immediateRender: false }, 5.4 + rnd() * 0.15);
+          }
+          tl.from("#s6-under", { opacity: 0, y: 20, duration: 0.5 }, 6.0);
+          // exit: zoom through
+          tl.to("#s6-all", { scale: 2.6, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power3.in" }, 7.6);
+          window.__timelines["s6-cibles"] = PDScale(tl, 0.469);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

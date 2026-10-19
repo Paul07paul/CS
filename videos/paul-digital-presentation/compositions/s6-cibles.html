@@ -61,7 +61,7 @@
           const ang = [-38, 0, 38];
           ["#s6-a", "#s6-b", "#s6-c"].forEach((s, i) => {
             const a = ang[i] * Math.PI / 180;
-            tl.set(s, { x: Math.sin(a) * R, z: Math.cos(a) * R - R, rotationY: ang[i] }, 0);
+            gsap.set(s, { x: Math.sin(a) * R, z: Math.cos(a) * R - R, rotationY: ang[i] });
           });
           tl.fromTo("#s6-ring", { rotationY: 26 }, { rotationY: -26, duration: 5.2, ease: "power1.inOut" }, 0);
           tl.from("#s6-a", { opacity: 0, y: 140, rotationX: -50, duration: 0.8, ease: "expo.out" }, 0.15);

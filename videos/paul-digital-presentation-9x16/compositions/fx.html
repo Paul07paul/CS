@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #fx-root { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        /* light burst at every cut: hot core + rays + flash */
+        .fx-burst { position: absolute; inset: 0; opacity: 0; }
+        .fx-core { position: absolute; width: 1400px; height: 1400px; margin: -700px 0 0 -700px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(190,225,255,0.9) 12%, rgba(61,134,255,0.55) 30%, rgba(61,134,255,0) 62%); }
+        .fx-rays { position: absolute; width: 2600px; height: 2600px; margin: -1300px 0 0 -1300px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(200,230,255,0.55) 0deg 1.2deg, rgba(200,230,255,0) 1.2deg 9deg); -webkit-mask: radial-gradient(circle, #000 0%, #000 18%, transparent 60%); mask: radial-gradient(circle, #000 0%, #000 18%, transparent 60%); }
+        .fx-flash { position: absolute; inset: 0; background: #EAF3FF; opacity: 0; }
+        /* label pill, top-left, changes per scene */
+        #fx-label { position: absolute; left: 60px; top: 190px; height: 64px; padding: 0 28px 0 18px; border-radius: 32px; display: flex; align-items: center; gap: 14px; background: rgba(8,14,30,0.72); backdrop-filter: blur(16px); border: 1.5px solid rgba(255,255,255,0.18); box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+        #fx-dot { width: 24px; height: 24px; border-radius: 12px; background: #3D86FF; box-shadow: 0 0 18px #3D86FF, 0 0 4px #fff inset; flex: none; }
+        #fx-slot { position: relative; height: 64px; width: 330px; overflow: hidden; }
+        .fx-w { position: absolute; left: 0; top: 0; height: 64px; line-height: 64px; font-weight: 800; font-size: 30px; letter-spacing: -0.02em; color: #fff; white-space: nowrap; }
+        #fx-grain { position: absolute; inset: -40px; opacity: 0.06; background-image: radial-gradient(rgba(255,255,255,0.9) 0.6px, transparent 0.8px); background-size: 3px 3px; }
+      </style>
+      <div id="fx-root" data-composition-id="fx" data-width="1080" data-height="1920">
+        <div id="fx-grain"></div>
+        <div id="fx-label"><div id="fx-dot"></div><div id="fx-slot"></div></div>
+        <div id="fx-bursts"></div>
+        <div id="fx-flash" class="fx-flash"></div>
+      </div>
+      <script>
+        (function () {
+          // cut time, focal point of the outgoing scene (where the camera dives), label of the new scene
+          const CUTS = [
+            [5.75, 540, 960, "Votre bien."],
+            [9.8, 540, 1000, "Paul Digital."],
+            [12.35, 540, 900, "Une vidéo."],
+            [18.45, 540, 1080, "Un site."],
+            [22.5, 540, 1100, "Pour qui ?"],
+            [26.05, 540, 960, "Tous les biens."],
+            [29.95, 540, 1100, "Prêt à publier."],
+            [34.3, 540, 1000, "Résultat."],
+          ];
+          const LABELS = ["Le constat."].concat(CUTS.map((c) => c[3]));
+          const slot = document.getElementById("fx-slot");
+          const words = LABELS.map((t, i) => {
+            const w = document.createElement("div");
+            w.className = "fx-w";
+            w.id = "fx-w" + i;
+            w.textContent = t;
+            slot.appendChild(w);
+            return w;
+          });
+          const bursts = document.getElementById("fx-bursts");
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#fx-label", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 0.25);
+          words.forEach((w, i) => { if (i) tl.set(w, { yPercent: 110 }, 0); });
+          CUTS.forEach(([t, fx, fy], i) => {
+            const b = document.createElement("div");
+            b.className = "fx-burst";
+            b.innerHTML = '<div class="fx-rays" style="left:' + fx + 'px;top:' + fy + 'px"></div><div class="fx-core" style="left:' + fx + 'px;top:' + fy + 'px"></div>';
+            bursts.appendChild(b);
+            const rays = b.firstChild, core = b.lastChild;
+            tl.fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.14, ease: "power2.in" }, t - 0.16);
+            tl.to(b, { opacity: 0, duration: 0.32, ease: "power2.out" }, t + 0.02);
+            tl.fromTo(core, { scale: 0.15 }, { scale: 1.6, duration: 0.5, ease: "expo.out" }, t - 0.16);
+            tl.fromTo(rays, { scale: 0.3, rotation: i * 23 }, { scale: 1.4, rotation: i * 23 + 25, duration: 0.5, ease: "expo.out" }, t - 0.16);
+            tl.fromTo("#fx-flash", { opacity: 0 }, { opacity: 0.85, duration: 0.06, immediateRender: false }, t - 0.04);
+            tl.to("#fx-flash", { opacity: 0, duration: 0.22, ease: "power2.out" }, t + 0.02);
+            // label slot swap
+            tl.to(words[i], { yPercent: -110, duration: 0.3, ease: "power3.in" }, t - 0.1);
+            tl.fromTo(words[i + 1], { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, t + 0.05);
+            tl.fromTo("#fx-dot", { scale: 1.8 }, { scale: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, t + 0.05);
+          });
+          tl.to("#fx-label", { opacity: 0, x: -40, duration: 0.3, ease: "power2.in" }, 37.55);
+          // last cut into the white brand close
+          tl.fromTo("#fx-flash", { opacity: 0 }, { opacity: 1, duration: 0.08, immediateRender: false }, 37.65);
+          tl.to("#fx-flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, 37.75);
+          // grain shimmer
+          tl.fromTo("#fx-grain", { x: 0, y: 0 }, { x: 3, y: 2, duration: 0.05, ease: "steps(1)", repeat: 880, yoyo: true }, 0);
+          window.__timelines["fx"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
