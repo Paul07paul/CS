@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s4-root { position: absolute; inset: 0; overflow: hidden; }
+        #s4-a { left: 170px; }
+        #s4-b { left: 1000px; }
+        #s4-c { left: 1460px; }
+        #s4-k1 { left: 680px; top: 300px; width: 1000px; text-align: center; }
+        #s4-k2 { left: 150px; top: 330px; width: 700px; text-align: center; }
+        #s4-l1 { left: 150px; top: 610px; width: 700px; text-align: center; }
+      </style>
+      <div id="s4-root" data-composition-id="s4-salon" data-width="1920" data-height="1080">
+        <video id="s4-bga" class="bgv" src="assets/bg/cheminee.mp4" muted playsinline data-start="0" data-duration="3.35"></video>
+        <video id="s4-bgb" class="bgv" src="assets/bg/cuisine2.mp4" muted playsinline data-start="3.25" data-duration="3.45"></video>
+        <div class="shade"></div>
+        <div class="stage3d">
+          <div id="s4-a" class="card">
+            <video id="s4-va" src="assets/clips/cheminee.mp4" muted playsinline data-start="0" data-duration="3.6"></video>
+            <div id="s4-sha" class="sheen"></div>
+          </div>
+          <div id="s4-b" class="card">
+            <video id="s4-vb" src="assets/clips/cuisine2.mp4" muted playsinline data-start="3.25" data-duration="3.45"></video>
+            <div id="s4-shb" class="sheen"></div>
+          </div>
+          <div id="s4-c" class="card">
+            <video id="s4-vc" src="assets/clips/cuisine-s.mp4" muted playsinline data-start="3.35" data-duration="3.35"></video>
+            <div id="s4-shc" class="sheen"></div>
+          </div>
+        </div>
+        <div id="s4-k1" class="kicker">Le salon</div>
+        <div id="s4-x3a" class="x3"></div>
+        <div id="s4-k2" class="kicker">La cuisine</div>
+        <div id="s4-x3b" class="x3"></div>
+        <div id="s4-l1" class="ln say"><span id="s4-t1">d'<b>exception</b>.</span></div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          HIn(tl, "#s4-a", 0, "flyL", 0.75);
+          HDrift(tl, "#s4-a", 0.75, 2.5, 1);
+          tl.from("#s4-k1", { opacity: 0, y: 24, scale: 1.3, duration: 0.6, ease: "expo.out" }, 0.85);
+          HTitle(tl, document.getElementById("s4-x3a"), "RECEVOIR", 1180, 500, 1.95, { size: 140, r: 540, seed: 21, hold: 1.0, out: { y: -900, opacity: 0, filter: "blur(16px)" }, outAt: 3.1 });
+          HSheen(tl, "#s4-sha", 2.1);
+          tl.to("#s4-k1", { opacity: 0, y: -30, duration: 0.25 }, 3.05);
+          HOut(tl, "#s4-a", 3.1, "left");
+          tl.fromTo("#s4-bga", { opacity: 0.6 }, { opacity: 0, duration: 0.3, immediateRender: false }, 3.1);
+          // kitchen: two cards slide in together, marble title on the left
+          HIn(tl, "#s4-b", 3.25, "flyR", 0.7);
+          HIn(tl, "#s4-c", 3.4, "flyR", 0.7);
+          tl.fromTo(["#s4-b", "#s4-c"], { rotationY: -8 }, { rotationY: 8, duration: 2.6, ease: "sine.inOut", immediateRender: false }, 4.1);
+          tl.from("#s4-k2", { opacity: 0, y: 24, scale: 1.3, duration: 0.6, ease: "expo.out" }, 3.5);
+          HTitle(tl, document.getElementById("s4-x3b"), "MARBRE", 500, 480, 4.85, { size: 160, r: 480, seed: 13, hold: 1.6 });
+          HLine(tl, "#s4-t1", 5.45);
+          HSheen(tl, "#s4-shb", 5.0);
+          HSheen(tl, "#s4-shc", 5.15);
+          window.__timelines["s4-salon"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

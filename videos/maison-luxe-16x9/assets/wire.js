@@ -358,8 +358,8 @@ window.PDExtrude = function (host, text, o) {
     d.textContent = text;
     const c = 255 - i * 14, b = 255 - i * 6;
     d.style.cssText = "position:absolute;left:-1000px;width:2000px;top:" + (-size * 0.48 * (text.split("\n").length)) + "px;text-align:center;font-family:Montserrat,sans-serif;font-weight:900;font-size:" + size + "px;line-height:0.92;letter-spacing:-0.05em;white-space:pre;" +
-      "transform:translateZ(" + (-i * step) + "px);color:" + (i ? "rgb(" + Math.round(c * 0.35) + "," + Math.round(c * 0.55) + "," + b + ")" : (o.color || "#FFFFFF")) + ";" +
-      (i ? "" : "text-shadow:0 0 40px rgba(61,134,255,0.9);");
+      "transform:translateZ(" + (-i * step) + "px);color:" + (i ? (o.gold ? "rgb(" + Math.round(b * 0.78) + "," + Math.round(c * 0.5) + "," + Math.round(c * 0.16) + ")" : "rgb(" + Math.round(c * 0.35) + "," + Math.round(c * 0.55) + "," + b + ")") : (o.color || "#FFFFFF")) + ";" +
+      (i ? "" : "text-shadow:0 0 40px " + (o.gold ? "rgba(255,182,72,0.95)" : "rgba(61,134,255,0.9)") + ";");
     root.appendChild(d);
   }
   host.appendChild(root);
@@ -377,7 +377,7 @@ window.PDBurst = function (tl, host, cx, cy, t, o) {
   const rings = [[R, R * 0.3, 0], [R * 0.84, R * 0.4, 30]].map(([rx, ry, rot]) => {
     const e = document.createElementNS(ns, "ellipse");
     e.setAttribute("rx", rx); e.setAttribute("ry", ry);
-    e.setAttribute("style", "fill:none;stroke:" + (o.color || "#5EB0FF") + ";stroke-width:6;filter:drop-shadow(0 0 12px #3D86FF)");
+    e.setAttribute("style", "fill:none;stroke:" + (o.color || "#5EB0FF") + ";stroke-width:6;filter:drop-shadow(0 0 12px " + (o.glow || "#3D86FF") + ")");
     svg.appendChild(e);
     return [e, rot];
   });
@@ -393,7 +393,7 @@ window.PDBurst = function (tl, host, cx, cy, t, o) {
   const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
   for (let i = 0; i < (o.n || 30); i++) {
     const p = document.createElement("div");
-    p.style.cssText = "position:absolute;left:" + cx + "px;top:" + cy + "px;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:6px;background:#9FD0FF;box-shadow:0 0 14px #3D86FF;opacity:0;";
+    p.style.cssText = "position:absolute;left:" + cx + "px;top:" + cy + "px;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:6px;background:" + (o.dot || "#9FD0FF") + ";box-shadow:0 0 14px " + (o.glow || "#3D86FF") + ";opacity:0;";
     host.appendChild(p);
     const a = rnd() * Math.PI * 2, r = R * (0.5 + rnd() * 0.9);
     tl.fromTo(p, { x: 0, y: 0, scale: 0.4 + rnd(), opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.6, opacity: 0, duration: 1.3 + rnd(), ease: "expo.out", immediateRender: false }, t + rnd() * 0.12);

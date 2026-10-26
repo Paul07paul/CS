@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s7-root { position: absolute; inset: 0; overflow: hidden; }
+        #s7-a { left: 1300px; }
+        #s7-b { left: 1300px; }
+        #s7-c1 { left: 330px; top: 720px; }
+        #s7-c2 { left: 200px; top: 720px; }
+        #s7-k { left: 150px; top: 300px; width: 640px; text-align: center; }
+      </style>
+      <div id="s7-root" data-composition-id="s7-etage" data-width="1920" data-height="1080">
+        <video id="s7-bga" class="bgv" src="assets/bg/coursive.mp4" muted playsinline data-start="0" data-duration="3.4" data-end="3.4" data-has-audio="false"></video>
+        <video id="s7-bgb" class="bgv" src="assets/bg/jeux-s.mp4" muted playsinline data-start="3.25" data-duration="2.25" data-end="5.5" data-has-audio="false"></video>
+        <div class="shade"></div>
+        <div id="s7-x3" class="x3"></div>
+        <div class="stage3d">
+          <div id="s7-a" class="card">
+            <video id="s7-va" src="assets/clips/coursive.mp4" muted playsinline data-start="0" data-duration="4.3" data-end="4.3" data-has-audio="false"></video>
+            <div id="s7-sha" class="sheen"></div>
+          </div>
+          <div id="s7-b" class="card">
+            <video id="s7-vb" src="assets/clips/jeux-s.mp4" muted playsinline data-start="3.2" data-duration="2.3" data-end="5.5" data-has-audio="false"></video>
+            <div id="s7-shb" class="sheen"></div>
+          </div>
+        </div>
+        <div id="s7-c1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9h14v11M5 13h14M9 9v11M15 9v11"/></svg></span>Coursive vitrée</div>
+        <div id="s7-k" class="kicker">Et une</div>
+        <div id="s7-x3b" class="x3"></div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // going upstairs: everything rises in from below
+          HIn(tl, "#s7-a", 0, "up", 0.8);
+          HDrift(tl, "#s7-a", 0.8, 2.5, -1);
+          HTitle(tl, document.getElementById("s7-x3"), "À L'ÉTAGE", 640, 470, 0.55, { size: 140, r: 520, seed: 41, hold: 1.6, from: { y: 700, z: -1200, rotationX: -70, scale: 0.7 }, out: { y: -900, opacity: 0, filter: "blur(16px)" }, outAt: 3.0 });
+          HChip(tl, "#s7-c1", 2.2);
+          HSheen(tl, "#s7-sha", 2.3);
+          tl.to("#s7-c1", { opacity: 0, x: -60, duration: 0.25, ease: "power2.in" }, 3.05);
+          // the corridor card turns away like a door and the game room swings in
+          tl.to("#s7-a", { rotationY: -100, x: -260, opacity: 0, duration: 0.5, ease: "power3.in" }, 3.05);
+          HIn(tl, "#s7-b", 3.2, "spin", 0.7);
+          tl.fromTo("#s7-b", { rotationY: -6 }, { rotationY: 8, duration: 1.6, ease: "sine.inOut", immediateRender: false }, 3.9);
+          tl.from("#s7-k", { opacity: 0, y: 24, scale: 1.3, duration: 0.5, ease: "expo.out" }, 3.85);
+          HTitle(tl, document.getElementById("s7-x3b"), "SALLE\nDE JEUX", 470, 560, 4.0, { size: 120, r: 460, seed: 43, hold: 1.2 });
+          HSheen(tl, "#s7-shb", 4.0);
+          window.__timelines["s7-etage"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

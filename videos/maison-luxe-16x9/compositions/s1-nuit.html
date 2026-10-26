@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s1-root { position: absolute; inset: 0; overflow: hidden; }
+        #s1-card { left: 1300px; }
+        #s1-l1 { left: 150px; top: 250px; }
+      </style>
+      <div id="s1-root" data-composition-id="s1-nuit" data-width="1920" data-height="1080">
+        <video id="s1-bgv" class="bgv" src="assets/bg/facade-s.mp4" muted playsinline data-start="0" data-duration="4.6"></video>
+        <div class="shade"></div>
+        <div id="s1-all" style="position:absolute;inset:0">
+          <div class="stage3d">
+            <div id="s1-card" class="card">
+              <video id="s1-v" src="assets/clips/facade-s.mp4" muted playsinline data-start="0" data-duration="4.6"></video>
+              <div id="s1-sh" class="sheen"></div>
+            </div>
+          </div>
+          <div id="s1-l1" class="ln say"><span id="s1-t1">La nuit tombe…</span></div>
+          <div id="s1-x3" class="x3"></div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // the house sits in the dark, then "wakes up" on s'éveille
+          gsap.set("#s1-card", { filter: "brightness(0.35)" });
+          gsap.set("#s1-bgv", { opacity: 0.2 });
+          HIn(tl, "#s1-card", 0, "zoom", 1.0);
+          HDrift(tl, "#s1-card", 1.0, 3.3, -1);
+          HLine(tl, "#s1-t1", 0.8);
+          tl.to("#s1-card", { filter: "brightness(1)", duration: 0.9, ease: "power2.out" }, 2.45);
+          tl.to("#s1-bgv", { opacity: 0.6, duration: 0.9 }, 2.45);
+          HSheen(tl, "#s1-sh", 2.6);
+          HTitle(tl, document.getElementById("s1-x3"), "LA MAISON\nS'ÉVEILLE", 660, 600, 2.5, { size: 124, r: 480, seed: 4, hold: 1.2 });
+          tl.to("#s1-t1", { yPercent: -115, duration: 0.3, ease: "power3.in" }, 4.1);
+          tl.to("#s1-x3", { y: -900, opacity: 0, filter: "blur(16px)", duration: 0.35, ease: "power3.in" }, 4.2);
+          HOut(tl, "#s1-card", 4.22, "right");
+          window.__timelines["s1-nuit"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

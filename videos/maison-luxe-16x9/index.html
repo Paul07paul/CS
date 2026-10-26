@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/wire.js"></script>
+    <script src="assets/house.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 100 900; src: url("assets/fonts/montserrat.woff2") format("woff2"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #07060A; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #07060A; font-family: "Montserrat", sans-serif; color: #FFF8EC; }
+
+      /* ---- shared design system: black, champagne gold neon, glass ---- */
+      .stage3d { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 50%; }
+      .bgv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; opacity: 0.6; }
+      .shade { position: absolute; inset: 0; background: radial-gradient(90% 90% at 50% 50%, rgba(7,6,10,0.25) 0%, rgba(7,6,10,0.8) 100%); }
+      .card {
+        position: absolute; top: 122px; width: 416px; height: 900px; border-radius: 30px; overflow: hidden;
+        border: 2px solid rgba(255,215,150,0.55); background: #000;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 0 50px rgba(255,170,60,0.35), 0 40px 90px rgba(0,0,0,0.7);
+      }
+      .card video { position: absolute; left: 0; top: 0; width: 416px; height: 900px; object-fit: cover; }
+      .card .sheen { position: absolute; top: -10%; left: 0; width: 45%; height: 120%; background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,240,215,0.38) 50%, rgba(255,255,255,0) 100%); transform: skewX(-12deg); }
+      .card .tag { position: absolute; left: 20px; bottom: 22px; height: 46px; padding: 0 20px; border-radius: 23px; display: flex; align-items: center; font-weight: 700; font-size: 19px; letter-spacing: 0.14em; text-transform: uppercase; color: #FFF3DC; white-space: nowrap; background: rgba(10,8,6,0.55); backdrop-filter: blur(14px); border: 1.5px solid rgba(255,215,150,0.45); }
+      .kicker { position: absolute; font-weight: 700; font-size: 26px; letter-spacing: 0.34em; text-transform: uppercase; color: #F2C77A; white-space: nowrap; text-shadow: 0 0 18px rgba(255,170,60,0.6); }
+      .ln { position: absolute; overflow: hidden; padding-bottom: 0.08em; white-space: nowrap; }
+      .ln > span { display: block; }
+      .say { font-weight: 600; font-size: 56px; letter-spacing: -0.015em; color: #FFF8EC; text-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+      .say b { font-weight: 800; color: #F2C77A; }
+      .x3 { position: absolute; inset: 0; perspective: 1400px; }
+      .chip {
+        position: absolute; height: 76px; border-radius: 38px; padding: 0 32px 0 12px;
+        display: flex; align-items: center; gap: 16px; white-space: nowrap;
+        font-weight: 700; font-size: 30px; color: #FFF8EC;
+        background: linear-gradient(140deg, rgba(255,235,200,0.2), rgba(255,235,200,0.06));
+        backdrop-filter: blur(18px); border: 1.5px solid rgba(255,215,150,0.45);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.35);
+      }
+      .chip .ic { width: 54px; height: 54px; border-radius: 27px; display: flex; align-items: center; justify-content: center; flex: none; background: linear-gradient(145deg, #F7D08A, #C98A2E); box-shadow: 0 0 24px rgba(255,170,60,0.75); }
+      .chip svg { width: 28px; height: 28px; fill: none; stroke: #2A1A05; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="55.5" data-width="1920" data-height="1080">
+      <div id="bg" data-composition-id="bg" data-composition-src="compositions/bg.html" data-start="0" data-duration="55.5" data-track-index="0" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+
+      <div id="cam" style="position:absolute;inset:0;transform-origin:50% 50%">
+        <div id="s1" data-composition-id="s1-nuit" data-composition-src="compositions/s1-nuit.html" data-start="0" data-duration="4.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s2" data-composition-id="s2-archi" data-composition-src="compositions/s2-archi.html" data-start="4.5" data-duration="4.5" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s3" data-composition-id="s3-entree" data-composition-src="compositions/s3-entree.html" data-start="8.9" data-duration="8.7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s4" data-composition-id="s4-salon" data-composition-src="compositions/s4-salon.html" data-start="17.5" data-duration="6.7" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s5" data-composition-id="s5-cinema" data-composition-src="compositions/s5-cinema.html" data-start="24.1" data-duration="5.3" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s6" data-composition-id="s6-suite" data-composition-src="compositions/s6-suite.html" data-start="29.3" data-duration="5.3" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s7" data-composition-id="s7-etage" data-composition-src="compositions/s7-etage.html" data-start="34.5" data-duration="5.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s8" data-composition-id="s8-dehors" data-composition-src="compositions/s8-dehors.html" data-start="39.9" data-duration="6.9" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+        <div id="s9" data-composition-id="s9-final" data-composition-src="compositions/s9-final.html" data-start="46.7" data-duration="8.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      </div>
+
+      <div id="fx" data-composition-id="fx" data-composition-src="compositions/fx.html" data-start="0" data-duration="55.5" data-track-index="3" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+
+      <audio id="vo" src="assets/audio/vo.wav" data-start="0" data-duration="55.5" data-track-index="10" data-volume="1"></audio>
+      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="55.5" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="55.5" data-track-index="12" data-volume="1"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // camera rig: dive into the outgoing scene's focal point, slam back on the new one, shake on the hit
+      const CUTS = [[4.5, 1508, 572], [8.9, 378, 572], [17.5, 1458, 572], [24.1, 1460, 572], [29.3, 1508, 400], [34.5, 908, 700], [39.9, 1508, 572], [46.7, 1542, 572]];
+      const SHAKE = [[0, 0], [14, -9], [-12, 8], [9, -6], [-6, 4], [3, -2], [0, 0]];
+      CUTS.forEach(([t, fx, fy]) => {
+        tl.fromTo("#cam", { scale: 1, transformOrigin: fx + "px " + fy + "px" }, { scale: 2.2, duration: 0.3, ease: "power3.in", immediateRender: false }, t - 0.3);
+        tl.fromTo("#cam", { scale: 1.2, transformOrigin: "960px 540px" }, { scale: 1, duration: 0.55, ease: "expo.out", immediateRender: false }, t);
+        tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x, y: y, duration: 0.04 })), ease: "none" }, t);
+      });
+      // impacts on the big 3D titles
+      [3.1, 13.2, 19.6, 22.4, 26.4, 33.9, 35.2, 40.3, 47.2, 50.9].forEach((t) => {
+        tl.to("#cam", { keyframes: SHAKE.map(([x, y]) => ({ x: x * 0.6, y: y * 0.6, duration: 0.04 })), ease: "none" }, t);
+      });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
