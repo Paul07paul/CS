@@ -9,8 +9,8 @@
         #s7-k { top: 560px; }
       </style>
       <div id="s7-root" data-composition-id="s7-etage" data-width="1080" data-height="1920">
-        <div id="s7-a" class="shot"><div id="s7-ka" class="kb"><video id="s7-va" src="assets/clips/coursive.mp4" muted playsinline data-start="0" data-duration="3.6"></video></div></div>
-        <div id="s7-b" class="shot"><div id="s7-kb" class="kb"><video id="s7-vb" src="assets/clips/jeux-s.mp4" muted playsinline data-start="3.2" data-duration="2.3"></video></div></div>
+        <div id="s7-a" class="shot"><div id="s7-ka" class="kb"><video id="s7-va" src="assets/clips/coursive.mp4" muted playsinline data-start="0.0" data-duration="3.273"></video></div></div>
+        <div id="s7-b" class="shot"><div id="s7-kb" class="kb"><video id="s7-vb" src="assets/clips/jeux-s.mp4" muted playsinline data-start="2.909" data-duration="2.091"></video></div></div>
         <div class="grad"></div><div class="vig"></div>
         <div id="s7-sw" class="sweep"></div>
         <div id="s7-x3" class="x3"></div>
@@ -24,7 +24,7 @@
           // going upstairs: the footage rises in from below
           HShot(tl, "#s7-a", 0, "rise", 0.7);
           HKen(tl, "#s7-ka", 0, 3.6, 1.18, 1.04, { y0: 120, y1: -60 });
-          HTitle(tl, document.getElementById("s7-x3"), "À L'ÉTAGE", 540, 700, 0.55, { size: 140, r: 470, seed: 41, hold: 1.6, from: { y: 700, z: -1200, rotationX: -70, scale: 0.7 }, out: { y: -1200, opacity: 0, filter: "blur(16px)" }, outAt: 3.0 });
+          HText(tl, document.getElementById("s7-x3"), "À L'ÉTAGE", 700, 0.55, "rise", { size: 140, hold: 1.8, outAt: 3.0 });
           HChip(tl, "#s7-c1", 2.2);
           HSheen(tl, "#s7-sw", 2.3);
           tl.to("#s7-c1", { opacity: 0, y: 40, duration: 0.25, ease: "power2.in" }, 3.05);
@@ -32,9 +32,9 @@
           HShot(tl, "#s7-b", 3.2, "whipL", 0.5);
           HKen(tl, "#s7-kb", 3.2, 2.3, 1.15, 1.0, { r0: 2, r1: 0 });
           tl.from("#s7-k", { opacity: 0, y: 24, scale: 1.3, duration: 0.5, ease: "expo.out" }, 3.85);
-          HTitle(tl, document.getElementById("s7-x3b"), "SALLE\nDE JEUX", 540, 760, 4.0, { size: 140, r: 460, seed: 43, hold: 1.2 });
+          HText(tl, document.getElementById("s7-x3b"), "SALLE\nDE JEUX", 760, 4.0, "split", { size: 140, hold: 1.2 });
           HSheen(tl, "#s7-sw", 4.2);
-          window.__timelines["s7-etage"] = tl;
+          window.__timelines["s7-etage"] = PDScale(tl, 1 / 1.1);
         })();
       </script>
     </template>

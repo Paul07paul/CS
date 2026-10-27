@@ -49,7 +49,7 @@
           const bursts = document.getElementById("fx-bursts");
           const tl = gsap.timeline({ paused: true });
           tl.fromTo("#fx-label", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 0.25);
-          words.forEach((w, i) => { if (i) tl.set(w, { yPercent: 110 }, 0); });
+          words.forEach((w, i) => { if (i) gsap.set(w, { yPercent: 110 }); });
           CUTS.forEach(([t, fx, fy], i) => {
             const b = document.createElement("div");
             b.className = "fx-burst";
@@ -74,7 +74,7 @@
           tl.fromTo("#fx-leak", { x: 0, y: 0, opacity: 0.5 }, { x: 900, y: -200, opacity: 1, duration: 6.9375, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0);
           // grain shimmer
           tl.fromTo("#fx-grain", { x: 0, y: 0 }, { x: 3, y: 2, duration: 0.05, ease: "steps(1)", repeat: 1110, yoyo: true }, 0);
-          window.__timelines["fx"] = tl;
+          window.__timelines["fx"] = PDScale(tl, 1 / 1.1);
         })();
       </script>
     </template>

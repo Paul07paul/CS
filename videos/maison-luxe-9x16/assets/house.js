@@ -74,3 +74,86 @@
     tl.fromTo(sel, { scale: s0, x: o.x0 || 0, y: o.y0 || 0, rotation: o.r0 || 0 }, { scale: s1, x: o.x1 || 0, y: o.y1 || 0, rotation: o.r1 || 0, duration: d, ease: "none", immediateRender: false }, t);
   };
 })();
+
+/* ---- flat kinetic titles: one look, many entrances (so every title is not 3D + rings) ---- */
+(function () {
+  const DEPTH = "0 3px 0 #E2AE5C, 0 6px 0 #B57B27, 0 9px 0 #7E5216, 0 0 34px rgba(255,170,60,0.55), 0 14px 30px rgba(0,0,0,0.65)";
+  // builds a centred title; each letter is its own span so it can be animated
+  function build(host, text, y, size) {
+    const el = document.createElement("div");
+    const lines = text.split("\n");
+    el.style.cssText = "position:absolute;left:0;width:1080px;text-align:center;top:" + Math.round(y - size * 0.5 * lines.length) + "px;font-family:Montserrat,sans-serif;font-weight:900;font-size:" + size + "px;line-height:1.0;letter-spacing:-0.035em;color:#FFF8EC;white-space:nowrap;text-shadow:" + DEPTH + ";";
+    const letters = [], rows = [];
+    lines.forEach((ln) => {
+      const row = document.createElement("div");
+      row.style.cssText = "position:relative;display:block;";
+      [...ln].forEach((ch) => {
+        const s = document.createElement("span");
+        s.textContent = ch === " " ? " " : ch;
+        s.style.cssText = "display:inline-block;";
+        row.appendChild(s);
+        letters.push(s);
+      });
+      el.appendChild(row);
+      rows.push(row);
+    });
+    host.appendChild(el);
+    return { el, letters, rows, h: size * lines.length };
+  }
+  const STYLES = {
+    // letters rise one by one out of a blur
+    rise(tl, b, t) {
+      tl.from(b.letters, { yPercent: 90, opacity: 0, filter: "blur(12px)", duration: 0.5, ease: "expo.out", stagger: 0.035 }, t);
+    },
+    // each letter flips down from the top, like a split-flap board
+    flip(tl, b, t) {
+      b.el.style.perspective = "900px";
+      tl.from(b.letters, { rotationX: -100, opacity: 0, transformOrigin: "50% 0%", duration: 0.55, ease: "back.out(1.6)", stagger: 0.045 }, t);
+    },
+    // the word slams down from huge and tightens into place
+    slam(tl, b, t) {
+      tl.from(b.el, { scale: 2.6, opacity: 0, filter: "blur(18px)", duration: 0.45, ease: "power4.out" }, t);
+      tl.from(b.letters, { x: (i) => (i - (b.letters.length - 1) / 2) * 26, duration: 0.7, ease: "expo.out" }, t);
+    },
+    // a light bar sweeps across and leaves the word behind it
+    wipe(tl, b, t, host) {
+      const bar = document.createElement("div");
+      const top = parseFloat(b.el.style.top), h = b.h;
+      bar.style.cssText = "position:absolute;left:0;top:" + (top - 20) + "px;width:10px;height:" + (h + 40) + "px;background:#FFF3DC;box-shadow:0 0 30px 10px rgba(255,180,80,0.8);border-radius:5px;opacity:0;";
+      host.appendChild(bar);
+      tl.fromTo(b.el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power2.inOut" }, t);
+      tl.fromTo(bar, { x: 60, opacity: 1 }, { x: 1020, duration: 0.6, ease: "power2.inOut" }, t);
+      tl.to(bar, { opacity: 0, duration: 0.15 }, t + 0.55);
+    },
+    // the two halves of the word arrive from opposite sides
+    split(tl, b, t) {
+      const n = b.letters.length, half = Math.ceil(n / 2);
+      tl.from(b.letters.slice(0, half), { x: -700, opacity: 0, duration: 0.55, ease: "expo.out", stagger: { each: 0.02, from: "end" } }, t);
+      tl.from(b.letters.slice(half), { x: 700, opacity: 0, duration: 0.55, ease: "expo.out", stagger: 0.02 }, t);
+    },
+    // outline is drawn first, then the word fills with light
+    outline(tl, b, t) {
+      gsap.set(b.el, { color: "rgba(255,248,236,0)", textShadow: "none", webkitTextStroke: "2px #F7D08A" });
+      tl.from(b.letters, { opacity: 0, y: 30, duration: 0.4, ease: "power2.out", stagger: 0.03 }, t);
+      tl.to(b.el, { color: "rgba(255,248,236,1)", duration: 0.35, ease: "power2.out" }, t + 0.55);
+      tl.set(b.el, { textShadow: DEPTH, webkitTextStroke: "0px #F7D08A" }, t + 0.75);
+    },
+    // light flickers on letter by letter, like neon tubes warming up
+    neon(tl, b, t) {
+      b.letters.forEach((s, i) => {
+        const d = t + ((i * 7) % b.letters.length) * 0.04;
+        tl.fromTo(s, { opacity: 0 }, { keyframes: [{ opacity: 1, duration: 0.04 }, { opacity: 0.2, duration: 0.05 }, { opacity: 1, duration: 0.04 }], ease: "none", immediateRender: true }, d);
+      });
+    },
+  };
+  // style: one of rise | flip | slam | wipe | split | outline | neon. Returns the title element.
+  window.HText = function (tl, host, text, y, t, style, o) {
+    o = o || {};
+    const b = build(host, text, y, o.size || 150);
+    STYLES[style](tl, b, t, host);
+    // gentle life while it holds
+    tl.fromTo(b.el, { y: 0 }, { y: -14, duration: o.hold || 1.6, ease: "sine.inOut", immediateRender: false }, t + 0.6);
+    if (o.outAt != null) tl.to(b.el, { opacity: 0, y: -80, filter: "blur(12px)", duration: 0.3, ease: "power2.in" }, o.outAt);
+    return b.el;
+  };
+})();

@@ -292,7 +292,7 @@ sfx = sfx[:N]
 
 # ---------------- voice ----------------
 voice = np.zeros((N, 2))
-vo_src = path("assets/audio/src/vo-vindemiatrix.wav")
+vo_src = path("assets/audio/src/vo-vindemiatrix-fast.wav")
 if os.path.exists(vo_src):
     v = load(vo_src)
     v = filt(v, "high", 70)
@@ -317,7 +317,7 @@ if not os.path.exists(mu_src):
 if os.path.exists(mu_src):
     m = load(mu_src)
     m = m[: N]
-    m *= 10 ** ((-21.5 - lufs_ish(m)) / 20)
+    m *= 10 ** ((-19.0 - lufs_ish(m)) / 20)
     music[: len(m)] = m
     # fades: in, and out under the final logo
     fi = int(0.6 * SR)
@@ -325,13 +325,13 @@ if os.path.exists(mu_src):
     fo0 = int((DUR - 3.0) * SR)
     music[fo0:] *= np.linspace(1, 0, N - fo0)[:, None]
     # duck: voice present → music −9 dB, plus a mid carve so words stay clear
-    duck = 10 ** (-10 * act / 20)
+    duck = 10 ** (-9 * act / 20)
     mid = filt(music, "band", [300, 3500])
-    music = music * duck[:, None] - mid * (0.35 * act)[:, None]
+    music = music * duck[:, None] - mid * (0.3 * act)[:, None]
 
 save(path("assets/audio/vo.wav"), voice)
 save(path("assets/audio/music.wav"), music)
-sfx *= min(1.0, 0.6 / (np.abs(sfx).max() + 1e-9))
+sfx *= min(1.0, 0.22 / (np.abs(sfx).max() + 1e-9))  # effects sit well under the voice
 save(path("assets/audio/sfx.wav"), sfx)
 for name, x in [("vo", voice), ("music", music), ("sfx", sfx)]:
     print(f"{name:6s} peak {20*np.log10(np.abs(x).max()+1e-12):6.1f} dBFS  rms {lufs_ish(x):6.1f} dB")

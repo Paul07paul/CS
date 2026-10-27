@@ -10,9 +10,9 @@
         #s4-l1 { top: 830px; }
       </style>
       <div id="s4-root" data-composition-id="s4-salon" data-width="1080" data-height="1920">
-        <div id="s4-a" class="shot"><div id="s4-ka" class="kb"><video id="s4-va" src="assets/clips/cheminee.mp4" muted playsinline data-start="0" data-duration="3.6"></video></div></div>
-        <div id="s4-b" class="shot"><div id="s4-kb" class="kb"><video id="s4-vb" src="assets/clips/cuisine2.mp4" muted playsinline data-start="3.2" data-duration="1.9"></video></div></div>
-        <div id="s4-c" class="shot"><div id="s4-kc" class="kb"><video id="s4-vc" src="assets/clips/cuisine-s.mp4" muted playsinline data-start="4.95" data-duration="1.75"></video></div></div>
+        <div id="s4-a" class="shot"><div id="s4-ka" class="kb"><video id="s4-va" src="assets/clips/cheminee.mp4" muted playsinline data-start="0.0" data-duration="3.273"></video></div></div>
+        <div id="s4-b" class="shot"><div id="s4-kb" class="kb"><video id="s4-vb" src="assets/clips/cuisine2.mp4" muted playsinline data-start="2.909" data-duration="1.727"></video></div></div>
+        <div id="s4-c" class="shot"><div id="s4-kc" class="kb"><video id="s4-vc" src="assets/clips/cuisine-s.mp4" muted playsinline data-start="4.5" data-duration="1.591"></video></div></div>
         <div class="grad"></div><div class="vig"></div>
         <div id="s4-sw" class="sweep"></div>
         <div id="s4-k1" class="kicker">Le salon</div>
@@ -27,19 +27,19 @@
           HShot(tl, "#s4-a", 0, "whipL", 0.5);
           HKen(tl, "#s4-ka", 0, 3.6, 1.0, 1.15, { x0: -30, x1: 30 });
           tl.from("#s4-k1", { opacity: 0, y: 24, scale: 1.3, duration: 0.6, ease: "expo.out" }, 0.85);
-          HTitle(tl, document.getElementById("s4-x3a"), "RECEVOIR", 540, 690, 1.95, { size: 150, r: 470, seed: 21, hold: 1.0, out: { y: -1200, opacity: 0, filter: "blur(16px)" }, outAt: 3.05 });
+          HText(tl, document.getElementById("s4-x3a"), "RECEVOIR", 690, 1.95, "rise", { size: 150, hold: 1.0, outAt: 3.05 });
           HSheen(tl, "#s4-sw", 2.1);
           tl.to("#s4-k1", { opacity: 0, y: -30, duration: 0.25 }, 3.0);
           // kitchen: whip in, then a second angle on the marble
           HShot(tl, "#s4-b", 3.2, "whipR", 0.5);
           HKen(tl, "#s4-kb", 3.2, 1.9, 1.15, 1.02);
           tl.from("#s4-k2", { opacity: 0, y: 24, scale: 1.3, duration: 0.6, ease: "expo.out" }, 3.5);
-          HTitle(tl, document.getElementById("s4-x3b"), "MARBRE", 540, 700, 4.85, { size: 190, r: 470, seed: 13, hold: 1.6 });
+          HText(tl, document.getElementById("s4-x3b"), "MARBRE", 700, 4.85, "wipe", { size: 190, hold: 1.6 });
           HShot(tl, "#s4-c", 4.95, "iris", 0.6);
           HKen(tl, "#s4-kc", 4.95, 1.75, 1.0, 1.12);
           HLine(tl, "#s4-t1", 5.45);
           HSheen(tl, "#s4-sw", 5.0);
-          window.__timelines["s4-salon"] = tl;
+          window.__timelines["s4-salon"] = PDScale(tl, 1 / 1.1);
         })();
       </script>
     </template>

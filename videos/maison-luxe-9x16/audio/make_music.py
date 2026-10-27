@@ -16,13 +16,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = json.load(open(os.path.join(ROOT, "timing.json")))
 DUR = T["duration"]
 N = int(DUR * SR)
-BPM = 126.316
+BPM = 130
 BEAT = 60 / BPM
 BAR = 4 * BEAT
-DROP = 8.9
-END = 46.9
+DROP = 4.091
+END = DROP + 21 * BAR
 OFF = DROP - 6 * BAR  # bar 0 starts here (negative = pre-roll)
-BRK0, BRK1 = 24.1, 24.1 + BAR  # one-bar breakdown
+BRK0 = DROP + 9 * BAR
+BRK1 = BRK0 + BAR  # one-bar breakdown
 rng = np.random.default_rng(5)
 
 
@@ -117,7 +118,7 @@ while True:
             f = 48 + 120 * np.exp(-tt * 30)
             s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 8)
             s[:200] += rng.standard_normal(200) * np.linspace(0.12, 0, 200)
-            place(kick, tb, s * (0.9 if full else 0.55))
+            place(kick, tb, s * (1.0 if full else 0.7))
             # sidechain dip
             dn = int(0.22 * SR)
             i0 = int(tb * SR)
@@ -128,7 +129,7 @@ while True:
             nn = int(0.3 * SR)
             tt = np.arange(nn) / SR
             e = sum(np.exp(-np.clip(tt - o, 0, None) * 55) * (tt >= o) for o in (0, 0.01, 0.021)) / 3 + np.exp(-tt * 13) * 0.5
-            place(clap, tb, filt(rng.standard_normal(nn), "band", [1000, 3500]) * e * 0.45)
+            place(clap, tb, filt(rng.standard_normal(nn), "band", [1000, 3500]) * e * 0.6)
         # hats: offbeat open-ish + 16th shaker from the start
         if not brk:
             nn = int(0.09 * SR)
@@ -163,7 +164,7 @@ while True:
 # lead hook from the site scene onwards (bright bell, 2-bar phrase)
 MEL = [(76, 0, 0.5), (74, 0.5, 0.5), (72, 1, 1), (69, 2, 0.5), (72, 2.5, 0.5), (74, 3, 1),
        (76, 4, 0.5), (79, 4.5, 0.5), (76, 5, 1), (74, 6, 1), (72, 7, 1)]
-start = OFF + int(np.ceil((17.5 - OFF) / BAR)) * BAR
+start = OFF + int(np.ceil((15.9 - OFF) / BAR)) * BAR
 rep = 0
 while True:
     base = start + rep * 2 * BAR

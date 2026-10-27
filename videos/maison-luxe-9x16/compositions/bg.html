@@ -16,7 +16,7 @@
           const tl = gsap.timeline({ paused: true });
           tl.fromTo("#bg-b1", { x: 0, y: 0 }, { x: 300, y: 300, duration: 13.875, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
           tl.fromTo("#bg-b2", { x: 0, y: 0 }, { x: -300, y: -400, duration: 11.1, ease: "sine.inOut", yoyo: true, repeat: 4 }, 0);
-          window.__timelines["bg"] = tl;
+          window.__timelines["bg"] = PDScale(tl, 1 / 1.1);
         })();
       </script>
     </template>

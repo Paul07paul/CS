@@ -11,8 +11,8 @@
         #s8-l2 { top: 645px; }
       </style>
       <div id="s8-root" data-composition-id="s8-dehors" data-width="1080" data-height="1920">
-        <div id="s8-a" class="shot"><div id="s8-ka" class="kb"><video id="s8-va" src="assets/clips/jacuzzi.mp4" muted playsinline data-start="0" data-duration="3.3"></video></div></div>
-        <div id="s8-b" class="shot"><div id="s8-kb" class="kb"><video id="s8-vb" src="assets/clips/piscine.mp4" muted playsinline data-start="2.7" data-duration="4.2"></video></div></div>
+        <div id="s8-a" class="shot"><div id="s8-ka" class="kb"><video id="s8-va" src="assets/clips/jacuzzi.mp4" muted playsinline data-start="0.0" data-duration="3.0"></video></div></div>
+        <div id="s8-b" class="shot"><div id="s8-kb" class="kb"><video id="s8-vb" src="assets/clips/piscine.mp4" muted playsinline data-start="2.455" data-duration="3.818"></video></div></div>
         <div class="grad"></div><div class="vig"></div>
         <div id="s8-sw" class="sweep"></div>
         <div id="s8-x3" class="x3"></div>
@@ -28,7 +28,7 @@
           gsap.set("#s8-ka", { filter: "blur(18px) brightness(0.55)" });
           HShot(tl, "#s8-a", 0, "zoom", 0.6);
           HKen(tl, "#s8-ka", 0, 3.3, 1.2, 1.05);
-          HTitle(tl, document.getElementById("s8-x3"), "ET DEHORS…", 540, 940, 0.3, { size: 130, r: 480, seed: 47, hold: 0.5, burstHold: 0.8, out: { z: 1300, opacity: 0, filter: "blur(14px)" }, outAt: 1.25 });
+          HText(tl, document.getElementById("s8-x3"), "ET DEHORS…", 940, 0.3, "slam", { size: 132, hold: 0.6, outAt: 1.2 });
           tl.to("#s8-ka", { filter: "blur(0px) brightness(1)", duration: 0.45, ease: "expo.out" }, 1.3);
           HChip(tl, "#s8-c1", 1.65);
           HSheen(tl, "#s8-sw", 1.9);
@@ -38,7 +38,7 @@
           HSheen(tl, "#s8-sw", 3.2);
           HLine(tl, "#s8-t1", 4.3);
           HLine(tl, "#s8-t2", 4.75);
-          window.__timelines["s8-dehors"] = tl;
+          window.__timelines["s8-dehors"] = PDScale(tl, 1 / 1.1);
         })();
       </script>
     </template>
