@@ -29,7 +29,8 @@
   };
   // light sweep across a card's glass
   window.HSheen = function (tl, sel, t) {
-    tl.fromTo(sel, { xPercent: -160 }, { xPercent: 260, duration: 0.9, ease: "power2.inOut", immediateRender: false }, t);
+    gsap.set(sel, { xPercent: -240 }); // parked off-frame between passes
+    tl.fromTo(sel, { xPercent: -240 }, { xPercent: 340, duration: 0.9, ease: "power2.inOut", immediateRender: false }, t);
   };
   // gold extruded 3D title: flies in from depth, swings, rings + particles burst behind it
   window.HTitle = function (tl, host, text, x, y, t, o) {

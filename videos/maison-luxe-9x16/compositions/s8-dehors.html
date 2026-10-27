@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s8-root { position: absolute; inset: 0; overflow: hidden; }
+        #s8-r1 { top: 1150px; }
+        #s8-r2 { top: 1260px; }
+        #s8-l1 { top: 560px; }
+        #s8-l2 { top: 645px; }
+      </style>
+      <div id="s8-root" data-composition-id="s8-dehors" data-width="1080" data-height="1920">
+        <div id="s8-a" class="shot"><div id="s8-ka" class="kb"><video id="s8-va" src="assets/clips/jacuzzi.mp4" muted playsinline data-start="0" data-duration="3.3"></video></div></div>
+        <div id="s8-b" class="shot"><div id="s8-kb" class="kb"><video id="s8-vb" src="assets/clips/piscine.mp4" muted playsinline data-start="2.7" data-duration="4.2"></video></div></div>
+        <div class="grad"></div><div class="vig"></div>
+        <div id="s8-sw" class="sweep"></div>
+        <div id="s8-x3" class="x3"></div>
+        <div id="s8-r1" class="crow"><div id="s8-c1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 15c2 0 2-1.5 4.5-1.5S9.5 15 12 15s2.5-1.5 4.5-1.5S19 15 21 15M3 19c2 0 2-1.5 4.5-1.5S9.5 19 12 19s2.5-1.5 4.5-1.5S19 19 21 19M8 11V5M12 11V3M16 11V5"/></svg></span>Un spa</div></div>
+        <div id="s8-r2" class="crow"><div id="s8-c2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 17c2 0 2-1.5 4.5-1.5S9.5 17 12 17s2.5-1.5 4.5-1.5S19 17 21 17M7 14V5a2 2 0 014 0M13 14V5a2 2 0 014 0M7 9h10"/></svg></span>Une piscine</div></div>
+        <div id="s8-l1" class="ln say"><span id="s8-t1">Et des soirées qui</span></div>
+        <div id="s8-l2" class="ln say"><span id="s8-t2">ne finissent <b>jamais</b>.</span></div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // "Et dehors…": the spa sits blurred behind the title, then snaps into focus
+          gsap.set("#s8-ka", { filter: "blur(18px) brightness(0.55)" });
+          HShot(tl, "#s8-a", 0, "zoom", 0.6);
+          HKen(tl, "#s8-ka", 0, 3.3, 1.2, 1.05);
+          HTitle(tl, document.getElementById("s8-x3"), "ET DEHORS…", 540, 940, 0.3, { size: 130, r: 480, seed: 47, hold: 0.5, burstHold: 0.8, out: { z: 1300, opacity: 0, filter: "blur(14px)" }, outAt: 1.25 });
+          tl.to("#s8-ka", { filter: "blur(0px) brightness(1)", duration: 0.45, ease: "expo.out" }, 1.3);
+          HChip(tl, "#s8-c1", 1.65);
+          HSheen(tl, "#s8-sw", 1.9);
+          HShot(tl, "#s8-b", 2.7, "wipeUp", 0.6);
+          HKen(tl, "#s8-kb", 2.7, 4.2, 1.15, 1.0, { y0: 60, y1: -60 });
+          HChip(tl, "#s8-c2", 2.85);
+          HSheen(tl, "#s8-sw", 3.2);
+          HLine(tl, "#s8-t1", 4.3);
+          HLine(tl, "#s8-t2", 4.75);
+          window.__timelines["s8-dehors"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

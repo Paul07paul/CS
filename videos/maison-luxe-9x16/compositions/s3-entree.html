@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #s3-root { position: absolute; inset: 0; overflow: hidden; }
+        #s3-k { top: 560px; }
+        #s3-l1 { top: 610px; }
+        #s3-arrow { position: absolute; left: 510px; top: 730px; width: 60px; height: 150px; }
+        #s3-arrow path { fill: none; stroke: #F7D08A; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px #FFAA33); }
+        #s3-r1 { top: 1230px; }
+        #s3-r2 { top: 1340px; }
+      </style>
+      <div id="s3-root" data-composition-id="s3-entree" data-width="1080" data-height="1920">
+        <div id="s3-a" class="shot"><div id="s3-ka" class="kb"><video id="s3-va" src="assets/clips/foyer-s.mp4" muted playsinline data-start="0" data-duration="6.6"></video></div></div>
+        <div id="s3-b" class="shot"><div id="s3-kb" class="kb"><video id="s3-vb" src="assets/clips/salon.mp4" muted playsinline data-start="6.35" data-duration="2.35"></video></div></div>
+        <div class="grad"></div><div class="vig"></div>
+        <div id="s3-sw" class="sweep"></div>
+        <div id="s3-k" class="kicker">Dès l'entrée</div>
+        <div id="s3-l1" class="ln say"><span id="s3-t1">le regard <b>s'élève</b></span></div>
+        <svg id="s3-arrow" viewBox="0 0 60 150"><path id="s3-ap" d="M30 145V8M8 32L30 8l22 24" /></svg>
+        <div id="s3-x3" class="x3"></div>
+        <div id="s3-r1" class="crow"><div id="s3-c1" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M7 8l3-3M14 14l4-4"/></svg></span>Verre</div></div>
+        <div id="s3-r2" class="crow"><div id="s3-c2" class="chip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></span>Lignes de lumière</div></div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          HShot(tl, "#s3-a", 0, "rise", 0.6);
+          // "le regard s'élève": the frame tilts up through the double-height volume
+          HKen(tl, "#s3-ka", 0, 6.6, 1.2, 1.12, { y0: -170, y1: 150 });
+          tl.from("#s3-k", { opacity: 0, y: 24, scale: 1.3, duration: 0.5, ease: "expo.out" }, 0.27);
+          HLine(tl, "#s3-t1", 1.85);
+          tl.fromTo("#s3-ap", { strokeDasharray: 260, strokeDashoffset: 260 }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 2.0);
+          tl.fromTo("#s3-arrow", { y: 40 }, { y: -20, duration: 1.4, ease: "sine.inOut", immediateRender: false }, 2.0);
+          tl.to(["#s3-k", "#s3-l1", "#s3-arrow"], { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, 3.45);
+          HTitle(tl, document.getElementById("s3-x3"), "VOLUMES", 540, 700, 3.76, { size: 180, r: 480, seed: 11, hold: 2.0, out: { y: -1200, opacity: 0, filter: "blur(16px)" }, outAt: 6.2 });
+          HSheen(tl, "#s3-sw", 4.0);
+          HChip(tl, "#s3-c1", 5.65);
+          HChip(tl, "#s3-c2", 6.7);
+          // the lit wood ceiling wipes up over the hall
+          HShot(tl, "#s3-b", 6.35, "wipeUp", 0.6);
+          HKen(tl, "#s3-kb", 6.35, 2.35, 1.15, 1.0);
+          HSheen(tl, "#s3-sw", 6.9);
+          window.__timelines["s3-entree"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
