@@ -42,15 +42,15 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="56.7" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="63.7" data-width="1080" data-height="1920">
       <div id="s1" class="scene clip" data-start="0" data-duration="5.6" data-track-index="1"></div>
       <div id="s2" class="scene clip" data-start="5.6" data-duration="8.0" data-track-index="2"></div>
       <div id="s3" class="scene clip" data-start="13.6" data-duration="5.5" data-track-index="1"></div>
       <div id="s4" class="scene clip" data-start="19.1" data-duration="3.5" data-track-index="2"></div>
-      <div id="s5" class="scene clip" data-start="22.6" data-duration="8.0" data-track-index="1"></div>
-      <div id="s6" class="scene clip" data-start="30.6" data-duration="4.6" data-track-index="2"></div>
-      <div id="s7" class="scene clip" data-start="35.2" data-duration="16.7" data-track-index="1"></div>
-      <div id="s8" class="scene clip" data-start="51.9" data-duration="4.8" data-track-index="2"></div>
+      <div id="s5" class="scene clip" data-start="22.6" data-duration="15.0" data-track-index="1"></div>
+      <div id="s6" class="scene clip" data-start="37.6" data-duration="4.6" data-track-index="2"></div>
+      <div id="s7" class="scene clip" data-start="42.2" data-duration="16.7" data-track-index="1"></div>
+      <div id="s8" class="scene clip" data-start="58.9" data-duration="4.8" data-track-index="2"></div>
       <!-- horror overlays: fog, grain, vignette (0 -> 16.5) -->
       <div id="horror" class="clip" data-start="0" data-duration="19.1" data-track-index="4" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
         <div id="fog1" class="abs" style="left:-600px;top:900px;width:2400px;height:1300px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(150,190,170,0.32),rgba(150,190,170,0) 65%);filter:blur(30px)"></div>
@@ -59,13 +59,13 @@
         <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 35%,rgba(0,0,0,0.85) 100%)"></div>
       </div>
       <div id="bats" class="clip" data-start="0" data-duration="22.6" data-track-index="5" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
-      <div id="flash" class="clip" data-start="0" data-duration="56.7" data-track-index="6" style="position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0"></div>
+      <div id="flash" class="clip" data-start="0" data-duration="63.7" data-track-index="6" style="position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0"></div>
       <div id="redflash" class="clip" data-start="0" data-duration="22" data-track-index="7" style="position:absolute;inset:0;pointer-events:none;background:#B00000;mix-blend-mode:multiply;opacity:0"></div>
-      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="56.7" data-track-index="10" data-volume="1"></audio>
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="63.7" data-track-index="10" data-volume="1"></audio>
     </div>
 
     <script>
-      const T = { s1: 0, s2: 5.6, s3: 13.6, s4: 19.1, s5: 22.6, s6: 30.6, s7: 35.2, s8: 51.9, end: 56.7, pairs: [22.6, 24.2, 25.8, 27.4, 29.0], cuts: [5.7, 7.3, 9.04], dim: 12.0, scare: 18.4, show: 33.95, vo7: 35.35, vo8: 38.7, vo9: 49.0, vo10: 52.2, p10: [0, 1.2, 2.3] };
+      const T = { s1: 0, s2: 5.6, s3: 13.6, s4: 19.1, s5: 22.6, s6: 37.6, s7: 42.2, s8: 58.9, end: 63.7, pairs: [22.6, 25.6, 28.6, 31.6, 34.6], cuts: [5.7, 7.3, 9.04], dim: 12.0, scare: 18.4, show: 40.95, vo7: 42.35, vo8: 45.7, vo9: 56.0, vo10: 59.2, p10: [0, 1.2, 2.3] };
       const $ = (id) => document.getElementById(id);
       const H = (id, html) => ($(id).innerHTML = html);
       const ph = (name, cls, pos, id) => `<div class="photo ${cls}" ${id ? `id="${id}"` : ""} style="inset:0"><img src="assets/photos/${name}.jpg" alt="" style="object-position:${pos || "50% 50%"}" /></div>`;
@@ -240,14 +240,14 @@
         tl.fromTo(`#s5-b${k}`, { scale: 1.08 }, { scale: 1.0, duration: d, ease: "none" }, t);
         tl.fromTo(`#s5-bv${k}`, { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.15);
         tl.fromTo(`#s5-z${k}`, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t + 0.1);
-        const r0 = t + 0.45;
-        tl.fromTo(`#s5-sw${k}`, { x: 0 }, { x: 1600, duration: 0.7, ease: "power2.inOut" }, r0);
-        tl.fromTo(`#s5-a${k}`, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "power2.inOut" }, r0);
+        const r0 = t + 1.1;
+        tl.fromTo(`#s5-sw${k}`, { x: 0 }, { x: 1600, duration: 0.95, ease: "power2.inOut" }, r0);
+        tl.fromTo(`#s5-a${k}`, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.95, ease: "power2.inOut" }, r0);
         tl.fromTo(`#s5-ai${k}`, { scale: 1.08 }, { scale: 1.0, duration: d - 0.6, ease: "power1.out" }, r0);
-        tl.fromTo(`#s5-gl${k}`, { x: 0 }, { x: 1800, duration: 0.8, ease: "power2.inOut" }, r0 + 0.65);
-        tl.to(`#s5-bv${k}`, { opacity: 0, x: -40, duration: 0.2 }, r0 + 0.15);
-        tl.fromTo(`#s5-ba${k}`, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, r0 + 0.6);
-        for (let j = 0; j < 3; j++) tl.fromTo(`#s5-s${k}-${j}`, { scale: 0, rotation: 0, opacity: 1 }, { scale: 1.2, rotation: 90, opacity: 0, duration: 0.7, ease: "power2.out" }, r0 + 0.55 + j * 0.12);
+        tl.fromTo(`#s5-gl${k}`, { x: 0 }, { x: 1800, duration: 0.9, ease: "power2.inOut" }, r0 + 0.95);
+        tl.to(`#s5-bv${k}`, { opacity: 0, x: -40, duration: 0.2 }, r0 + 0.2);
+        tl.fromTo(`#s5-ba${k}`, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, r0 + 0.85);
+        for (let j = 0; j < 3; j++) tl.fromTo(`#s5-s${k}-${j}`, { scale: 0, rotation: 0, opacity: 1 }, { scale: 1.2, rotation: 90, opacity: 0, duration: 0.7, ease: "power2.out" }, r0 + 0.8 + j * 0.12);
         tl.fromTo(`#s5-d${k}`, { scaleX: 0 }, { scaleX: 1, duration: d, ease: "none" }, t);
       });
       [1, 2, 3, 4].forEach((k) => tl.set(`#s5-p${k}`, { yPercent: 100 }, T.s5));

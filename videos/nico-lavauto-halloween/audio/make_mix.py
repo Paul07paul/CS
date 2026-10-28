@@ -203,9 +203,9 @@ whoosh(S["s4"] + 2.75, 0.4, 3000, 0.1)
 for k, t in enumerate(T["pairs"]):
     if k:
         whoosh(t + 0.1, 0.35, 3000, 0.08, 0.5, -0.5)
-    whoosh(t + 0.45 + 0.45, 0.7, 4200, 0.12, -0.7, 0.7)
+    whoosh(t + 1.1 + 0.6, 0.95, 4200, 0.12, -0.7, 0.7)
     for j, f in enumerate([2093, 2637, 3136]):
-        chime(t + 1.0 + j * 0.12, f, 0.03, (j - 1) * 0.4)
+        chime(t + 1.9 + j * 0.12, f, 0.03, (j - 1) * 0.4)
 # nightmare -> showroom
 boom(S["s6"], 0.2)
 whoosh(S["s6"] + 0.35, 0.5, 3000, 0.1)

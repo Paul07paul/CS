@@ -1,22 +1,22 @@
 {
   "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start of first syllable of the prepped line pNN.wav, text]. Horror voice: Gemini TTS fr-FR 'Charon'; clean voice: 'Puck'; final tag: 'Algenib' (via FLORA). Keep index.html's T object in sync.",
-  "duration": 56.7,
+  "duration": 63.7,
   "scenes": {
     "s1": 0,
     "s2": 5.6,
     "s3": 13.6,
     "s4": 19.1,
     "s5": 22.6,
-    "s6": 30.6,
-    "s7": 35.2,
-    "s8": 51.9
+    "s6": 37.6,
+    "s7": 42.2,
+    "s8": 58.9
   },
   "pairs": [
     22.6,
-    24.2,
-    25.8,
-    27.4,
-    29.0
+    25.6,
+    28.6,
+    31.6,
+    34.6
   ],
   "scare": 18.4,
   "vo": [
@@ -41,19 +41,19 @@
       "Aspiration, nettoyage, finitions : on traque la moindre saleté, jusqu'au dernier recoin."
     ],
     [
-      30.7,
+      37.7,
       "Résultat : votre voiture passe de cauchemar… à showroom !"
     ],
     [
-      35.35,
+      42.35,
       "Votre voiture mérite mieux que l'horreur."
     ],
     [
-      38.7,
+      45.7,
       "Contactez-nous pour un lavage via nicolavauto38@gmail.com, ou par téléphone au 07 77 03 39 53."
     ],
     [
-      49.0,
+      56.0,
       "Et vous pouvez aussi réserver directement sur Messenger !"
     ]
   ],
@@ -62,7 +62,7 @@
     7.3,
     9.04
   ],
-  "show": 33.95,
-  "cackle": 55.0,
+  "show": 40.95,
+  "cackle": 62.0,
   "tag_text": "La voiture est sauvée… Le propriétaire… c'est une autre histoire. (text only, no voice)"
 }
