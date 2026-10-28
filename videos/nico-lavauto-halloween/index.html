@@ -34,7 +34,7 @@
       .bat { position: absolute; width: 120px; height: 60px; }
       .bat svg { width: 100%; height: 100%; fill: #0A0508; }
       .ring { position: absolute; border: 6px solid #FF2A2A; border-radius: 50%; box-shadow: 0 0 24px rgba(255, 30, 30, 0.8), inset 0 0 18px rgba(255, 30, 30, 0.5); }
-      .card { position: absolute; left: 70px; right: 70px; height: 150px; border-radius: 34px; background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06)); border: 2px solid rgba(255, 190, 90, 0.7); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255, 120, 0, 0.25); display: flex; align-items: center; gap: 30px; padding: 0 36px; white-space: nowrap; }
+      .card { position: absolute; left: 70px; right: 70px; height: 150px; border-radius: 34px; background: linear-gradient(135deg, rgba(30,14,30,0.82), rgba(20,8,20,0.7)); backdrop-filter: blur(10px); border: 2px solid rgba(255, 190, 90, 0.7); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255, 120, 0, 0.25); display: flex; align-items: center; gap: 30px; padding: 0 36px; white-space: nowrap; }
       .card .ic { width: 96px; height: 96px; border-radius: 28px; background: linear-gradient(135deg, #FFB12B, #FF5A00); display: flex; align-items: center; justify-content: center; flex: none; }
       .card .ic svg { width: 54px; height: 54px; fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
       .card .l1 { font-weight: 600; font-size: 26px; letter-spacing: 0.14em; color: #FFC98A; text-transform: uppercase; }
@@ -134,10 +134,12 @@
 
       // ---------- S7: CTA ----------
       const W7 = ["VOTRE", "VOITURE", "MÉRITE", "MIEUX", "QUE", "L'HORREUR."];
-      H("s7", `<div class="photo clean" style="inset:0">${`<img src="assets/photos/rearR-after.jpg" alt="" style="filter:blur(28px) brightness(0.45) saturate(1.3);transform:scale(1.15)" />`}</div>
-        <div class="abs" style="inset:0;background:radial-gradient(circle at 50% 20%,rgba(255,120,20,0.5),rgba(40,8,30,0.75) 55%,rgba(8,2,10,0.95))"></div>
+      const SLIDES = [["driver-after", "34% 60%"], ["rearL-after", "60% 60%"], ["trunk-after", "50% 60%"], ["passenger-after", "45% 60%"], ["rearR-after", "62% 60%"]];
+      H("s7", `${SLIDES.map((sl, k) => `<div id="s7-sl${k}" class="photo clean" style="inset:0;opacity:0"><img id="s7-si${k}" src="assets/photos/${sl[0]}.jpg" alt="" style="object-position:${sl[1]}" /></div>`).join("")}
+        <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(20,6,12,0.55) 0%,rgba(20,6,12,0.12) 30%,rgba(20,6,12,0.18) 45%,rgba(12,4,10,0.72) 62%,rgba(8,2,10,0.85) 100%)"></div>
+        <div class="abs" style="inset:0;background:radial-gradient(circle at 50% 12%,rgba(255,120,20,0.28),rgba(255,120,20,0) 45%)"></div>
         <div id="s7-head" class="abs" style="left:0;right:0;top:300px">
-          <div class="anton ctr" style="position:relative;font-size:120px;line-height:1.08">${W7.slice(0, 3).map((w, k) => `<span id="s7-w${k}" style="display:inline-block;margin:0 14px">${w}</span>`).join("")}</div>
+          <div class="anton ctr" style="position:relative;font-size:120px;line-height:1.08">${W7.slice(0, 3).map((w, k) => `<span id="s7-w${k}" style="display:inline-block;margin:0 14px;text-shadow:0 8px 30px rgba(0,0,0,0.85)">${w}</span>`).join("")}</div>
           <div class="anton ctr" style="position:relative;font-size:120px;line-height:1.08">${W7.slice(3, 5).map((w, k) => `<span id="s7-w${k + 3}" style="display:inline-block;margin:0 14px">${w}</span>`).join("")}</div>
           <div class="creep ctr" style="position:relative;font-size:168px;line-height:1.1;margin-top:10px"><span id="s7-w5" style="display:inline-block">L'horreur.</span></div>
         </div>
@@ -146,7 +148,7 @@
         <div id="s7-mail" class="card" style="top:1000px"><div class="ic"><svg viewBox="0 0 48 48"><rect x="6" y="11" width="36" height="27" rx="4"/><path d="M7 13 l17 13 l17 -13"/></svg></div><div><div class="l1">E-mail</div><div class="l2" style="font-size:42px">nicolavauto38@gmail.com</div></div></div>
         <div id="s7-tel" class="card" style="top:1190px"><div class="ic"><svg viewBox="0 0 48 48"><path d="M14 6 h7 l3 10 -5 3 a24 24 0 0 0 10 10 l3 -5 10 3 v7 a4 4 0 0 1 -4 4 C22 38 10 26 10 10 a4 4 0 0 1 4 -4 z"/></svg></div><div><div class="l1">Téléphone</div><div class="l2" style="font-size:58px;letter-spacing:0.03em">07 77 03 39 53</div></div></div>
         <div id="s7-msg" class="card" style="top:1380px;border-color:rgba(170,120,255,0.8)"><div class="ic" style="background:linear-gradient(135deg,#0099FF,#A033FF 60%,#FF5280)"><svg viewBox="0 0 48 48"><path d="M24 6 C13.5 6 6 13.4 6 23 c0 5.3 2.4 9.9 6.3 13 v6.5 l6 -3.3 c1.8 0.5 3.7 0.8 5.7 0.8 c10.5 0 18 -7.4 18 -17 S34.5 6 24 6 z"/><path d="M13 27 l7.5 -8 l4.5 4.5 l9 -4.5 l-7.5 8 l-4.5 -4.5 z" fill="#fff"/></svg></div><div><div class="l1">Réservation</div><div class="l2" style="font-size:52px">Sur Messenger</div></div></div>
-        <div id="s7-foot" class="abs ctr" style="top:1590px;font-weight:600;font-size:30px;letter-spacing:0.3em;color:#FFC98A">NICO LAV'AUTO · NETTOYAGE DE VOITURES</div>`);
+        <div id="s7-foot" class="abs ctr" style="top:1590px;font-weight:600;font-size:30px;letter-spacing:0.3em;color:#FFC98A;text-shadow:0 2px 12px #000">NICO LAV'AUTO · NETTOYAGE DE VOITURES</div>`);
 
       // ---------- S8: the funny horror tag ----------
       H("s8", `<div class="abs" style="inset:0;background:radial-gradient(circle at 50% 30%,#3B1B5A 0%,#170A26 50%,#050307 100%)"></div>
@@ -276,6 +278,15 @@
       tl.to(["#s7-mail", "#s7-tel"], { scale: 1.03, duration: 0.6, yoyo: true, repeat: 5, ease: "sine.inOut" }, T.vo8 + 6.4);
       tl.fromTo("#s7-msg", { opacity: 0, y: 120, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.8)" }, T.vo9 + 0.1);
       tl.to("#s7-msg", { scale: 1.05, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, T.vo9 + 1.6);
+
+      // S7 background: slideshow of the clean results
+      { const n = SLIDES.length, d = (T.s8 - T.s7) / n;
+        SLIDES.forEach((_, k) => {
+          const t = T.s7 + k * d;
+          tl.fromTo(`#s7-sl${k}`, { opacity: 0 }, { opacity: 1, duration: k ? 0.5 : 0.3, ease: "power1.inOut" }, k ? t - 0.25 : t);
+          tl.fromTo(`#s7-si${k}`, { scale: 1.0 }, { scale: 1.1, duration: d + 0.5, ease: "none" }, k ? t - 0.25 : t);
+          if (k < n - 1) tl.set(`#s7-sl${k}`, { opacity: 0 }, t + d + 0.3);
+        }); }
 
       // S8
       tl.fromTo("#s8-moon", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }, T.s8);
