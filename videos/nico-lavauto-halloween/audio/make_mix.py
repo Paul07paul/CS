@@ -71,7 +71,7 @@ def fade(x, a, b):
 voice = np.zeros((N + 4 * SR, 2))
 active = np.zeros(N + 4 * SR)
 for k, (t0, _txt) in enumerate(T["vo"]):
-    v = hp(load(f"assets/audio/vo/l{k + 1:02d}.wav"), 70)
+    v = hp(load(f"assets/audio/vo/p{k + 1:02d}.wav"), 70)
     lvl = np.abs(v).max(1)
     on = np.nonzero(lvl > 0.02)[0]
     v = v[max(0, on[0] - int(0.03 * SR)):]  # trim leading silence so t0 = first syllable
@@ -103,10 +103,23 @@ for i in range(0, N, 48):
 music = np.zeros((N, 2))
 t_sw = S["s4"]
 mh = load("assets/audio/music-horror.mp3")
+# ambient bed, no pulse: extend 16 s -> ~23 s with a long crossfade into a second pass
+a, b, xf = int(12.0 * SR), int(3.0 * SR), int(2.0 * SR)
+w = np.linspace(0, 1, xf)[:, None]
+mh = np.vstack([mh[:a - xf], mh[a - xf:a] * (1 - w) + mh[b:b + xf] * w, mh[b + xf:]])
 mh = norm(mh[: int((t_sw + 0.3) * SR)], -24.0)
 mh = fade(mh, 0.8, 0.35)
 place(music, 0, mh)
 md = load("assets/audio/music-dyn.mp3")
+# extend ~30 s -> ~40 s: jump back 24 beats (143.5 BPM) at a beat, 40 ms crossfade
+import librosa
+_y = librosa.to_mono(md.T.astype(np.float32))
+_, _bt = librosa.beat.beat_track(y=_y, sr=SR, units="samples")
+i = int(np.argmin(np.abs(_bt - 18.0 * SR)))
+j0, j1 = _bt[i], _bt[i - 24]  # play to j0, then continue from j1 (earlier)
+xf = int(0.04 * SR)
+w = np.linspace(0, 1, xf)[:, None]
+md = np.vstack([md[:j0], md[j0:j0 + xf] * (1 - w) + md[j1:j1 + xf] * w, md[j1 + xf:]])
 md = norm(md[: N - int(t_sw * SR)], -19.5)
 md = fade(md, 0.02, 2.5)
 place(music, t_sw, md)
@@ -166,14 +179,13 @@ sfx("door", 0.05, -27, 0.02, 0.6)
 sfx("whispers", 2.4, -31, 0.4, 0.8)
 for t in (3.6, 5.0):
     heartbeat(t, 0.22)
-for k in range(3):  # three cuts in the dirt montage
-    t = S["s2"] + 2 * k
+for t in T["cuts"]:  # three cuts in the dirt montage
     boom(t, 0.18)
     whoosh(t + 0.05, 0.35, 3200, 0.07)
-sfx("whispers", 9.2, -32, 0.5, 0.8)
-sfx("creak", 12.6, -27, 0.05, 0.6)
-heartbeat(14.4, 0.25)
-heartbeat(15.0, 0.3)
+sfx("whispers", 12.4, -31, 0.5, 0.8)
+sfx("creak", S["s3"] - 0.2, -27, 0.05, 0.6)
+heartbeat(T["scare"] - 1.6, 0.22)
+heartbeat(T["scare"] - 0.85, 0.28)
 sfx("stinger", T["scare"] - 0.02, -21, 0.0, 0.5)
 # banish + hero entrance
 sfx("banish", S["s4"] - 0.1, -22, 0.0, 0.4)
@@ -191,13 +203,13 @@ for k, t in enumerate(T["pairs"]):
 # nightmare -> showroom
 boom(S["s6"], 0.2)
 whoosh(S["s6"] + 0.35, 0.5, 3000, 0.1)
-boom(S["s6"] + 2.05, 0.22)
+boom(T["show"], 0.22)
 for k, f in enumerate([1568, 2093, 2637, 3136]):
-    chime(S["s6"] + 2.1 + k * 0.06, f, 0.035, (k - 1.5) * 0.3)
+    chime(T["show"] + 0.05 + k * 0.06, f, 0.035, (k - 1.5) * 0.3)
 # CTA
 boom(S["s7"] + 1.5, 0.12)
-whoosh(T["vo"][7][0] + 1.2, 0.5, 2800, 0.08, -0.6, 0.2)
-whoosh(T["vo"][7][0] + 4.2, 0.5, 2800, 0.08, 0.6, -0.2)
+whoosh(T["vo"][7][0] + 1.4, 0.5, 2800, 0.08, -0.6, 0.2)
+whoosh(T["vo"][7][0] + 5.9, 0.5, 2800, 0.08, 0.6, -0.2)
 
 sfx_bus = fx[:N]
 sfx_bus *= (1 - 0.45 * env)[:, None]  # sfx sit back while the voice speaks
