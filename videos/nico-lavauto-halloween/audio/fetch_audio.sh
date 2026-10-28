@@ -19,3 +19,4 @@ get https://media.flora.ai/node-inputs/2026/10/28/px75ndmcw1ehfngmx9cb4a66fn8g54
 get https://media.flora.ai/node-inputs/2026/10/28/px75ndmcw1ehfngmx9cb4a66fn8g54d6/gen-m17133bv8kkn09sb89anf82sh18h59ks-0.mp3 sfx/stinger.mp3
 get https://media.flora.ai/node-inputs/2026/10/28/px75ndmcw1ehfngmx9cb4a66fn8g54d6/gen-m171v3y4tr4nprdq66n8pv4vwx8h4ss4-0.mp3 sfx/banish.mp3
 get https://media.flora.ai/node-inputs/2026/10/28/px75ndmcw1ehfngmx9cb4a66fn8g54d6/gen-m178p64m179kwx4wb9jwcvnvzn8h4qcs-0.mp3 sfx/creak.mp3
+get https://media.flora.ai/node-inputs/2026/10/28/px75ndmcw1ehfngmx9cb4a66fn8g54d6/gen-m17egvrxsc11ynw28c6ry1xghn8h5be4-0.wav vo/l09.wav

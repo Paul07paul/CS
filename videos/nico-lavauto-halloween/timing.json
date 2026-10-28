@@ -1,6 +1,6 @@
 {
   "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start of first syllable of the prepped line pNN.wav, text]. Horror voice: Gemini TTS fr-FR 'Charon'; clean voice: 'Puck' (via FLORA). Keep index.html's T object in sync.",
-  "duration": 51.5,
+  "duration": 54.5,
   "scenes": {
     "s1": 0,
     "s2": 5.6,
@@ -50,6 +50,10 @@
     [
       39.7,
       "Contactez-nous pour un lavage via nicolavauto38@gmail.com, ou par téléphone au 07 77 03 39 53."
+    ],
+    [
+      50.6,
+      "Et vous pouvez aussi réserver directement sur Messenger !"
     ]
   ],
   "cuts": [

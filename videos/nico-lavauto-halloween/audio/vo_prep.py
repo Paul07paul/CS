@@ -6,7 +6,7 @@ SR = 48000
 MAXGAP = {1: 0.42, 2: 0.42, 3: 0.42}
 TEMPO = {1: 1.1, 2: 1.12, 3: 1.1}  # pitch-preserving speed-up (ffmpeg atempo); upbeat lines use 1.1  # horror lines keep slow, heavy pauses
 out = {}
-for k in range(1, 9):
+for k in range(1, 10):
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", f"assets/audio/vo/l{k:02d}.wav", "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
     x = np.frombuffer(raw, np.float32).astype(np.float64)
     hop = SR // 100
