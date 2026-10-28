@@ -42,14 +42,15 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="54.5" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="62.8" data-width="1080" data-height="1920">
       <div id="s1" class="scene clip" data-start="0" data-duration="5.6" data-track-index="1"></div>
       <div id="s2" class="scene clip" data-start="5.6" data-duration="8.0" data-track-index="2"></div>
       <div id="s3" class="scene clip" data-start="13.6" data-duration="5.5" data-track-index="1"></div>
       <div id="s4" class="scene clip" data-start="19.1" data-duration="3.5" data-track-index="2"></div>
-      <div id="s5" class="scene clip" data-start="22.6" data-duration="9.0" data-track-index="1"></div>
-      <div id="s6" class="scene clip" data-start="31.6" data-duration="4.6" data-track-index="2"></div>
-      <div id="s7" class="scene clip" data-start="36.2" data-duration="18.3" data-track-index="1"></div>
+      <div id="s5" class="scene clip" data-start="22.6" data-duration="8.0" data-track-index="1"></div>
+      <div id="s6" class="scene clip" data-start="30.6" data-duration="4.6" data-track-index="2"></div>
+      <div id="s7" class="scene clip" data-start="35.2" data-duration="16.7" data-track-index="1"></div>
+      <div id="s8" class="scene clip" data-start="51.9" data-duration="10.9" data-track-index="2"></div>
       <!-- horror overlays: fog, grain, vignette (0 -> 16.5) -->
       <div id="horror" class="clip" data-start="0" data-duration="19.1" data-track-index="4" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
         <div id="fog1" class="abs" style="left:-600px;top:900px;width:2400px;height:1300px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(150,190,170,0.32),rgba(150,190,170,0) 65%);filter:blur(30px)"></div>
@@ -58,13 +59,13 @@
         <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 35%,rgba(0,0,0,0.85) 100%)"></div>
       </div>
       <div id="bats" class="clip" data-start="0" data-duration="22.6" data-track-index="5" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
-      <div id="flash" class="clip" data-start="0" data-duration="54.5" data-track-index="6" style="position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0"></div>
+      <div id="flash" class="clip" data-start="0" data-duration="62.8" data-track-index="6" style="position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0"></div>
       <div id="redflash" class="clip" data-start="0" data-duration="22" data-track-index="7" style="position:absolute;inset:0;pointer-events:none;background:#B00000;mix-blend-mode:multiply;opacity:0"></div>
-      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="54.5" data-track-index="10" data-volume="1"></audio>
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="62.8" data-track-index="10" data-volume="1"></audio>
     </div>
 
     <script>
-      const T = { s1: 0, s2: 5.6, s3: 13.6, s4: 19.1, s5: 22.6, s6: 31.6, s7: 36.2, end: 54.5, pairs: [22.6, 24.4, 26.2, 28.0, 29.8], cuts: [5.7, 7.3, 9.04], dim: 12.0, scare: 18.4, show: 34.95, vo7: 36.35, vo8: 39.7, vo9: 50.6 };
+      const T = { s1: 0, s2: 5.6, s3: 13.6, s4: 19.1, s5: 22.6, s6: 30.6, s7: 35.2, s8: 51.9, end: 62.8, pairs: [22.6, 24.2, 25.8, 27.4, 29.0], cuts: [5.7, 7.3, 9.04], dim: 12.0, scare: 18.4, show: 33.95, vo7: 35.35, vo8: 38.7, vo9: 49.0, vo10: 52.1, p10: [0, 3.87, 6.31] };
       const $ = (id) => document.getElementById(id);
       const H = (id, html) => ($(id).innerHTML = html);
       const ph = (name, cls, pos, id) => `<div class="photo ${cls}" ${id ? `id="${id}"` : ""} style="inset:0"><img src="assets/photos/${name}.jpg" alt="" style="object-position:${pos || "50% 50%"}" /></div>`;
@@ -146,6 +147,17 @@
         <div id="s7-tel" class="card" style="top:1190px"><div class="ic"><svg viewBox="0 0 48 48"><path d="M14 6 h7 l3 10 -5 3 a24 24 0 0 0 10 10 l3 -5 10 3 v7 a4 4 0 0 1 -4 4 C22 38 10 26 10 10 a4 4 0 0 1 4 -4 z"/></svg></div><div><div class="l1">Téléphone</div><div class="l2" style="font-size:58px;letter-spacing:0.03em">07 77 03 39 53</div></div></div>
         <div id="s7-msg" class="card" style="top:1380px;border-color:rgba(170,120,255,0.8)"><div class="ic" style="background:linear-gradient(135deg,#0099FF,#A033FF 60%,#FF5280)"><svg viewBox="0 0 48 48"><path d="M24 6 C13.5 6 6 13.4 6 23 c0 5.3 2.4 9.9 6.3 13 v6.5 l6 -3.3 c1.8 0.5 3.7 0.8 5.7 0.8 c10.5 0 18 -7.4 18 -17 S34.5 6 24 6 z"/><path d="M13 27 l7.5 -8 l4.5 4.5 l9 -4.5 l-7.5 8 l-4.5 -4.5 z" fill="#fff"/></svg></div><div><div class="l1">Réservation</div><div class="l2" style="font-size:52px">Sur Messenger</div></div></div>
         <div id="s7-foot" class="abs ctr" style="top:1590px;font-weight:600;font-size:30px;letter-spacing:0.3em;color:#FFC98A">NICO LAV'AUTO · NETTOYAGE DE VOITURES</div>`);
+
+      // ---------- S8: the funny horror tag ----------
+      H("s8", `<div class="abs" style="inset:0;background:radial-gradient(circle at 50% 30%,#3B1B5A 0%,#170A26 50%,#050307 100%)"></div>
+        <div id="s8-moon" class="abs" style="left:620px;top:170px;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#FFF4D6,#FFD27A 60%,#FF9A2E);box-shadow:0 0 120px 30px rgba(255,190,80,0.45)"></div>
+        <div id="s8-fog" class="abs" style="left:-500px;top:1350px;width:2200px;height:900px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(180,160,220,0.3),rgba(180,160,220,0) 65%);filter:blur(30px)"></div>
+        ${[0, 1, 2].map((k) => `<div class="bat" id="s8-bat${k}" style="left:0;top:0">${BAT}</div>`).join("")}
+        <div id="s8-t1" class="anton abs ctr" style="top:560px;font-size:112px;color:#fff;text-shadow:0 8px 0 #2A0F40,0 0 40px rgba(170,120,255,0.6)">La voiture est sauvée</div>
+        <div id="s8-t2" class="creep abs ctr" style="top:790px;font-size:130px">Le propriétaire…</div>
+        <div id="s8-t3" class="creep abs ctr" style="top:960px;font-size:96px;color:#FF7A1A;text-shadow:0 0 18px rgba(255,120,0,0.6),0 6px 0 #4A1A00,0 10px 30px rgba(0,0,0,0.9)">c'est une autre histoire</div>
+        <img id="s8-logo" src="assets/logo/logo.png" alt="" class="abs" style="left:400px;top:1250px;width:280px;height:auto" />
+        <div id="s8-foot" class="abs ctr" style="top:1610px;font-weight:700;font-size:30px;letter-spacing:0.04em;color:#FFC98A;line-height:1.6">nicolavauto38@gmail.com · 07 77 03 39 53<br/>Réservation sur Messenger</div>`);
 
       // ================= TIMELINE =================
       const tl = gsap.timeline({ paused: true });
@@ -259,11 +271,27 @@
       tl.to("#s7-logo", { y: -12, duration: 1.5, yoyo: true, repeat: 9, ease: "sine.inOut" }, T.vo8 + 0.6);
       tl.fromTo("#s7-cta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, T.vo8 + 0.2);
       tl.fromTo("#s7-mail", { opacity: 0, x: -200 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, T.vo8 + 1.4);
-      tl.fromTo("#s7-tel", { opacity: 0, x: 200 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, T.vo8 + 5.2);
-      tl.fromTo("#s7-foot", { opacity: 0 }, { opacity: 1, duration: 0.6 }, T.vo8 + 6.6);
+      tl.fromTo("#s7-tel", { opacity: 0, x: 200 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, T.vo8 + 4.9);
+      tl.fromTo("#s7-foot", { opacity: 0 }, { opacity: 1, duration: 0.6 }, T.vo8 + 6.3);
       tl.to(["#s7-mail", "#s7-tel"], { scale: 1.03, duration: 0.6, yoyo: true, repeat: 5, ease: "sine.inOut" }, T.vo8 + 6.4);
       tl.fromTo("#s7-msg", { opacity: 0, y: 120, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.8)" }, T.vo9 + 0.1);
       tl.to("#s7-msg", { scale: 1.05, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, T.vo9 + 1.6);
+
+      // S8
+      tl.fromTo("#s8-moon", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }, T.s8);
+      tl.fromTo("#s8-fog", { x: -200 }, { x: 250, duration: T.end - T.s8, ease: "sine.inOut" }, T.s8);
+      for (let k = 0; k < 3; k++) {
+        const y0 = 200 + k * 160, t0 = T.s8 + 0.2 + k * 0.5, sc = 0.6 + k * 0.2;
+        tl.fromTo(`#s8-bat${k}`, { x: -200, y: y0, scale: sc }, { x: 1250, y: y0 - 120, duration: 3.2, ease: "sine.inOut" }, t0);
+        for (let i = 0; i < 28; i++) tl.set(`#s8-bat${k}`, { scaleY: i % 2 ? sc * 0.45 : sc }, t0 + i * 0.11);
+      }
+      tl.fromTo("#s8-t1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, T.vo10 + T.p10[0]);
+      tl.fromTo("#s8-t2", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, T.vo10 + T.p10[1]);
+      tl.fromTo("#s8-t3", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, T.vo10 + T.p10[2]);
+      shake("#s8-t3", T.vo10 + T.p10[2] + 0.5, 0.35, 6);
+      tl.fromTo("#s8-logo", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)" }, T.s8 + 0.3);
+      tl.to("#s8-logo", { rotation: -6, duration: 0.18, yoyo: true, repeat: 7, ease: "sine.inOut" }, T.end - 2.0);
+      tl.fromTo("#s8-foot", { opacity: 0 }, { opacity: 1, duration: 0.6 }, T.s8 + 0.6);
 
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;

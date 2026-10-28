@@ -77,7 +77,7 @@ for k, (t0, _txt) in enumerate(T["vo"]):
     v = v[max(0, on[0] - int(0.03 * SR)):]  # trim leading silence so t0 = first syllable
     on = on - on[0]
     v = norm(v, -17.0)
-    if k < 3:  # horror voice: a touch of dark room reverb
+    if k < 3 or k == 9:  # horror voices: a touch of dark room reverb
         irn = int(0.9 * SR)
         it = np.arange(irn) / SR
         ir = lp(rng.standard_normal((irn, 2)) * np.exp(-it * 4.5)[:, None], 3500)
@@ -115,14 +115,20 @@ md = load("assets/audio/music-dyn.mp3")
 import librosa
 _y = librosa.to_mono(md.T.astype(np.float32))
 _, _bt = librosa.beat.beat_track(y=_y, sr=SR, units="samples")
-i = int(np.argmin(np.abs(_bt - 18.0 * SR)))
-j0, j1 = _bt[i], _bt[i - 24]  # play to j0, then continue from j1 (earlier)
+i = int(np.argmin(np.abs(_bt - 24.0 * SR)))
+j0, j1 = _bt[i], _bt[i - 40]  # play to j0, then continue from j1 (earlier)
 xf = int(0.04 * SR)
 w = np.linspace(0, 1, xf)[:, None]
 md = np.vstack([md[:j0], md[j0:j0 + xf] * (1 - w) + md[j1:j1 + xf] * w, md[j1 + xf:]])
 md = norm(md[: N - int(t_sw * SR)], -19.5)
 md = fade(md, 0.02, 2.5)
+# final tag: upbeat track steps back, the horror bed creeps back in
+i8 = int((S["s8"] - t_sw) * SR)
+ramp = np.ones(len(md)); ramp[i8:] = 10 ** (-9 / 20); ramp[i8 - int(0.6 * SR):i8] = np.linspace(1, 10 ** (-9 / 20), int(0.6 * SR))
+md *= ramp[:, None]
 place(music, t_sw, md)
+mh2 = load("assets/audio/music-horror.mp3")[int(4.0 * SR):]
+place(music, S["s8"] - 0.3, fade(norm(mh2[: int((DUR - S["s8"] + 0.3) * SR)], -27.0), 0.8, 1.5))
 duck = 10 ** (-11 * env / 20)
 music *= duck[:, None]
 
@@ -209,7 +215,12 @@ for k, f in enumerate([1568, 2093, 2637, 3136]):
 # CTA
 boom(S["s7"] + 1.5, 0.12)
 whoosh(T["vo"][7][0] + 1.4, 0.5, 2800, 0.08, -0.6, 0.2)
-whoosh(T["vo"][7][0] + 5.2, 0.5, 2800, 0.08, 0.6, -0.2)
+whoosh(T["vo"][7][0] + 4.9, 0.5, 2800, 0.08, 0.6, -0.2)
+
+# final funny tag: spooky hit + witch cackle
+boom(S["s8"], 0.15)
+sfx("whispers", S["s8"] + 0.1, -34, 0.5, 0.8)
+sfx("cackle", T["cackle"], -22, 0.0, 0.3)
 
 sfx_bus = fx[:N]
 sfx_bus *= (1 - 0.45 * env)[:, None]  # sfx sit back while the voice speaks
