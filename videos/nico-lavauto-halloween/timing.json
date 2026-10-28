@@ -1,6 +1,6 @@
 {
   "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start of first syllable of the prepped line pNN.wav, text]. Horror voice: Gemini TTS fr-FR 'Charon'; clean voice: 'Puck'; final tag: 'Algenib' (via FLORA). Keep index.html's T object in sync.",
-  "duration": 62.8,
+  "duration": 56.7,
   "scenes": {
     "s1": 0,
     "s2": 5.6,
@@ -55,10 +55,6 @@
     [
       49.0,
       "Et vous pouvez aussi réserver directement sur Messenger !"
-    ],
-    [
-      52.1,
-      "La voiture est sauvée… Le propriétaire… c'est une autre histoire."
     ]
   ],
   "cuts": [
@@ -67,5 +63,6 @@
     9.04
   ],
   "show": 33.95,
-  "cackle": 60.9
+  "cackle": 55.0,
+  "tag_text": "La voiture est sauvée… Le propriétaire… c'est une autre histoire. (text only, no voice)"
 }
