@@ -109,7 +109,7 @@
         <div id="s4-t2" class="anton abs ctr" style="top:1400px;font-size:150px;color:#FFE08A;text-shadow:0 10px 0 #7A1A00,0 0 50px rgba(255,140,0,0.9)">les démons</div>`);
 
       // ---------- S5: before / after, five zones ----------
-      const PAIRS = [["driver", "Place conducteur", "28% 60%", "34% 60%"], ["rearL", "Arrière gauche", "55% 60%", "60% 60%"], ["rearR", "Arrière droit", "35% 60%", "62% 60%"], ["passenger", "Place passager", "45% 60%", "45% 60%"], ["trunk", "Coffre", "50% 55%", "50% 60%"]];
+      const PAIRS = [["driver", "Place conducteur", "28% 60%", "34% 60%"], ["rearL", "Arrière droit", "55% 60%", "60% 60%"], ["rearR", "Arrière gauche", "35% 60%", "62% 60%"], ["passenger", "Place passager", "45% 60%", "45% 60%"], ["trunk", "Coffre", "50% 55%", "50% 60%"]];
       const SP = [[[240, 760], [820, 1040], [560, 1380]], [[300, 900], [780, 760], [640, 1420]], [[260, 1100], [800, 900], [460, 1500]], [[240, 820], [820, 1200], [520, 1480]], [[300, 1000], [800, 980], [540, 1360]]];
       H("s5", PAIRS.map((p, k) => `<div id="s5-p${k}" class="abs" style="inset:0;overflow:hidden">
           <div id="s5-b${k}" class="abs" style="inset:0">${ph(p[0] + "-before", "dirty", p[2])}</div>
