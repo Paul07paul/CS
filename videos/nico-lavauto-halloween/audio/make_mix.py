@@ -176,13 +176,13 @@ def heartbeat(t, gain=0.25):
 
 # horror part — kept under the voice
 sfx("door", 0.05, -27, 0.02, 0.6)
-sfx("whispers", 2.4, -31, 0.4, 0.8)
-for t in (3.6, 5.0):
+sfx("whispers", 1.9, -31, 0.4, 0.8)
+for t in (2.8, 4.2):
     heartbeat(t, 0.22)
 for t in T["cuts"]:  # three cuts in the dirt montage
     boom(t, 0.18)
     whoosh(t + 0.05, 0.35, 3200, 0.07)
-sfx("whispers", 12.4, -31, 0.5, 0.8)
+sfx("whispers", 10.2, -31, 0.5, 0.8)
 sfx("creak", S["s3"] - 0.2, -27, 0.05, 0.6)
 heartbeat(T["scare"] - 1.6, 0.22)
 heartbeat(T["scare"] - 0.85, 0.28)
@@ -197,9 +197,9 @@ whoosh(S["s4"] + 2.75, 0.4, 3000, 0.1)
 for k, t in enumerate(T["pairs"]):
     if k:
         whoosh(t + 0.1, 0.35, 3000, 0.08, 0.5, -0.5)
-    whoosh(t + 0.6 + 0.45, 0.7, 4200, 0.12, -0.7, 0.7)
+    whoosh(t + 0.45 + 0.45, 0.7, 4200, 0.12, -0.7, 0.7)
     for j, f in enumerate([2093, 2637, 3136]):
-        chime(t + 1.15 + j * 0.12, f, 0.03, (j - 1) * 0.4)
+        chime(t + 1.0 + j * 0.12, f, 0.03, (j - 1) * 0.4)
 # nightmare -> showroom
 boom(S["s6"], 0.2)
 whoosh(S["s6"] + 0.35, 0.5, 3000, 0.1)
@@ -209,7 +209,7 @@ for k, f in enumerate([1568, 2093, 2637, 3136]):
 # CTA
 boom(S["s7"] + 1.5, 0.12)
 whoosh(T["vo"][7][0] + 1.4, 0.5, 2800, 0.08, -0.6, 0.2)
-whoosh(T["vo"][7][0] + 5.9, 0.5, 2800, 0.08, 0.6, -0.2)
+whoosh(T["vo"][7][0] + 5.2, 0.5, 2800, 0.08, 0.6, -0.2)
 
 sfx_bus = fx[:N]
 sfx_bus *= (1 - 0.45 * env)[:, None]  # sfx sit back while the voice speaks
