@@ -1,0 +1,17 @@
+{
+  "_doc": "Shared timing for index.html and audio/make_mix.py (seconds). vo = [start, text]. Horror voice: Gemini TTS fr-FR 'Charon'; clean voice: 'Puck' (via FLORA). Keep index.html's T object in sync.",
+  "duration": 46.5,
+  "scenes": { "s1": 0, "s2": 6.8, "s3": 12.8, "s4": 16.5, "s5": 20.6, "s6": 31.0, "s7": 34.6 },
+  "pairs": [20.6, 22.68, 24.76, 26.84, 28.92],
+  "scare": 15.6,
+  "vo": [
+    [0.6, "Cette nuit… quelque chose s'est installé dans votre voiture."],
+    [7.0, "Des miettes… de la poussière… des saletés qui rôdent dans l'ombre."],
+    [13.0, "Et le coffre… personne n'ose plus l'ouvrir."],
+    [16.9, "Pas de panique ! Chez Nico Lav'Auto, on chasse les démons."],
+    [21.0, "Aspiration, nettoyage, finitions : on traque la moindre saleté, jusqu'au dernier recoin."],
+    [31.1, "Résultat : votre voiture passe de cauchemar… à showroom !"],
+    [34.9, "Votre voiture mérite mieux que l'horreur."],
+    [37.6, "Contactez-nous pour un lavage via nicolavauto38@gmail.com, ou par téléphone au 07 77 03 39 53."]
+  ]
+}
