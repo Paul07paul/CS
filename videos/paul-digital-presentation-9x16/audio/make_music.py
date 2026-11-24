@@ -20,7 +20,7 @@ BPM = 128
 BEAT = 60 / BPM
 BAR = 4 * BEAT
 DROP = 9.8
-END = 38.1
+END = 38.1 + 11.25  # contact scene inserted before the logo (6 bars)
 OFF = DROP - 6 * BAR  # bar 0 starts here (negative = pre-roll)
 BRK0, BRK1 = 23.7, 23.7 + BAR  # one-bar breakdown
 rng = np.random.default_rng(5)
